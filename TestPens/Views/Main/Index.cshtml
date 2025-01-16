@@ -1,0 +1,53 @@
+﻿@using TestPens.Models.Simple
+@{
+    ViewData["Title"] = "Тирлист SPSB";
+}
+@model Dictionary<Tier, List<PersonModel>>
+
+@foreach (var tierGroup in Model)
+{
+    (string mainColor, string secColor) = tierGroup.Key.GetColors();
+    <style>
+        .player-card .tier[data-tier="@tierGroup.Key"] {
+            background: linear-gradient(90deg, @mainColor, @secColor);
+            box-shadow: 0 0 15px @mainColor;
+        }
+
+        .tier-category[data-tier="@tierGroup.Key"] {
+            box-shadow: 0 0 15px @mainColor;
+        }
+
+        .tier-category[data-tier="@tierGroup.Key"]::before {
+            background: linear-gradient(90deg, @mainColor, @secColor);
+        }
+    </style>
+    <h2 class="tier-category" data-tier="@tierGroup.Key">@tierGroup.Key.GetName() Tier</h2>
+    <section class="players-group">
+    @foreach (var item in tierGroup.Value)
+    {
+        <div class="player-card" onclick="openModal('@item.VideoLink')">
+            <div class="card-content">
+                <div class="info">
+                    <h3>Никнейм: @item.Nickname</h3>
+                    <p class="tier" data-tier="@item.Tier">@item.Tier.GetName() Tier</p>
+                    <h3>Позиция в тире: @item.TierPosition</h3>
+                @if (@item.InDrop)
+                {
+                    <p class="status">Не активен</p>
+                }
+                </div>
+                <div class="avatar">
+                    <img src="@($"avatars/{item.Nickname}.png")" alt="@item.Nickname" />
+                </div>
+            </div>
+        </div>
+    }
+    </section>
+}
+
+<div id="videoModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <iframe id="videoFrame" src="" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+</div>
