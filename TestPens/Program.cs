@@ -1,13 +1,34 @@
+using System.Text.Json;
+
+using TestPens.Extensions;
+using TestPens.Service;
+using TestPens.Service.Abstractions;
+
 namespace TestPens
 {
     public class Program
     {
+        public static JsonSerializerOptions JsonOptions = new();
+
         public static void Main(string[] args)
         {
+            JsonOptions.Converters.Add(new ChangesConverter());
+            JsonOptions.AllowTrailingCommas = true;
+            JsonOptions.PropertyNameCaseInsensitive = true;
+
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddSingleton<IPersonContainerService, JsonPersonContainerService>();
+
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services
+                .AddControllersWithViews()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new ChangesConverter());
+                    options.JsonSerializerOptions.AllowTrailingCommas = true;
+                    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                });
 
             var app = builder.Build();
 

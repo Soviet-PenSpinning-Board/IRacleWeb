@@ -56,7 +56,7 @@ namespace TestPens.Models
             nextState = nextTierList;
         }
 
-        public TierListState MakeChange(BaseChange change)
+        public TierListState MakeChangeNextNode(BaseChange change)
         {
             Dictionary<Tier, List<PersonModel>>? newDict = new(TierList);
             change.Apply(newDict);
@@ -68,11 +68,13 @@ namespace TestPens.Models
             return next;
         }
 
+        public void MakeChange(BaseChange change)
+        {
+            change.Apply(TierList);
+        }
+
         public TierListState Revert(BaseChange change)
         {
-            if (change.Signature != Signature)
-                throw new InvalidOperationException("Сигнатура изменения не соответствует сигнатуре данных!");
-
             TierListState prev = new(this, change);
 
             return prev;

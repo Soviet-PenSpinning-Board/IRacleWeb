@@ -4,26 +4,21 @@ using TestPens.Models.Simple;
 
 namespace TestPens.Models.Changes
 {
-    public class MoveInTierListChange : BaseChange
+    public class PositionChange : BaseChange
     {
-        public MoveInTierListChange() :
+        public PositionChange() :
             base(Guid.NewGuid(), DateTime.UtcNow)
         {
         }
 
-        public MoveInTierListChange(ShortPositionModule newPosition, ShortPositionModule oldPosition) :
+        public PositionChange(ShortPositionModule newPosition, ShortPositionModule oldPosition) :
             base(Guid.NewGuid(), DateTime.UtcNow)
         {
             NewPosition = newPosition;
             OldPosition = oldPosition;
         }
 
-        public MoveInTierListChange(ShortPositionModule newPosition, ShortPositionModule oldPosition, DateTime time, Guid signature)
-            : base(signature, time)
-        {
-            NewPosition = newPosition;
-            OldPosition = oldPosition;
-        }
+        public override ChangeType Type { get; set; } = ChangeType.ChangePosition;
 
         public ShortPositionModule NewPosition { get; } = null!;
         public ShortPositionModule OldPosition { get; } = null!;
