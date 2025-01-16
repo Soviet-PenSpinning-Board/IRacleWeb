@@ -20,7 +20,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = false,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.SPlus,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -29,7 +28,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = true,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.SPlus,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -43,7 +41,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = false,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.S,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -52,7 +49,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = true,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.S,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -61,7 +57,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = true,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.S,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -75,7 +70,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = false,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.A,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -84,7 +78,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = true,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.A,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -93,7 +86,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = false,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.A,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -102,7 +94,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = true,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.A,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -116,7 +107,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = false,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.B,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -125,7 +115,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = true,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.B,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -139,7 +128,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = false,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.C,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -148,7 +136,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = true,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.C,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -162,7 +149,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = false,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.D,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -171,7 +157,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = true,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.D,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -185,7 +170,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = false,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.E,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",
@@ -194,7 +178,6 @@ namespace TestPens.Controllers
                     {
                         Nickname = "Art",
                         InDrop = true,
-                        Position = 1,
                         TierPosition = 1,
                         Tier = Tier.E,
                         VideoLink = "https://www.youtube.com/embed/TgJ6a1gT7oM",

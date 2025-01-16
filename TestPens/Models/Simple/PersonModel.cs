@@ -14,9 +14,9 @@
 
         public string AvatarUrl { get; set; } = null!;
 
-        public ShortPersonModule ToShort()
+        public ShortPositionModule ToShort()
         {
-            return new ShortPersonModule
+            return new ShortPositionModule
             {
                 Tier = Tier,
                 TierPosition = TierPosition,
@@ -24,7 +24,7 @@
         }
     }
 
-    public class ShortPersonModule
+    public class ShortPositionModule
     {
         public Tier Tier { get; set; }
 
