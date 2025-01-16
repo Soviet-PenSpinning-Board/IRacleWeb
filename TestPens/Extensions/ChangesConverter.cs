@@ -26,7 +26,7 @@
                 return message;
             }
 
-            return JsonSerializer.Deserialize(ref oldReader, type, options) as NoneChange;
+            return JsonSerializer.Deserialize(ref oldReader, type, options) as BaseChange;
         }
 
         public override void Write(Utf8JsonWriter writer, BaseChange value, JsonSerializerOptions options)

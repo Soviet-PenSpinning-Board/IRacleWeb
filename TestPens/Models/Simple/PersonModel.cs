@@ -6,8 +6,6 @@
 
         public bool InDrop { get; set; }
 
-        public Tier Tier { get; set; }
-
         public string? VideoLink { get; set; }
 
         public string AvatarUrl { get; set; } = null!;

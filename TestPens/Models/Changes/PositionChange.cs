@@ -23,24 +23,28 @@ namespace TestPens.Models.Changes
         public ShortPositionModule NewPosition { get; } = null!;
         public ShortPositionModule OldPosition { get; } = null!;
 
-        public override void Apply(Dictionary<Tier, List<PersonModel>> tierListState)
+        public override void Apply(Dictionary<Tier, List<PersonModel>> tierListState) =>
+            Generic(tierListState, OldPosition, NewPosition);
+
+        // оказывается для реверта изменения позиции достаточно просто поменять местами старую и новую позиции, я понял это только через пару часов...
+        public override void Revert(Dictionary<Tier, List<PersonModel>> tierListState) =>
+            Generic(tierListState, NewPosition, OldPosition);
+
+        public void Generic(Dictionary<Tier, List<PersonModel>> tierListState, ShortPositionModule oldPosition, ShortPositionModule newPosition)
         {
-            List<PersonModel> oldTier = tierListState[OldPosition.Tier];
-            List<PersonModel> newTier = tierListState[NewPosition.Tier];
+            List<PersonModel> oldTier = tierListState[oldPosition.Tier];
+            List<PersonModel> newTier = tierListState[newPosition.Tier];
 
-            PersonModel personModel = oldTier[OldPosition.TierPosition];
-            oldTier.RemoveAt(OldPosition.TierPosition);
-            newTier.Insert(NewPosition.TierPosition, personModel);
-        }
+            PersonModel personModel = oldTier[oldPosition.TierPosition];
+            oldTier.RemoveAt(oldPosition.TierPosition);
 
-        public override void Revert(Dictionary<Tier, List<PersonModel>> tierListState)
-        {
-            List<PersonModel> oldTier = tierListState[OldPosition.Tier];
-            List<PersonModel> newTier = tierListState[NewPosition.Tier];
-
-            PersonModel personModel = newTier[NewPosition.TierPosition];
-            newTier.RemoveAt(NewPosition.TierPosition);
-            oldTier.Insert(OldPosition.TierPosition, personModel);
+            // случай когда человек опускается в рамках своего тира ниже своей изначальнйо позиции, индекс сдвигается на 1, поэтому надо утчитывать
+            if (oldPosition.Tier == newPosition.Tier && newPosition.TierPosition > oldPosition.TierPosition)
+            {
+                newTier.Insert(newPosition.TierPosition - 1, personModel);
+                return;
+            }
+            newTier.Insert(newPosition.TierPosition, personModel);
         }
     }
 }
