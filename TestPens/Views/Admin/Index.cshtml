@@ -19,7 +19,7 @@
 <script>
     $(document).ready(function () {
         $("#submitButton").click(function () {
-            var password = $("#passwordInput").val();
+            const password = $("#passwordInput").val();
 
             $.ajax({
                 url: '@Url.Action("CheckPassword", "Admin")',

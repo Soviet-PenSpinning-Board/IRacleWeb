@@ -64,6 +64,10 @@ const saveButton = document.getElementById('saveChanges');
             if (response.ok) {
                 alert('Изменения успешно сохранены!');
                 changeCache.length = 0; // Очищаем кеш после успешной отправки
+                document.querySelectorAll('.tier-person').forEach(e => {
+                    console.log(e);
+                    e.classList.remove("modified")
+                });
             } else {
                 alert('Произошла ошибка при сохранении.');
             }

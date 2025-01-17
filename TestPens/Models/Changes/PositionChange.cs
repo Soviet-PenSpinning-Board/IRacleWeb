@@ -42,12 +42,6 @@ namespace TestPens.Models.Changes
             PersonModel personModel = oldTier[oldPosition.TierPosition];
             oldTier.RemoveAt(oldPosition.TierPosition);
 
-            // случай когда человек опускается в рамках своего тира ниже своей изначальнйо позиции, индекс сдвигается на 1, поэтому надо утчитывать
-            if (oldPosition.Tier == newPosition.Tier && newPosition.TierPosition > oldPosition.TierPosition)
-            {
-                newTier.Insert(newPosition.TierPosition - 1, personModel);
-                return;
-            }
             newTier.Insert(newPosition.TierPosition, personModel);
         }
     }
