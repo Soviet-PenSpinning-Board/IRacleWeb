@@ -1,5 +1,4 @@
 ﻿.editable-tierlist {
-    font-family: 'Poppins', sans-serif;
     padding: 20px;
     margin: 0 auto;
     background-color: var(--background-color);
@@ -8,7 +7,7 @@
     box-shadow: 0 4px 6px var(--card-shadow);
 
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* иди нахуй */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* иди нахуй 2 */
     gap: 20px;
     margin-bottom: 40px;
     box-sizing: border-box;
