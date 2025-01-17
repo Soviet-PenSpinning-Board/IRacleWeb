@@ -1,5 +1,8 @@
 ﻿
+using System.Text.Json.Serialization;
+
 using TestPens.Models.Simple;
+using TestPens.Service.Abstractions;
 
 namespace TestPens.Models.Abstractions
 {
@@ -13,6 +16,8 @@ namespace TestPens.Models.Abstractions
         {
             UtcTime = dateTime;
         }
+
+        public abstract Permissions GetPermission();
 
         public abstract void Apply(Dictionary<Tier, List<PersonModel>> tierListState);
 

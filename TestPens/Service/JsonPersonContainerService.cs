@@ -13,7 +13,7 @@ namespace TestPens.Service;
 public class JsonPersonContainerService : IPersonContainerService
 {
     private List<BaseChange>? cachedChanges;
-    private TierListState? headState;
+    private TierListState? cachedHeadState;
 
     private ILogger<JsonPersonContainerService> _logger;
     private IConfiguration configuration;
@@ -30,7 +30,7 @@ public class JsonPersonContainerService : IPersonContainerService
         this.configuration = configuration;
     }
 
-    public IReadOnlyCollection<BaseChange> GetAllChanges()
+    public IReadOnlyList<BaseChange> GetAllChanges()
     {
         if (cachedChanges != null)
             return cachedChanges;
@@ -47,18 +47,18 @@ public class JsonPersonContainerService : IPersonContainerService
 
     public TierListState GetHead()
     {
-        if (headState != null)
-            return headState;
+        if (cachedHeadState != null)
+            return cachedHeadState;
 
         if (!File.Exists(HeadPath))
         {
             File.WriteAllText(HeadPath, "{}");
-            return headState = new TierListState(new(40));
+            return cachedHeadState = new TierListState(new(40));
         }
 
         string content = File.ReadAllText(HeadPath);
         var data = JsonSerializer.Deserialize<Dictionary<Tier, List<PersonModel>>>(content, Program.JsonOptions)!;
-        return headState = new TierListState(data);
+        return cachedHeadState = new TierListState(data);
     }
 
     public void AddChange(BaseChange change)
@@ -75,5 +75,37 @@ public class JsonPersonContainerService : IPersonContainerService
         var changes = GetAllChanges();
         File.WriteAllText(HeadPath, JsonSerializer.Serialize(head.TierList, Program.JsonOptions));
         File.WriteAllText(ChangesPath, JsonSerializer.Serialize(changes, Program.JsonOptions));
+    }
+
+    public void RevertLast(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            RevertLast(false);
+        }
+
+        Save();
+    }
+
+    public void RevertAllAfter(DateTime utsTime)
+    {
+    }
+
+    private void RevertLast(bool save = true)
+    {
+        var changes = GetAllChanges();
+        if (changes.Count == 0)
+            return;
+
+        BaseChange last = changes.Last();
+
+        var head = GetHead();
+
+        head.Revert(last);
+
+        cachedChanges!.RemoveAt(cachedChanges.Count - 1);
+
+        if (save)
+            Save();
     }
 }

@@ -3,6 +3,7 @@ using System;
 
 using TestPens.Models.Abstractions;
 using TestPens.Models.Simple;
+using TestPens.Service.Abstractions;
 
 namespace TestPens.Models.Changes
 {
@@ -23,9 +24,12 @@ namespace TestPens.Models.Changes
 
         public override ChangeType Type { get; set; } = ChangeType.PersonProperties;
 
-        public ShortPositionModel Position { get; } = null!;
-        public PersonModel OldProperties { get; } = null!;
-        public PersonModel NewProperties { get; } = null!;
+        public ShortPositionModel Position { get; set; } = null!;
+        public PersonModel OldProperties { get; set; } = null!;
+        public PersonModel NewProperties { get; set; } = null!;
+
+        public override Permissions GetPermission() =>
+            Permissions.ChangeProperties;
 
         public override void Apply(Dictionary<Tier, List<PersonModel>> tierListState) =>
             Generic(tierListState, NewProperties);

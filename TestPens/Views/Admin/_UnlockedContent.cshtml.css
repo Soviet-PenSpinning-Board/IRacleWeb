@@ -50,10 +50,30 @@
     background-color: var(--white-bg);
     transition: background-color 0.2s ease, transform 0.2s ease;
 }
+    .tier-person.dragging {
+        opacity: 0.7;
+        background-color: #e3e3e3;
+        border: 2px dashed #aaa;
+        cursor: grabbing;
+    }
 
+        /* Отключение hover для перетаскиваемого элемента */
+        .tier-person.dragging:hover {
+            background-color: initial;
+            border: none;
+            cursor: grabbing;
+        }
+
+    /* Для всех остальных элементов hover работает нормально */
     .tier-person:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-        transform: translateY(-3px);
+        background-color: #f0f0f0;
+        cursor: pointer;
+    }
+
+    .tier-person.modified {
+        background-color: #fff3cd;
+        border: 2px dashed #ffc107;
+        transition: background-color 0.3s ease, border 0.3s ease;
     }
 
 .tier-circle {
@@ -63,3 +83,20 @@
     margin-right: 10px;
     display: inline-block;
 }
+
+.save-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .save-button:hover {
+        background-color: #45a049;
+    }

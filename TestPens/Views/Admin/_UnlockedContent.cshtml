@@ -1,17 +1,18 @@
 ﻿@using TestPens.Models.Simple
-@model Dictionary<Tier, List<PersonModel>>
+@using TestPens.Service.Abstractions
+@model (Permissions, Dictionary<Tier, List<PersonModel>>, string)
 
 <section class="editable-tierlist">
-    @foreach (var tierGroup in Model)
+    @foreach (var tierGroup in Model.Item2)
     {
         (string mainColor, string secColor) = tierGroup.Key.GetColors();
         <style>
             .tier-person[data-tier="@tierGroup.Key"] .tier-circle {
-                background: linear-gradient(90deg, @mainColor, @secColor);
+            background: linear-gradient(90deg, @mainColor, @secColor);
             }
 
             .tier-title[data-tier="@tierGroup.Key"] {
-                background: linear-gradient(90deg, @mainColor, @secColor );
+            background: linear-gradient(90deg, @mainColor, @secColor );
             }
         </style>
         <section class="tier-block">
@@ -37,25 +38,23 @@
     }
 </section>
 
-<script src="/js/Sortable.min.js">
-</script>
+<div class="action-buttons">
+    <button id="saveChanges" class="save-button">Сохранить изменения</button>
+    <form id="resetForm" method="GET" action="/">
+        <button type="submit" class="reset-button">Сбросить изменения</button>
+    </form>
+</div>
+
 <script>
-    // Получаем все списки людей
-    const tierLists = document.querySelectorAll('.tier-people');
-
-    tierLists.forEach(tier => {
-        new Sortable(tier, {
-            group: 'shared', // Позволяет перетаскивать между списками
-            animation: 150,
-            onEnd: function (evt) {
-                console.log(evt);
-                const fromIndex = evt.oldIndex; // Элемент, который перетащили
-                const fromTier = evt.from.dataset.tier; // Откуда перетащили
-                const toTier = evt.to.dataset.tier; // Куда перетащили
-                const toIndex = evt.newIndex; // Новая позиция элемента
-
-                console.log(`Переместили ${fromIndex} из ${fromTier} в ${toTier} на позицию ${toIndex}`);
-            }
-        });
-    });
+    const authToken = '@Model.Item3';
 </script>
+
+@{
+    if (Model.Item1.HasFlag(Permissions.ChangePositions))
+    {
+        <script src="/js/Sortable.min.js">
+        </script>
+        <script src="/js/adminPanel.js">
+        </script>
+    }
+}

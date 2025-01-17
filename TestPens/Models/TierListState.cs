@@ -30,7 +30,7 @@ namespace TestPens.Models
 
                 calculatedTierList = new Dictionary<Tier, List<PersonModel>>(head.TierList);
 
-                for (int i = states.Count; i >= 0; i--)
+                for (int i = states.Count - 1; i >= 0; i--)
                 {
                     states[i].nextChange!.Revert(calculatedTierList);
                 }
@@ -52,7 +52,7 @@ namespace TestPens.Models
             nextState = nextTierList;
         }
 
-        public TierListState MakeChangeNextNode(BaseChange change)
+        public TierListState MakeChangeNode(BaseChange change)
         {
             Dictionary<Tier, List<PersonModel>>? newDict = new(TierList);
             change.Apply(newDict);
@@ -69,11 +69,24 @@ namespace TestPens.Models
             change.Apply(TierList);
         }
 
-        public TierListState Revert(BaseChange change)
+        public TierListState RevertNodes(IReadOnlyList<BaseChange> changes)
         {
-            TierListState prev = new(this, change);
+            if (changes.Count == 0)
+                return this;
+
+            TierListState prev = this;
+
+            for (int i = changes.Count - 1; i >= 0; i--)
+            {
+                prev = new TierListState(prev, changes[i]);
+            }
 
             return prev;
+        }
+
+        public void Revert(BaseChange change)
+        {
+            change.Revert(TierList);
         }
     }
 }

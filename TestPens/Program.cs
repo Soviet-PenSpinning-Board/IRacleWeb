@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 using TestPens.Extensions;
 using TestPens.Service;
@@ -12,19 +13,23 @@ namespace TestPens
 
         public static void Main(string[] args)
         {
+            JsonOptions.Converters.Add(new JsonStringEnumConverter());
             JsonOptions.Converters.Add(new ChangesConverter());
+
             JsonOptions.AllowTrailingCommas = true;
             JsonOptions.PropertyNameCaseInsensitive = true;
 
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddSingleton<IPersonContainerService, JsonPersonContainerService>();
+            builder.Services.AddSingleton<ITokenManager, JsonTokenManager>();
 
             // Add services to the container.
             builder.Services
                 .AddControllersWithViews()
                 .AddJsonOptions(options =>
                 {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                     options.JsonSerializerOptions.Converters.Add(new ChangesConverter());
                     options.JsonSerializerOptions.AllowTrailingCommas = true;
                     options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;

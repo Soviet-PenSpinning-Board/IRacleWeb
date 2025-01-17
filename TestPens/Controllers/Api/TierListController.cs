@@ -11,12 +11,14 @@ namespace TestPens.Controllers.Api
     public class TierListController : ControllerBase
     {
         private readonly ILogger<TierListController> _logger;
-        private readonly IPersonContainerService containerService;
+        private readonly IPersonContainerService _containerService;
+        private readonly ITokenManager _tokenManager;
 
-        public TierListController(ILogger<TierListController> logger, IPersonContainerService containerService)
+        public TierListController(ILogger<TierListController> logger, IPersonContainerService containerService, ITokenManager tokenManager)
         {
             _logger = logger;
-            this.containerService = containerService;
+            _containerService = containerService;
+            _tokenManager = tokenManager;
         }
 
         [HttpGet("head")]
@@ -24,11 +26,12 @@ namespace TestPens.Controllers.Api
         {
             try
             {
-                TierListState head = containerService.GetHead();
+                TierListState head = _containerService.GetHead();
                 return Ok(head.TierList);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Ошибка: ");
                 return Problem(ex.ToString());
             }
         }
@@ -38,11 +41,12 @@ namespace TestPens.Controllers.Api
         {
             try
             {
-                IReadOnlyCollection<BaseChange> changes = containerService.GetAllChanges();
+                IReadOnlyCollection<BaseChange> changes = _containerService.GetAllChanges();
                 return Ok(changes);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Ошибка: ");
                 return Problem(ex.ToString());
             }
         }
@@ -50,14 +54,22 @@ namespace TestPens.Controllers.Api
         [HttpPost("addchange")]
         public IActionResult AddChange(string token, [FromBody] BaseChange change)
         {
+            Permissions neededPermissions = change.GetPermission();
+
+            if (!CheckPermissions(token, neededPermissions))
+            {
+                return Unauthorized();
+            }
+
             try
             {
-                containerService.AddChange(change);
-                TierListState head = containerService.GetHead();
+                _containerService.AddChange(change);
+                TierListState head = _containerService.GetHead();
                 return Ok(head.TierList);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Ошибка: ");
                 return Problem(ex.ToString());
             }
         }
@@ -65,19 +77,59 @@ namespace TestPens.Controllers.Api
         [HttpPost("addchanges")]
         public IActionResult AddChanges(string token, [FromBody] List<BaseChange> changes)
         {
+            Permissions neededPermissions = Permissions.None;
+
+            foreach (BaseChange change in changes)
+            {
+                neededPermissions |= change.GetPermission();
+            }
+
+            if (!CheckPermissions(token, neededPermissions))
+            {
+                return Unauthorized();
+            }
+
             try
             {
                 foreach (BaseChange change in changes)
                 {
-                    containerService.AddChange(change);
+                    _containerService.AddChange(change);
                 }
-                TierListState head = containerService.GetHead();
+                TierListState head = _containerService.GetHead();
                 return Ok(head.TierList);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Ошибка: ");
                 return Problem(ex.ToString());
             }
+        }
+
+        [HttpPost("revertlast")]
+        public IActionResult RevertLast(string token)
+        {
+            if (!CheckPermissions(token, Permissions.GlobalChanges))
+            {
+                return Unauthorized();
+            }
+
+            try
+            {
+                _containerService.RevertLast(1);
+                TierListState head = _containerService.GetHead();
+                return Ok(head.TierList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка: ");
+                return Problem(ex.ToString());
+            }
+        }
+
+        private bool CheckPermissions(string token, Permissions needPermissiosn)
+        {
+            Permissions targetPermissions = _tokenManager.CheckToken(token);
+            return (needPermissiosn & targetPermissions) == needPermissiosn;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿
 using TestPens.Models.Simple;
+using TestPens.Service.Abstractions;
 
 namespace TestPens.Models.Abstractions
 {
@@ -11,6 +12,9 @@ namespace TestPens.Models.Abstractions
             : base(DateTime.UtcNow)
         {
         }
+
+        public override Permissions GetPermission() => 
+            Permissions.None;
 
         public override void Apply(Dictionary<Tier, List<PersonModel>> tierListState) { }
 

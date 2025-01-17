@@ -1,6 +1,7 @@
 ﻿
 using TestPens.Models.Abstractions;
 using TestPens.Models.Simple;
+using TestPens.Service.Abstractions;
 
 namespace TestPens.Models.Changes
 {
@@ -20,8 +21,11 @@ namespace TestPens.Models.Changes
 
         public override ChangeType Type { get; set; } = ChangeType.ChangePosition;
 
-        public ShortPositionModel NewPosition { get; } = null!;
-        public ShortPositionModel OldPosition { get; } = null!;
+        public ShortPositionModel NewPosition { get; set; } = null!;
+        public ShortPositionModel OldPosition { get; set; } = null!;
+
+        public override Permissions GetPermission() =>
+            Permissions.ChangePositions;
 
         public override void Apply(Dictionary<Tier, List<PersonModel>> tierListState) =>
             Generic(tierListState, OldPosition, NewPosition);
