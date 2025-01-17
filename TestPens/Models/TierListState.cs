@@ -39,19 +39,15 @@ namespace TestPens.Models
             }
         }
 
-        public Guid Signature { get; }
-
         public bool IsHead => nextState == null;
 
-        public TierListState(Dictionary<Tier, List<PersonModel>> tierList, Guid guid)
+        public TierListState(Dictionary<Tier, List<PersonModel>> tierList)
         {
-            Signature = guid;
             calculatedTierList = tierList;
         }
 
         public TierListState(TierListState nextTierList, BaseChange nextChange)
         {
-            Signature = nextChange.Signature;
             this.nextChange = nextChange;
             nextState = nextTierList;
         }
@@ -60,7 +56,7 @@ namespace TestPens.Models
         {
             Dictionary<Tier, List<PersonModel>>? newDict = new(TierList);
             change.Apply(newDict);
-            TierListState next = new(newDict, change.Signature);
+            TierListState next = new(newDict);
 
             nextChange = change;
             nextState = next;

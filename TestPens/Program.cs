@@ -1,7 +1,5 @@
 using System.Text.Json;
 
-using Discord.WebSocket;
-
 using TestPens.Extensions;
 using TestPens.Service;
 using TestPens.Service.Abstractions;
@@ -21,11 +19,6 @@ namespace TestPens
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddSingleton<IPersonContainerService, JsonPersonContainerService>();
-
-            builder.Services.AddDiscordRelated(new DiscordSocketConfig
-            {
-                GatewayIntents = Discord.GatewayIntents.All,
-            });
 
             // Add services to the container.
             builder.Services

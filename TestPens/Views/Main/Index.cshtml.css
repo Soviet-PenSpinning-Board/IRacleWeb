@@ -1,4 +1,4 @@
-
+﻿
 .players-group {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* иди нахуй */
@@ -58,12 +58,12 @@
     font-size: 28px;
     font-weight: bold;
     text-align: center;
-    overflow: hidden;
     letter-spacing: 2px;
     z-index: 0;
 }
 
     .tier-category::before {
+        border-radius: 5px;
         content: '';
         position: absolute;
         top: 0;

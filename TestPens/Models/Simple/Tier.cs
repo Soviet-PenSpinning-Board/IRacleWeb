@@ -1,10 +1,7 @@
-﻿using Discord.Interactions;
-
-namespace TestPens.Models.Simple
+﻿namespace TestPens.Models.Simple
 {
     public enum Tier
     {
-        [ChoiceDisplay("S+")]
         SPlus,
         S,
         A,

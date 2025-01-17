@@ -8,7 +8,7 @@ namespace TestPens.Models.Abstractions
         public override ChangeType Type { get; set; } = ChangeType.None;
 
         public NoneChange()
-            : base(Guid.NewGuid(), DateTime.UtcNow)
+            : base(DateTime.UtcNow)
         {
         }
 

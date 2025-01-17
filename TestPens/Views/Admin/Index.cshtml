@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Админ панель";
+}
+
+<div>
+    <label for="passwordInput" style="font-weight: bold; color: var(--text-color); margin-bottom: 10px; display: block;">
+        Введите секретное слово:
+    </label>
+    <input type="text"
+           id="passwordInput"
+           class="input-field"
+           placeholder="Введите слово..." />
+    <button id="submitButton">Проверить</button>
+</div>
+
+<div id="resultContainer"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#submitButton").click(function () {
+            var password = $("#passwordInput").val();
+
+            $.ajax({
+                url: '@Url.Action("CheckPassword", "Admin")',
+                type: 'POST',
+                data: { password: password },
+                success: function (response) {
+                    $("#resultContainer").html(response); // Выводим результат в контейнер
+                },
+                error: function () {
+                    alert("Ошибка запроса. Попробуйте позже.");
+                }
+            });
+        });
+    });
+</script>

@@ -9,12 +9,9 @@ namespace TestPens.Models.Abstractions
 
         public abstract ChangeType Type { get; set; }
 
-        public Guid Signature { get; set; }
-
-        protected BaseChange(Guid signature, DateTime dateTime)
+        protected BaseChange(DateTime dateTime)
         {
             UtcTime = dateTime;
-            Signature = signature;
         }
 
         public abstract void Apply(Dictionary<Tier, List<PersonModel>> tierListState);
@@ -27,6 +24,6 @@ namespace TestPens.Models.Abstractions
         None,
         ChangePosition,
         NewPerson,
-        Drop
+        PersonProperties
     }
 }

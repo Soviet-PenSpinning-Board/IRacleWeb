@@ -4,8 +4,8 @@ namespace TestPens.Extensions
 {
     public class CommonExtentions
     {
-        private static Regex YoutubeRegex = new Regex(@"(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([\w\-]{11})", RegexOptions.Compiled);
-        private static Regex GoogleRegex = new Regex(@"(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:file\/d\/|open\?id=)([\w\-]+)", RegexOptions.Compiled);
+        private static readonly Regex YoutubeRegex = new Regex(@"(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([\w\-]{11})", RegexOptions.Compiled);
+        private static readonly Regex GoogleRegex = new Regex(@"(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:file\/d\/|open\?id=)([\w\-]+)", RegexOptions.Compiled);
 
         public static bool TryTransformToIframeUrl(string videoUrl, out string result)
         {

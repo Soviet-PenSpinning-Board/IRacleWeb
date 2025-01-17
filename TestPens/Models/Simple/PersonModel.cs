@@ -11,7 +11,7 @@
         public string AvatarUrl { get; set; } = null!;
     }
 
-    public class ShortPositionModule
+    public class ShortPositionModel
     {
         public Tier Tier { get; set; }
 

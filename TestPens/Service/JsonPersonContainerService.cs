@@ -53,12 +53,12 @@ public class JsonPersonContainerService : IPersonContainerService
         if (!File.Exists(HeadPath))
         {
             File.WriteAllText(HeadPath, "{}");
-            return headState = new TierListState(new(40), Guid.NewGuid());
+            return headState = new TierListState(new(40));
         }
 
         string content = File.ReadAllText(HeadPath);
         var data = JsonSerializer.Deserialize<Dictionary<Tier, List<PersonModel>>>(content, Program.JsonOptions)!;
-        return headState = new TierListState(data, Guid.NewGuid());
+        return headState = new TierListState(data);
     }
 
     public void AddChange(BaseChange change)

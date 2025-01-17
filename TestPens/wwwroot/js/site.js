@@ -7,7 +7,7 @@
 
     iframe.src = videoLink;
 
-    modal.style.display = "block";
+    modal.style.display = "flex";
 }
 
 function closeModal() {

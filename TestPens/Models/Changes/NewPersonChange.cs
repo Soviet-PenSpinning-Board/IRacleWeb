@@ -9,19 +9,19 @@ namespace TestPens.Models.Changes
     public class NewPersonChange : BaseChange
     {
         public NewPersonChange() :
-            base(Guid.NewGuid(), DateTime.UtcNow)
+            base(DateTime.UtcNow)
         {
         }
 
-        public NewPersonChange(PersonModel person, ShortPositionModule position) :
-            base(Guid.NewGuid(), DateTime.UtcNow)
+        public NewPersonChange(PersonModel person, ShortPositionModel position) :
+            base(DateTime.UtcNow)
         {
             Person = person;
             Position = position;
         }
 
         public PersonModel Person { get; } = null!;
-        public ShortPositionModule Position { get; } = null!;
+        public ShortPositionModel Position { get; } = null!;
 
         public override ChangeType Type { get; set; } = ChangeType.NewPerson;
 

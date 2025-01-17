@@ -1,0 +1,61 @@
+﻿@using TestPens.Models.Simple
+@model Dictionary<Tier, List<PersonModel>>
+
+<section class="editable-tierlist">
+    @foreach (var tierGroup in Model)
+    {
+        (string mainColor, string secColor) = tierGroup.Key.GetColors();
+        <style>
+            .tier-person[data-tier="@tierGroup.Key"] .tier-circle {
+                background: linear-gradient(90deg, @mainColor, @secColor);
+            }
+
+            .tier-title[data-tier="@tierGroup.Key"] {
+                background: linear-gradient(90deg, @mainColor, @secColor );
+            }
+        </style>
+        <section class="tier-block">
+            <h2 class="tier-title" data-tier="@tierGroup.Key">
+                @tierGroup.Key.GetName() Tier
+            </h2>
+            <ul class="tier-people" data-tier="@tierGroup.Key">
+
+                @{
+
+                    int it = 1;
+                    foreach (var person in tierGroup.Value)
+                    {
+                        <li class="tier-person" data-tier="@tierGroup.Key" data-index="@it">
+                            <span class="tier-circle"></span>
+                            @person.Nickname
+                        </li>
+                        it++;
+                    }
+                }
+            </ul>
+        </section>
+    }
+</section>
+
+<script src="/js/Sortable.min.js">
+</script>
+<script>
+    // Получаем все списки людей
+    const tierLists = document.querySelectorAll('.tier-people');
+
+    tierLists.forEach(tier => {
+        new Sortable(tier, {
+            group: 'shared', // Позволяет перетаскивать между списками
+            animation: 150,
+            onEnd: function (evt) {
+                console.log(evt);
+                const fromIndex = evt.oldIndex; // Элемент, который перетащили
+                const fromTier = evt.from.dataset.tier; // Откуда перетащили
+                const toTier = evt.to.dataset.tier; // Куда перетащили
+                const toIndex = evt.newIndex; // Новая позиция элемента
+
+                console.log(`Переместили ${fromIndex} из ${fromTier} в ${toTier} на позицию ${toIndex}`);
+            }
+        });
+    });
+</script>

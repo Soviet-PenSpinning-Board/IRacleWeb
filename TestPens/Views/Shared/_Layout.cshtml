@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@ViewData["Title"]</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css">
-  <link rel="stylesheet" href="@(nameof(TestPens)).styles.css" />
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/@(nameof(TestPens)).styles.css" />
 </head>
 
 <body>
@@ -15,9 +15,9 @@
         <h1>@ViewData["Title"]</h1>
         <nav>
             <ul>
-                <li><a href="#">Главная</a></li>
-                <li><a href="battles">Баттлы</a></li>
-                <li><a href="#">Контакты</a></li>
+                <li><a href="/">Главная</a></li>
+                <li><a href="/battles/">Баттлы</a></li>
+                <li><a href="/admin/">Админ панель</a></li>
             </ul>
         </nav>
     </header>
@@ -29,6 +29,7 @@
     <footer>
         <p>© 2025 SPSB. Все права защищены.</p>
     </footer>
-<script src="js/site.js"></script>
+<script src="/js/site.js"></script>
 </body>
+
 </html>
