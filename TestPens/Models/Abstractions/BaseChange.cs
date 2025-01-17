@@ -29,6 +29,7 @@ namespace TestPens.Models.Abstractions
         None,
         ChangePosition,
         NewPerson,
+        DeletePerson,
         PersonProperties
     }
 }
