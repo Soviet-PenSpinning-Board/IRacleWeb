@@ -47,8 +47,20 @@
     </section>
 }
 
-<div id="videoModal" class="modal">
+<div class="modal">
     <div class="modal-content">
         <iframe id="videoFrame" src="" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
 </div>
+
+<script>
+    function onOpenModal(modal, link) {
+        const iframe = document.getElementById("videoFrame");
+        iframe.src = link;
+    }
+
+    function onCloseModal(modal) {
+        const iframe = document.getElementById("videoFrame");
+        iframe.src = '';
+    }
+</script>

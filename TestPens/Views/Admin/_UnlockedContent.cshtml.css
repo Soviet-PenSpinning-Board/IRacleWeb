@@ -50,6 +50,11 @@
     background-color: var(--white-bg);
     transition: background-color 0.2s ease, transform 0.2s ease;
 }
+
+    .tier-person[data-inactive="True"] {
+        background-color: #ddd;
+    }
+
     .tier-person.dragging {
         opacity: 0.7;
         background-color: #e3e3e3;
@@ -84,19 +89,76 @@
     display: inline-block;
 }
 
-.save-button {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.modal-content {
+    width: 400px; /* Ширина модального окна */
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение элементов */
+    gap: 15px; /* Расстояние между элементами */
 }
 
-    .save-button:hover {
-        background-color: #45a049;
+.modal-header {
+    display: flex;
+    justify-content: space-between; /* Разместить текст и аватарку по краям */
+    align-items: center; /* Выравнивание по вертикали */
+    margin-bottom: 20px;
+}
+
+    .modal-header h2 {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 0;
+        color: var(--text-color);
     }
+
+.avatar {
+    flex-shrink: 0;
+    margin-left: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 100px;
+    height: 100px;
+    box-shadow: 0 4px 6px var(--card-shadow);
+    border: 3px solid var(--outline-color);
+}
+
+    .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+
+.modal-body {
+    display: flex;
+    flex-direction: column; /* Вертикальное выравнивание */
+    gap: 10px; /* Отступы между полями */
+}
+
+    .modal-body label {
+        font-size: 14px;
+        font-weight: bold;
+        color: var(--text-color);
+    }
+
+    .modal-body input[type="text"],
+    .modal-body input[type="url"],
+    .modal-body input[type="checkbox"] {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid var(--outline-color);
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .modal-body input[type="checkbox"] {
+        width: auto;
+    }
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between; /* Разместить кнопки по краям */
+    gap: 10px;
+}

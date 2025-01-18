@@ -6,7 +6,7 @@ using TestPens.Service.Abstractions;
 
 namespace TestPens.Controllers.Api
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class TierListController : ControllerBase
     {
@@ -51,34 +51,12 @@ namespace TestPens.Controllers.Api
             }
         }
 
-        [HttpPost("addchange")]
-        public IActionResult AddChange(string token, [FromBody] BaseChange change)
-        {
-            Permissions neededPermissions = change.GetPermission();
-
-            if (!CheckPermissions(token, neededPermissions))
-            {
-                return Unauthorized();
-            }
-
-            try
-            {
-                _containerService.AddChange(change);
-                TierListState head = _containerService.GetHead();
-                return Ok(head.TierList);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Ошибка: ");
-                return Problem(ex.ToString());
-            }
-        }
-
         [HttpPost("addchanges")]
         public IActionResult AddChanges(string token, [FromBody] List<BaseChange> changes)
         {
             Permissions neededPermissions = Permissions.None;
 
+            TierListState head = _containerService.GetHead();
             foreach (BaseChange change in changes)
             {
                 neededPermissions |= change.GetPermission();
@@ -91,12 +69,9 @@ namespace TestPens.Controllers.Api
 
             try
             {
-                foreach (BaseChange change in changes)
-                {
-                    _containerService.AddChange(change);
-                }
-                TierListState head = _containerService.GetHead();
-                return Ok(head.TierList);
+                _containerService.AddChanges(changes);
+
+                return Ok(_containerService.GetHead().TierList);
             }
             catch (Exception ex)
             {
@@ -105,8 +80,8 @@ namespace TestPens.Controllers.Api
             }
         }
 
-        [HttpPost("revertlast")]
-        public IActionResult RevertLast(string token)
+        [HttpPost("revert/{count}")]
+        public IActionResult RevertLast(int count, string token)
         {
             if (!CheckPermissions(token, Permissions.GlobalChanges))
             {
@@ -115,7 +90,7 @@ namespace TestPens.Controllers.Api
 
             try
             {
-                _containerService.RevertLast(1);
+                _containerService.RevertLast(count);
                 TierListState head = _containerService.GetHead();
                 return Ok(head.TierList);
             }

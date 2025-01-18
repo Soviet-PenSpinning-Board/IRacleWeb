@@ -12,6 +12,8 @@ namespace TestPens.Models.Abstractions
 
         public abstract ChangeType Type { get; set; }
 
+        public virtual void Initialize(TierListState head) { }
+
         protected BaseChange(DateTime dateTime)
         {
             UtcTime = dateTime;

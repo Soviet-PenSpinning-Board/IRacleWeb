@@ -8,7 +8,19 @@
 
         public string? VideoLink { get; set; }
 
-        public string AvatarUrl { get; set; } = null!;
+        public string? AvatarUrl { get; set; }
+
+        public string ToSimpleJson()
+        {
+            return $$"""
+                {
+                    Nickname: "{{Nickname}}",
+                    InDrop: "{{InDrop}}",
+                    VideoLink: "{{VideoLink}}",
+                    AvatarUrl: "{{AvatarUrl}}",
+                }
+                """;
+        }
     }
 
     public class ShortPositionModel

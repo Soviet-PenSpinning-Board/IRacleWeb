@@ -2,6 +2,10 @@
 @using TestPens.Service.Abstractions
 @model (Permissions, Dictionary<Tier, List<PersonModel>>, string)
 
+@{
+    int id = 0;
+}
+
 <section class="editable-tierlist">
     @foreach (var tierGroup in Model.Item2)
     {
@@ -22,15 +26,13 @@
             <ul class="tier-people" data-tier="@tierGroup.Key">
 
                 @{
-
                     int it = 1;
                     foreach (var person in tierGroup.Value)
                     {
-                        <li class="tier-person" data-tier="@tierGroup.Key" data-index="@it">
-                            <span class="tier-circle"></span>
-                            @person.Nickname
-                        </li>
+                        <li id="uid-@id" class="tier-person" data-inactive="@person.InDrop" data-tier="@tierGroup.Key" data-video="@person.VideoLink" data-avatar="@person.AvatarUrl" onclick="openModal(this)">
+                            <span class="tier-circle"></span>@person.Nickname</li>
                         it++;
+                        id++;
                     }
                 }
             </ul>
@@ -38,23 +40,64 @@
     }
 </section>
 
-<div class="action-buttons">
-    <button id="saveChanges" class="save-button">Сохранить изменения</button>
-    <form id="resetForm" method="GET" action="/">
-        <button type="submit" class="reset-button">Сбросить изменения</button>
-    </form>
-</div>
-
-<script>
-    const authToken = '@Model.Item3';
-</script>
-
 @{
     if (Model.Item1.HasFlag(Permissions.ChangePositions))
     {
         <script src="/js/Sortable.min.js">
         </script>
-        <script src="/js/adminPanel.js">
+        <script src="/js/adminPanelPosition.js">
+        </script>
+    }
+
+    if (Model.Item1.HasFlag(Permissions.MembersEdit))
+    {
+        <div class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Редактирование пользователя</h2>
+                    <div class="avatar">
+                        <img src="@($"/avatars/Art.png")"/>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <label for="nickname">Никнейм:</label>
+                    <input type="text" id="nickname" placeholder="Введите никнейм">
+
+                    <div>
+                        <label for="inDrop">В дропе:</label>
+                        <input type="checkbox" id="inDrop">
+                    </div>
+
+                    <label for="videoLink">Ссылка на видео:</label>
+                    <input type="url" id="videoLink" placeholder="Введите ссылку">
+
+                    <label for="avatarUrl">Ссылка на аватарку:</label>
+                    <input type="url" id="avatarUrl" placeholder="Введите ссылку">
+                </div>
+                <div class="modal-footer">
+                    <button onclick="closeModal()" class="cancel-button">Отмена</button>
+                    <button onclick="playerPropertiesUpdate()" class="save-button">Сохранить</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="/js/adminPanelMemberUpdate.js">
+        </script>
+
+        <script>
+            function onOpenModal(modal, object) {
+                modal.dataset.personId = object.id;
+
+                const player = getPlayerObject(object);
+
+                document.getElementById("nickname").value = player.Nickname;
+                document.getElementById("inDrop").checked = player.InDrop;
+                document.getElementById("videoLink").value = player.VideoLink;
+                document.getElementById("avatarUrl").value = player.AvatarUrl;
+            }
+
+            function onCloseModal(modal) {
+            }
         </script>
     }
 }

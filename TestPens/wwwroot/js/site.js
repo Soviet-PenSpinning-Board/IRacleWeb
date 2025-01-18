@@ -1,26 +1,21 @@
-﻿function openModal(videoLink) {
-    const modal = document.getElementById("videoModal");
-    const iframe = document.getElementById("videoFrame");
+﻿function openModal(obj) {
+    const modal = document.getElementsByClassName("modal")[0];
 
-    if (!videoLink)
-        return;
-
-    iframe.src = videoLink;
+    onOpenModal(modal, obj);
 
     modal.style.display = "flex";
 }
 
 function closeModal() {
-    const modal = document.getElementById("videoModal");
-    const iframe = document.getElementById("videoFrame");
-
+    const modal = document.getElementsByClassName("modal")[0];
     modal.style.display = "none";
 
-    iframe.src = "";
+    onCloseModal(modal);
 }
 
+
 window.onclick = function(event) {
-    const modal = document.getElementById("videoModal");
+    const modal = document.getElementsByClassName("modal")[0];
     if (event.target === modal) {
         closeModal();
     }

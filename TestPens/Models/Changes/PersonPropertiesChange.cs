@@ -14,19 +14,17 @@ namespace TestPens.Models.Changes
         {
         }
 
-        public PersonPropertiesChange(ShortPositionModel position, PersonModel old, PersonModel @new) :
-            base(DateTime.UtcNow)
-        {
-            Position = position;
-            OldProperties = old;
-            NewProperties = @new;
-        }
-
         public override ChangeType Type { get; set; } = ChangeType.PersonProperties;
 
         public ShortPositionModel Position { get; set; } = null!;
         public PersonModel OldProperties { get; set; } = null!;
         public PersonModel NewProperties { get; set; } = null!;
+
+        public override void Initialize(TierListState head)
+        {
+            OldProperties = head.TierList[Position.Tier][Position.TierPosition];
+            base.Initialize(head);
+        }
 
         public override Permissions GetPermission() =>
             Permissions.ChangeProperties;

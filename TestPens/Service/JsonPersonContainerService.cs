@@ -61,11 +61,15 @@ public class JsonPersonContainerService : IPersonContainerService
         return cachedHeadState = new TierListState(data);
     }
 
-    public void AddChange(BaseChange change)
+    public void AddChanges(IEnumerable<BaseChange> changes)
     {
         _ = GetAllChanges();
-        cachedChanges!.Add(change);
-        GetHead().MakeChange(change);
+        foreach (BaseChange change in changes)
+        {
+            change.Initialize(GetHead());
+            cachedChanges!.Add(change);
+            GetHead().MakeChange(change);
+        }
         Save();
     }
 
@@ -81,7 +85,7 @@ public class JsonPersonContainerService : IPersonContainerService
     {
         for (int i = 0; i < count; i++)
         {
-            RevertLast(false);
+            RevertLastOne(false);
         }
 
         Save();
@@ -91,7 +95,7 @@ public class JsonPersonContainerService : IPersonContainerService
     {
     }
 
-    private void RevertLast(bool save = true)
+    private void RevertLastOne(bool save = true)
     {
         var changes = GetAllChanges();
         if (changes.Count == 0)

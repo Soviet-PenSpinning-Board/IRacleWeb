@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using TestPens.Models.Abstractions;
 using TestPens.Models.Simple;
@@ -50,6 +51,19 @@ namespace TestPens.Models
         {
             this.nextChange = nextChange;
             nextState = nextTierList;
+        }
+
+        public bool TryGetMember(ShortPositionModel model, [NotNullWhen(true)] out PersonModel? person)
+        {
+            person = null;
+            if (!TierList.TryGetValue(model.Tier, out var list) || model.TierPosition >= list.Count)
+            {
+                person = null;
+                return false;
+            }
+
+            person = list[model.TierPosition];
+            return true;
         }
 
         public TierListState MakeChangeNode(BaseChange change)

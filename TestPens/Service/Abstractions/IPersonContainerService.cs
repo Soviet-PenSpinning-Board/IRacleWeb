@@ -9,7 +9,7 @@ public interface IPersonContainerService
 
     public IReadOnlyList<BaseChange> GetAllChanges();
 
-    public void AddChange(BaseChange change);
+    public void AddChanges(IEnumerable<BaseChange> changes);
 
     public void RevertLast(int count);
 
