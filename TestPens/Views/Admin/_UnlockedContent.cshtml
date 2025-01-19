@@ -1,6 +1,6 @@
 ﻿@using TestPens.Models.Simple
 @using TestPens.Service.Abstractions
-@model (Permissions, Dictionary<Tier, List<PersonModel>>, string)
+@model (Permissions, IReadOnlyDictionary<Tier, List<PersonModel>>, IReadOnlyDictionary<Guid, BattleModel>)
 
 @{
     int id = 0;
@@ -11,8 +11,8 @@
     {
         (string mainColor, string secColor) = tierGroup.Key.GetColors();
         <style>
-            .tier-person[data-tier="@tierGroup.Key"] .tier-circle {
-            background: linear-gradient(90deg, @mainColor, @secColor);
+            .tier-circle[data-tier="@tierGroup.Key"] {
+            background: linear-gradient(90deg, @mainColor, @secColor );
             }
 
             .tier-title[data-tier="@tierGroup.Key"] {
@@ -29,14 +29,74 @@
                     int it = 1;
                     foreach (var person in tierGroup.Value)
                     {
-                        <li id="uid-@id" class="tier-person" data-inactive="@person.InDrop" data-tier="@tierGroup.Key" data-video="@person.VideoLink" data-avatar="@person.AvatarUrl" onclick="openModal(this)">
-                            <span class="tier-circle"></span>@person.Nickname</li>
+                        <li id="uid-@id" class="tier-person" data-guid="@person.Guid" data-inactive="@person.InDrop" data-tier="@tierGroup.Key" data-video="@person.VideoLink" data-avatar="@person.AvatarUrl" onclick="openModal(this)">
+                            <span class="tier-circle" data-tier="@tierGroup.Key"></span>@person.Nickname</li>
                         it++;
                         id++;
                     }
                 }
             </ul>
         </section>
+    }
+</section>
+
+
+<section class="active-battles">
+    @if (Model.Item1.HasFlag(Permissions.StartBattles))
+    {
+        <h2>Добавление нового баттла</h2>
+
+        <h4><i>Ссылку можно оставить пустой, тогда будут использованы закрепленные комбы участников</i></h4>
+
+        <div class="battle-card">
+            <div class="battle-content">
+                <div class="participant createBattleExample">
+                    <div class="avatarBattle">
+                        <img src="/avatars/Art.png" alt="Левый участник" />
+                    </div>
+                    <h3><span class="tier-circle"></span>Ник1</h3>
+                    <input type="url" class="battle-link" placeholder="Ссылка для левого участника" />
+                </div>
+                <span class="vs">VS</span>
+                <div class="participant createBattleExample">
+                    <div class="avatarBattle">
+                        <img src="/avatars/Art.png" alt="Ник2" />
+                    </div>
+                    <h3><span class="tier-circle"></span>Ник2</h3>
+                    <input type="url" class="battle-link" placeholder="Ссылка для правого участника" />
+                </div>
+            </div>
+        </div>
+        <button id="create-battle-button" data-full="None" class="save-button">Добавить баттл</button>
+        <button onclick="clearBattleCache()">Сбросить</button>
+
+    }
+    @if (Model.Item1.HasFlag(Permissions.EndBattles))
+    {
+        <h2>Активные баттлы</h2>
+        <section class="battles-group">
+            @foreach (var battle in Model.Item3.Values)
+            {
+                <div class="battle-card">
+                    <div class="battle-content">
+                        <div class="participant">
+                            <div class="avatarBattle">
+                                <img src="/avatars/Art.png" alt="@battle.Left.MainModel!.Nickname" />
+                            </div>
+                            <h3><span class="tier-circle" data-tier="@battle.Left.PreBattlePosition!.Tier"></span>@battle.Left.MainModel!.Nickname</h3>
+                        </div>
+                        <span class="vs">VS</span>
+                        <div class="participant">
+                            <div class="avatarBattle">
+                                <img src="/avatars/Art.png" alt="@battle.Right.MainModel!.Nickname" />
+                            </div>
+                            <h3><span class="tier-circle" data-tier="@battle.Right.PreBattlePosition!.Tier"></span>@battle.Right.MainModel!.Nickname</h3>
+                        </div>
+                    </div>
+                </div>
+            }
+        </section>
+
     }
 </section>
 
@@ -49,30 +109,40 @@
         </script>
     }
 
-    if (Model.Item1.HasFlag(Permissions.MembersEdit))
+    if (Model.Item1.HasFlag(Permissions.MembersEdit) || Model.Item1.HasFlag(Permissions.StartBattles))
     {
-        <div class="modal">
+        <div class="modal" id="mainModal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2>Редактирование пользователя</h2>
-                    <div class="avatar">
+                    <h2>Редактирование</h2>
+                    <div class="avatarModal">
                         <img src="@($"/avatars/Art.png")"/>
                     </div>
                 </div>
                 <div class="modal-body">
-                    <label for="nickname">Никнейм:</label>
-                    <input type="text" id="nickname" placeholder="Введите никнейм">
+                    @if (Model.Item1.HasFlag(Permissions.MembersEdit))
+                    {
+                        <label for="nickname">Никнейм:</label>
+                        <input type="text" id="nickname" placeholder="Введите никнейм">
 
-                    <div>
-                        <label for="inDrop">В дропе:</label>
-                        <input type="checkbox" id="inDrop">
-                    </div>
+                        <div>
+                            <label for="inDrop">В дропе:</label>
+                            <input type="checkbox" id="inDrop">
+                        </div>
 
-                    <label for="videoLink">Ссылка на видео:</label>
-                    <input type="url" id="videoLink" placeholder="Введите ссылку">
+                        <label for="videoLink">Ссылка на видео:</label>
+                        <input type="url" id="videoLink" placeholder="Введите ссылку">
 
-                    <label for="avatarUrl">Ссылка на аватарку:</label>
-                    <input type="url" id="avatarUrl" placeholder="Введите ссылку">
+                        <label for="avatarUrl">Ссылка на аватарку:</label>
+                        <input type="url" id="avatarUrl" placeholder="Введите ссылку">
+                    }
+                    @if (Model.Item1.HasFlag(Permissions.StartBattles))
+                    {
+                        <div>
+                            <label for="startBattle">Выбрать для баттла:</label>
+                            <input type="checkbox" id="startBattle">
+                        </div>
+                    }
                 </div>
                 <div class="modal-footer">
                     <button onclick="closeModal()" class="cancel-button">Отмена</button>
@@ -81,23 +151,16 @@
             </div>
         </div>
 
-        <script src="/js/adminPanelMemberUpdate.js">
-        </script>
+        @if (Model.Item1.HasFlag(Permissions.MembersEdit))
+        {
+            <script src="/js/adminPanelMemberUpdate.js">
+            </script>
+        }
+    }
 
-        <script>
-            function onOpenModal(modal, object) {
-                modal.dataset.personId = object.id;
-
-                const player = getPlayerObject(object);
-
-                document.getElementById("nickname").value = player.Nickname;
-                document.getElementById("inDrop").checked = player.InDrop;
-                document.getElementById("videoLink").value = player.VideoLink;
-                document.getElementById("avatarUrl").value = player.AvatarUrl;
-            }
-
-            function onCloseModal(modal) {
-            }
+    @if (Model.Item1.HasFlag(Permissions.EndBattles) || Model.Item1.HasFlag(Permissions.StartBattles))
+    {
+        <script src="/js/adminPanelBattles.js">
         </script>
     }
 }

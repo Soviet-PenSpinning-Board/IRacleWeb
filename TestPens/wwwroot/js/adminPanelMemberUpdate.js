@@ -1,19 +1,20 @@
-﻿// Получаем все списки людей
+﻿if (typeof this.lockMemberUpdate === 'undefined') {
 
-function getPlayerObject(htmlDoc) {
-    return {
-        Nickname: htmlDoc.childNodes[2].nodeValue,
-        InDrop: htmlDoc.dataset.inactive === "True",
-        VideoLink: htmlDoc.dataset.video,
-        AvatarUrl: htmlDoc.dataset.avatar,
-    };
-}
+    onOpenModal.attach(function (sender, args) {
+        if (args[0].id !== 'mainModal')
+            return;
 
-function setPlayerObject(htmlDoc, playerData) {
-    htmlDoc.childNodes[2].nodeValue = playerData.Nickname;
-    htmlDoc.dataset.inactive = playerData.InDrop ? "True" : "False";
-    htmlDoc.dataset.video = playerData.VideoLink;
-    htmlDoc.dataset.avatar = playerData.AvatarUrl;
+        args[0].dataset.personId = args[1].id;
+
+        const player = getPlayerObject(args[1].id);
+
+        document.getElementById("nickname").value = player.Nickname;
+        document.getElementById("inDrop").checked = player.InDrop;
+        document.getElementById("videoLink").value = player.VideoLink;
+        document.getElementById("avatarUrl").value = player.AvatarUrl;
+    });
+
+    var lockMemberUpdate = 'a';
 }
 
 function playerPropertiesUpdate() {
@@ -22,8 +23,6 @@ function playerPropertiesUpdate() {
     const id = modal.dataset.personId;
 
     const targetBlock = document.getElementById(id);
-
-    console.log(targetBlock);
 
     const tier = targetBlock.dataset.tier;
     const index = $(`#${id}`).index();
@@ -52,7 +51,7 @@ function playerPropertiesUpdate() {
 
     targetBlock.classList.add('modified');
 
-    setPlayerObject(targetBlock, player);
+    setPlayerObject(id, player);
 
     closeModal();
 }

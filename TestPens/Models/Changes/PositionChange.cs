@@ -24,25 +24,43 @@ namespace TestPens.Models.Changes
         public ShortPositionModel NewPosition { get; set; } = null!;
         public ShortPositionModel OldPosition { get; set; } = null!;
 
+        public PersonModel Person { get; set; } = null!;
+
+        public override bool IsAffective()
+        {
+            return NewPosition != OldPosition;
+        }
+
+        public override void Initialize(Dictionary<Tier, List<PersonModel>> head)
+        {
+            base.Initialize(head);
+            if (Person == null)
+                Person = head[OldPosition.Tier][OldPosition.TierPosition];
+        }
+
         public override Permissions GetPermission() =>
             Permissions.ChangePositions;
 
-        public override void Apply(Dictionary<Tier, List<PersonModel>> tierListState) =>
-            Generic(tierListState, OldPosition, NewPosition);
-
-        // оказывается для реверта изменения позиции достаточно просто поменять местами старую и новую позиции, я понял это только через пару часов...
-        public override void Revert(Dictionary<Tier, List<PersonModel>> tierListState) =>
-            Generic(tierListState, NewPosition, OldPosition);
-
-        public void Generic(Dictionary<Tier, List<PersonModel>> tierListState, ShortPositionModel oldPosition, ShortPositionModel newPosition)
+        public override void Apply(Dictionary<Tier, List<PersonModel>> tierListState)
         {
-            List<PersonModel> oldTier = tierListState[oldPosition.Tier];
-            List<PersonModel> newTier = tierListState[newPosition.Tier];
+            List<PersonModel> oldTier = tierListState[OldPosition.Tier];
+            List<PersonModel> newTier = tierListState[NewPosition.Tier];
 
-            PersonModel personModel = oldTier[oldPosition.TierPosition];
-            oldTier.RemoveAt(oldPosition.TierPosition);
+            PersonModel personModel = oldTier[OldPosition.TierPosition];
+            oldTier.RemoveAt(OldPosition.TierPosition);
 
-            newTier.Insert(newPosition.TierPosition, personModel);
+            newTier.Insert(NewPosition.TierPosition, personModel);
+        }
+
+        public override BaseChange RevertedChange()
+        {
+            return new PositionChange
+            {
+                UtcTime = UtcTime,
+                Person = Person,
+                NewPosition = OldPosition,
+                OldPosition = NewPosition,
+            };
         }
     }
 }

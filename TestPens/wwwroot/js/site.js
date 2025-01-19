@@ -1,22 +1,40 @@
-﻿function openModal(obj) {
-    const modal = document.getElementsByClassName("modal")[0];
+﻿function ModalEvent(sender) {
+    this._sender = sender;
+    this._listeners = [];
+}
 
-    onOpenModal(modal, obj);
+ModalEvent.prototype = {
+    attach: function (listener) {
+        this._listeners.push(listener);
+    },
+    notify: function (...args) {
+        for (var i = 0; i < this._listeners.length; i++) {
+            this._listeners[i](this._sender, args);
+        }
+    }
+};
+
+onOpenModal = new ModalEvent(this);
+onCloseModal = new ModalEvent(this);
+
+function openModal(obj, id = 'mainModal') {
+    const modal = document.getElementById(id);
+
+    onOpenModal.notify(modal, obj);
 
     modal.style.display = "flex";
 }
 
-function closeModal() {
-    const modal = document.getElementsByClassName("modal")[0];
+function closeModal(id = 'mainModal') {
+    const modal = document.getElementById(id)
     modal.style.display = "none";
 
-    onCloseModal(modal);
+    onCloseModal.notify(modal);
 }
 
 
 window.onclick = function(event) {
-    const modal = document.getElementsByClassName("modal")[0];
-    if (event.target === modal) {
+    if (event.target.classList.contains('modal')) {
         closeModal();
     }
 };

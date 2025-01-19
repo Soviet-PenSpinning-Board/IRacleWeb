@@ -22,6 +22,8 @@ namespace TestPens
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddSingleton<IPersonContainerService, JsonPersonContainerService>();
+            builder.Services.AddSingleton<IBattleControllerService, JsonBattleControllerService>();
+
             builder.Services.AddSingleton<ITokenManager, JsonTokenManager>();
 
             // Add services to the container.

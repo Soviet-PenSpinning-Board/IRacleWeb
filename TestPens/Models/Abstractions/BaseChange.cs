@@ -12,7 +12,9 @@ namespace TestPens.Models.Abstractions
 
         public abstract ChangeType Type { get; set; }
 
-        public virtual void Initialize(TierListState head) { }
+        public virtual void Initialize(Dictionary<Tier, List<PersonModel>> head) { }
+
+        public virtual bool IsAffective() => true;
 
         protected BaseChange(DateTime dateTime)
         {
@@ -23,15 +25,14 @@ namespace TestPens.Models.Abstractions
 
         public abstract void Apply(Dictionary<Tier, List<PersonModel>> tierListState);
 
-        public abstract void Revert(Dictionary<Tier, List<PersonModel>> tierListState);
+        public abstract BaseChange RevertedChange();
     }
 
     public enum ChangeType
     {
         None,
         ChangePosition,
-        NewPerson,
-        DeletePerson,
+        GlobalPerson,
         PersonProperties
     }
 }

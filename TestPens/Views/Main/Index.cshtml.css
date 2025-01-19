@@ -31,9 +31,9 @@
         text-align: center;
     }
 
-    .player-card .status {
-        color: red;
-        font-weight: bold;
+    .player-card h3[data-drop="True"] {
+        font-style: italic;
+        font-weight: 400;
     }
 
     .player-card:hover {

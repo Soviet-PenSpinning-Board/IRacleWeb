@@ -18,6 +18,6 @@ namespace TestPens.Models.Abstractions
 
         public override void Apply(Dictionary<Tier, List<PersonModel>> tierListState) { }
 
-        public override void Revert(Dictionary<Tier, List<PersonModel>> tierListState) { }
+        public override BaseChange RevertedChange() => this;
     }
 }

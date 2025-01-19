@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using TestPens.Models.Abstractions;
@@ -8,99 +9,82 @@ namespace TestPens.Models
 {
     public class TierListState
     {
-        private TierListState? nextState;
-        private BaseChange? nextChange;
+        private TierListState? headState;
+        private IEnumerable<BaseChange>? deltaHeadChanges;
         private Dictionary<Tier, List<PersonModel>>? calculatedTierList;
 
-        public Dictionary<Tier, List<PersonModel>> TierList
+        public IReadOnlyDictionary<Tier, List<PersonModel>> TierList
         {
             get
             {
                 if (calculatedTierList != null)
                     return calculatedTierList!;
 
-                TierListState head = this;
+                TierListState head = headState!;
 
-                List<TierListState> states = new(100);
+                calculatedTierList = new(head.TierList);
 
-                while (!head.IsHead)
+                foreach (BaseChange change in deltaHeadChanges!)
                 {
-                    states.Add(head);
-                    head = head.nextState!;
+                    change.Initialize(calculatedTierList);
+                    if (change.IsAffective())
+                        change.Apply(calculatedTierList);
                 }
 
-                calculatedTierList = new Dictionary<Tier, List<PersonModel>>(head.TierList);
-
-                for (int i = states.Count - 1; i >= 0; i--)
-                {
-                    states[i].nextChange!.Revert(calculatedTierList);
-                }
+                // с этого момента объект может забывать про родителя и изменения, и становится полноценным для нормальной отчистки, мб не надо
+                headState = null;
+                deltaHeadChanges = null;
 
                 return calculatedTierList;
             }
         }
 
-        public bool IsHead => nextState == null;
+        public bool IsHead => headState == null || deltaHeadChanges == null;
 
         public TierListState(Dictionary<Tier, List<PersonModel>> tierList)
         {
             calculatedTierList = tierList;
         }
 
-        public TierListState(TierListState nextTierList, BaseChange nextChange)
+        public TierListState(TierListState head, IEnumerable<BaseChange> deltaHeadChanges)
         {
-            this.nextChange = nextChange;
-            nextState = nextTierList;
+            headState = head;
+            this.deltaHeadChanges = deltaHeadChanges;
         }
 
-        public bool TryGetMember(ShortPositionModel model, [NotNullWhen(true)] out PersonModel? person)
+        public bool TryGetMember(ShortPositionModel position, [NotNullWhen(true)] out PersonModel? person)
         {
             person = null;
-            if (!TierList.TryGetValue(model.Tier, out var list) || model.TierPosition >= list.Count)
+            if (!TierList.TryGetValue(position.Tier, out var list) || position.TierPosition >= list.Count)
             {
                 person = null;
                 return false;
             }
 
-            person = list[model.TierPosition];
+            person = list[position.TierPosition];
             return true;
         }
 
-        public TierListState MakeChangeNode(BaseChange change)
+        public PersonModel? GetMember(ShortPositionModel position)
         {
-            Dictionary<Tier, List<PersonModel>>? newDict = new(TierList);
-            change.Apply(newDict);
-            TierListState next = new(newDict);
+            TryGetMember(position, out PersonModel? result);
 
-            nextChange = change;
-            nextState = next;
-
-            return next;
+            return result;
         }
 
-        public void MakeChange(BaseChange change)
+        public TierListState ApplyChange(BaseChange change)
         {
-            change.Apply(TierList);
+            return ApplyChanges([change]);
         }
 
-        public TierListState RevertNodes(IReadOnlyList<BaseChange> changes)
+        public TierListState ApplyChanges(IEnumerable<BaseChange> changes)
         {
-            if (changes.Count == 0)
-                return this;
-
-            TierListState prev = this;
-
-            for (int i = changes.Count - 1; i >= 0; i--)
-            {
-                prev = new TierListState(prev, changes[i]);
-            }
-
-            return prev;
+            return new TierListState(this, changes);
         }
 
-        public void Revert(BaseChange change)
+        public TierListState RevertChanges(IEnumerable<BaseChange> changes)
         {
-            change.Revert(TierList);
+            return ApplyChanges(changes.Select(change => change.RevertedChange()));
         }
     }
 }

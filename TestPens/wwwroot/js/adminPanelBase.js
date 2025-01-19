@@ -1,4 +1,4 @@
-﻿let authToken = '';
+﻿var authToken = '';
 
 const changeCache = [];
 
@@ -19,14 +19,14 @@ $(document).ready(function () {
             type: 'POST',
             data: { password: authToken },
             success: function (response) {
-                $("#resultContainer").empty().html(response); // Выводим результат в контейнер
+                $("#resultContainer").empty().html(response);
                 changeCache.length = 0;
                 const targButton = document.getElementById("submitButton");
                 targButton.classList.add("pressed");
                 targButton.innerText = 'Сбросить';
             },
             error: function () {
-                alert("Ошибка запроса. Попробуйте позже.");
+                alert("Ошибка запроса. Посмотрите в консоль на F12 и сообщите");
             }
         });
     });
@@ -34,7 +34,6 @@ $(document).ready(function () {
 
 document.getElementById('saveChanges').addEventListener('click', function () {
     if (changeCache.length > 0) {
-        // Отправка изменений на сервер через fetch
         fetch(`/api/tierlist/addchanges?token=${authToken}`, {
             method: 'POST',
             headers: {
@@ -44,7 +43,7 @@ document.getElementById('saveChanges').addEventListener('click', function () {
         }).then(response => {
             if (response.ok) {
                 alert('Изменения успешно сохранены!');
-                changeCache.length = 0; // Очищаем кеш после успешной отправки
+                changeCache.length = 0;
                 document.querySelectorAll('.tier-person').forEach(e => {
                     e.classList.remove("modified")
                 });
@@ -59,3 +58,35 @@ document.getElementById('saveChanges').addEventListener('click', function () {
         alert('Нет изменений для сохранения.');
     }
 });
+
+function getPlayerObject(id) {
+    let htmlDoc = document.getElementById(id);
+    return {
+        Nickname: htmlDoc.childNodes[2].nodeValue,
+        InDrop: htmlDoc.dataset.inactive === "True",
+        VideoLink: htmlDoc.dataset.video,
+        AvatarUrl: htmlDoc.dataset.avatar,
+    };
+}
+
+function getFullPlayerObject(id) {
+    let htmlDoc = document.getElementById(id);
+    return {
+        Guid: htmlDoc.dataset.guid,
+        Nickname: htmlDoc.childNodes[2].nodeValue,
+        InDrop: htmlDoc.dataset.inactive === "True",
+        VideoLink: htmlDoc.dataset.video,
+        AvatarUrl: htmlDoc.dataset.avatar,
+        Tier: htmlDoc.dataset.tier,
+        Index: $(`#${id}`).index(),
+    };
+}
+
+function setPlayerObject(id, playerData) {
+    let htmlDoc = document.getElementById(id);
+
+    htmlDoc.childNodes[2].nodeValue = playerData.Nickname;
+    htmlDoc.dataset.inactive = playerData.InDrop ? "True" : "False";
+    htmlDoc.dataset.video = playerData.VideoLink;
+    htmlDoc.dataset.avatar = playerData.AvatarUrl;
+}

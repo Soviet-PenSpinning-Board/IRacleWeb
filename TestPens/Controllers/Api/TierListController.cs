@@ -37,11 +37,11 @@ namespace TestPens.Controllers.Api
         }
 
         [HttpGet("changes")]
-        public IActionResult GetChanges()
+        public IActionResult GetChanges(int offset = 0, int limit = 100, DateTime? after = null)
         {
             try
             {
-                IReadOnlyCollection<BaseChange> changes = _containerService.GetAllChanges();
+                IEnumerable<BaseChange> changes = _containerService.GetAllChanges(offset, limit, after);
                 return Ok(changes);
             }
             catch (Exception ex)

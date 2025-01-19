@@ -7,7 +7,7 @@ public interface IPersonContainerService
 {
     public TierListState GetHead();
 
-    public IReadOnlyList<BaseChange> GetAllChanges();
+    public IEnumerable<BaseChange> GetAllChanges(int offset = 0, int limit = int.MaxValue, DateTime? afterTime = null);
 
     public void AddChanges(IEnumerable<BaseChange> changes);
 

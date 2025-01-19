@@ -1,29 +1,4 @@
-﻿.input-field {
-    width: 100%;
-    max-width: 400px;
-    padding: 10px 15px;
-    font-size: 16px;
-    border: 2px solid var(--outline-color);
-    border-radius: 8px;
-    background: var(--white-bg);
-    color: var(--text-color);
-    box-shadow: 0 4px 6px var(--card-shadow);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-    .input-field:focus {
-        border-color: var(--text-color);
-        box-shadow: 0 6px 12px var(--card-shadow);
-        outline: none;
-    }
-
-    .input-field::placeholder {
-        color: var(--outline-color);
-        font-style: italic;
-        opacity: 0.8;
-    }
-
-#submitButton.pressed {
+﻿#submitButton.pressed {
     background-color: #f44336;
     border: 2px solid #f44336;
 }

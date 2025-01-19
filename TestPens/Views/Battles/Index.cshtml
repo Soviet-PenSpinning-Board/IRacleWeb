@@ -1,0 +1,31 @@
+﻿@using TestPens.Models.Simple
+@{
+    ViewData["Title"] = "Баттлы";
+}
+@model Dictionary<Guid, BattleModel>
+
+<h1>Активные</h1>
+<section class="battles-group">
+    @foreach (var battle in Model)
+    {
+        <div class="battle-card">
+            <div class="battle-content">
+                <div class="participant">
+                    <div class="avatarBattle">
+                        <img src="/avatars/Art.png" alt="@battle.Value.Left.MainModel!.Nickname" />
+                    </div>
+                    <h3>@battle.Value.Left.MainModel!.Nickname</h3>
+                    <iframe class="battleVideo" src="@(battle.Value.Left.VideoUrl ?? battle.Value.Left.MainModel!.VideoLink)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <span class="vs">VS</span>
+                <div class="participant">
+                    <div class="avatarBattle">
+                        <img src="/avatars/Art.png" alt="@battle.Value.Right.MainModel!.Nickname" />
+                    </div>
+                    <h3>@battle.Value.Right.MainModel!.Nickname</h3>
+                    <iframe class="battleVideo" src="@(battle.Value.Right.VideoUrl ?? battle.Value.Right.MainModel!.VideoLink)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    }
+</section>

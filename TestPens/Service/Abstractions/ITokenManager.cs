@@ -14,13 +14,12 @@ namespace TestPens.Service.Abstractions
         StartBattles = 1,
         EndBattles = 2,
         ChangeProperties = 4,
-        NewMember = 8,
-        DeleteMember = 16,
-        ChangePositions = 32,
-        GlobalChanges = 64,
+        GlobalMember = 8,
+        ChangePositions = 16,
+        GlobalChanges = 32,
 
         Battles = StartBattles | EndBattles,
-        MembersEdit = ChangeProperties | NewMember | DeleteMember,
+        MembersEdit = ChangeProperties | GlobalMember,
         EditAll = ChangePositions | MembersEdit,
         All = Battles | EditAll | GlobalChanges,
     }

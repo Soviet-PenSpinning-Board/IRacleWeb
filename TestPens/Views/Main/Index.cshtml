@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Тирлист SPSB";
 }
-@model Dictionary<Tier, List<PersonModel>>
+@model IReadOnlyDictionary<Tier, List<PersonModel>>
 
 @foreach (var tierGroup in Model)
 {
@@ -29,13 +29,8 @@
             <div class="player-card" onclick="openModal('@item.VideoLink')">
                 <div class="card-content">
                     <div class="info">
-                        <h3>Никнейм: @item.Nickname</h3>
+                        <h3 data-drop="@item.InDrop">@($"{it}. {item.Nickname}")</h3>
                         <p class="tier" data-tier="@tierGroup.Key">@tierGroup.Key.GetName() Tier</p>
-                        <h3>Позиция в тире: @it</h3>
-                        @if (@item.InDrop)
-                        {
-                            <p class="status">Не активен</p>
-                        }
                     </div>
                     <div class="avatar">
                         <img src="@($"avatars/Art.png")" alt="@item.Nickname" />
@@ -47,20 +42,20 @@
     </section>
 }
 
-<div class="modal">
+<div class="modal" id="mainModal">
     <div class="modal-content">
         <iframe id="videoFrame" src="" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
 </div>
 
 <script>
-    function onOpenModal(modal, link) {
-        const iframe = document.getElementById("videoFrame");
-        iframe.src = link;
-    }
+        onOpenModal.attach(function (sender,args) {
+            const iframe = document.getElementById("videoFrame");
+            iframe.src = args[1];
+        });
 
-    function onCloseModal(modal) {
-        const iframe = document.getElementById("videoFrame");
-        iframe.src = '';
-    }
+        onCloseModal.attach(function (sender,args) {
+            const iframe = document.getElementById("videoFrame");
+            iframe.src = '';
+        });
 </script>

@@ -27,6 +27,7 @@ document.querySelectorAll('.tier-people').forEach(tier => {
             changeCache.push(CreateChange(obj, "ChangePosition"));
 
             evt.item.dataset.tier = toTier;
+            evt.item.children[0].dataset.tier = toTier;
 
             evt.item.classList.add('modified');
         },

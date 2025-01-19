@@ -13,9 +13,8 @@
         {
             { ChangeType.None, typeof(NoneChange) },
             { ChangeType.ChangePosition, typeof(PositionChange) },
-            { ChangeType.NewPerson, typeof(NewPersonChange) },
+            { ChangeType.GlobalPerson, typeof(GlobalPersonChange) },
             { ChangeType.PersonProperties, typeof(PersonPropertiesChange) },
-            { ChangeType.DeletePerson, typeof(DeletePersonChange) },
         };
 
         public override BaseChange? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
