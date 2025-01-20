@@ -22,12 +22,12 @@ namespace TestPens.Controllers.Api
             _tokenManager = tokenManager;
         }
 
-        [HttpGet("getall")]
-        public IActionResult GetAllBattles(int offset = 0, int limit = 100, DateTime? after = null)
+        [HttpGet("getunactive")]
+        public IActionResult GetAllBattles(int offset = 0, int limit = 100)
         {
             try
             {
-                return Ok(_battleService.GetAllBattles(offset, limit, after));
+                return Ok(_battleService.GetUnactiveBattles(offset, limit));
             }
             catch (Exception ex)
             {

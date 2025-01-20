@@ -1,14 +1,9 @@
 ﻿if (typeof battledPlayers === 'undefined') {
-    onOpenModal.attach(function (sender, args) {
-        if (args[0].id === 'mainModal') {
-            const id = args[1].id;
-            args[0].dataset.personId = id;
+    onOpenModal.attach('mainModal', function (sender, args) {
+        const id = args[1].id;
+        args[0].dataset.personId = id;
 
-            document.getElementById("startBattle").checked = battledPlayers.has(id);
-        }
-        else if (args[0].id === 'battleModal') {
-
-        }
+        document.getElementById("startBattle").checked = battledPlayers.has(id);
     });
 
     var battledPlayers = new Set();

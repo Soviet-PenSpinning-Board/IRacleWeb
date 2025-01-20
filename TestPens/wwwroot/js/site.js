@@ -4,12 +4,17 @@
 }
 
 ModalEvent.prototype = {
-    attach: function (listener) {
-        this._listeners.push(listener);
+    attach: function (id, listener) {
+        this._listeners.push(
+            {
+                Listener: listener,
+                Id: id,
+            });
     },
-    notify: function (...args) {
+    notify: function (id, ...args) {
         for (var i = 0; i < this._listeners.length; i++) {
-            this._listeners[i](this._sender, args);
+            if (this._listeners[i].Id == id)
+                this._listeners[i].Listener(this._sender, args);
         }
     }
 };
@@ -20,7 +25,7 @@ onCloseModal = new ModalEvent(this);
 function openModal(obj, id = 'mainModal') {
     const modal = document.getElementById(id);
 
-    onOpenModal.notify(modal, obj);
+    onOpenModal.notify(id, modal, obj);
 
     modal.style.display = "flex";
 }
@@ -29,7 +34,7 @@ function closeModal(id = 'mainModal') {
     const modal = document.getElementById(id)
     modal.style.display = "none";
 
-    onCloseModal.notify(modal);
+    onCloseModal.notify(id, modal);
 }
 
 

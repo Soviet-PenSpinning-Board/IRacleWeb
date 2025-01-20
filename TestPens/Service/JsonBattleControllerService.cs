@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 
 using TestPens.Models;
@@ -27,15 +28,6 @@ namespace TestPens.Service.Abstractions
             this.personContainer = personContainer;
         }
 
-        public IReadOnlyDictionary<Guid, BattleModel> GetAllBattles(int offset = 0, int limit = int.MaxValue, DateTime? afterTime = null!)
-        {
-            EnsureCachedBattles();
-
-            var enumerable = afterTime != null ? cachedBattles!.Where(c => c.Value.UtcTime > afterTime) : cachedBattles!;
-
-            return enumerable.Skip(offset).Take(limit).ToDictionary();
-        }
-
         public void EnsureCachedBattles()
         {
             if (cachedBattles != null)
@@ -52,10 +44,20 @@ namespace TestPens.Service.Abstractions
             cachedBattles = JsonSerializer.Deserialize<Dictionary<Guid, BattleModel>>(content, Program.JsonOptions)!;
         }
 
+        public IReadOnlyDictionary<Guid, BattleModel> GetUnactiveBattles(int offset = 0, int limit = int.MaxValue)
+        {
+            return GetPredicate(battle => battle.Result != BattleResult.Unfinished).Skip(offset).Take(limit).ToDictionary();
+        }
+
         public IReadOnlyDictionary<Guid, BattleModel> GetActiveBattles()
         {
+            return GetPredicate(battle => battle.Result == BattleResult.Unfinished).ToDictionary();
+        }
+
+        private IEnumerable<KeyValuePair<Guid, BattleModel>> GetPredicate(Predicate<BattleModel> predicate)
+        {
             EnsureCachedBattles();
-            return cachedBattles!.Where(battle => battle.Value.Result == BattleResult.Unfinished).ToDictionary();
+            return cachedBattles!.Where(b => predicate(b.Value)).Reverse();
         }
 
         public bool ChangeResult(Guid guid, BattleResult battleResult, bool performPositionChange)
@@ -123,8 +125,8 @@ namespace TestPens.Service.Abstractions
 
         public void Save()
         {
-            var battles = GetAllBattles();
-            File.WriteAllText(BattlesPath, JsonSerializer.Serialize(battles, Program.JsonOptions));
+            EnsureCachedBattles();
+            File.WriteAllText(BattlesPath, JsonSerializer.Serialize(cachedBattles, Program.JsonOptions));
         }
     }
 }

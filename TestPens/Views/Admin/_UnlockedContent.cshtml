@@ -77,7 +77,7 @@
         <section class="battles-group">
             @foreach (var battle in Model.Item3.Values)
             {
-                <div class="battle-card">
+                <div class="battle-card" onclick="openModal(this, 'battleModal)">
                     <div class="battle-content">
                         <div class="participant">
                             <div class="avatarBattle">
@@ -158,9 +158,14 @@
         }
     }
 
-    @if (Model.Item1.HasFlag(Permissions.EndBattles) || Model.Item1.HasFlag(Permissions.StartBattles))
+    @if (Model.Item1.HasFlag(Permissions.EndBattles))
     {
-        <script src="/js/adminPanelBattles.js">
+        
+    }
+
+    @if (Model.Item1.HasFlag(Permissions.StartBattles))
+    {
+        <script src="/js/adminPanelStartBattles.js">
         </script>
     }
 }

@@ -6,7 +6,7 @@ namespace TestPens.Service.Abstractions
 {
     public interface IBattleControllerService
     {
-        public IReadOnlyDictionary<Guid, BattleModel> GetAllBattles(int offset = 0, int limit = int.MaxValue, DateTime? afterTime = null!);
+        public IReadOnlyDictionary<Guid, BattleModel> GetUnactiveBattles(int offset = 0, int limit = int.MaxValue);
 
         public IReadOnlyDictionary<Guid, BattleModel> GetActiveBattles();
 

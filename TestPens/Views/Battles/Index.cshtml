@@ -2,13 +2,40 @@
 @{
     ViewData["Title"] = "Баттлы";
 }
-@model Dictionary<Guid, BattleModel>
+@model (IReadOnlyDictionary<Guid, BattleModel>, IReadOnlyDictionary<Guid, BattleModel>)
 
 <h1>Активные</h1>
 <section class="battles-group">
-    @foreach (var battle in Model)
+    @foreach (var battle in Model.Item1)
     {
-        <div class="battle-card">
+        <div class="battle-card" data-result="@battle.Value.Result">
+            <div class="battle-content">
+                <div class="participant left">
+                    <div class="avatarBattle">
+                        <img src="/avatars/Art.png" alt="@battle.Value.Left.MainModel!.Nickname" />
+                    </div>
+                    <h3>@battle.Value.Left.MainModel!.Nickname</h3>
+                    <iframe class="battleVideo" src="@(battle.Value.Left.VideoUrl ?? battle.Value.Left.MainModel!.VideoLink)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <span class="vs">VS</span>
+                <div class="participant right">
+                    <div class="avatarBattle">
+                        <img src="/avatars/Art.png" alt="@battle.Value.Right.MainModel!.Nickname" />
+                    </div>
+                    <h3>@battle.Value.Right.MainModel!.Nickname</h3>
+                    <iframe class="battleVideo" src="@(battle.Value.Right.VideoUrl ?? battle.Value.Right.MainModel!.VideoLink)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    }
+</section>
+
+<h1>Последние</h1>
+
+<section class="battles-group">
+    @foreach (var battle in Model.Item2)
+    {
+        <div class="battle-card" data-result="@battle.Value.Result">
             <div class="battle-content">
                 <div class="participant">
                     <div class="avatarBattle">

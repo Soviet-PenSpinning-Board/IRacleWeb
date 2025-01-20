@@ -1,4 +1,10 @@
-﻿.battles-group {
+﻿:root {
+    --draw-color: #8b00ff;
+    --left-color: #1f8fff;
+    --right-color: #c2847;
+}
+
+.battles-group {
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
@@ -14,6 +20,37 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     outline: 3px solid var(--outline-color);
 }
+
+    .battle-card[data-result="unfinished"] {
+        border-color: #ffa500; /* Оранжевый цвет для незаконченного */
+    }
+
+    .battle-card[data-result="leftwin"] {
+        border-color: var(--left-color); /* Зелёный цвет для победы левого */
+    }
+        /* Отмечаем победителя */
+        .battle-card[data-result="leftwin"] .participant.left {
+            outline: 4px solid var(--left-color);
+            box-shadow: 0 0 15px rgba(var(--left-color), 0.6);
+        }
+
+    .battle-card[data-result="rightwin"] {
+        border-color: var(--right-color); /* Красный цвет для победы правого */
+    }
+
+        .battle-card[data-result="rightwin"] .participant.right {
+            outline: 4px solid var(--right-color);
+            box-shadow: 0 0 15px rgba(var(--right-color), 0.6);
+        }
+
+    .battle-card[data-result="draw"] {
+        border-color: var(--draw-color);
+    }
+
+        .battle-card[data-result="draw"] .participant {
+            outline: 4px solid var(--draw-color);
+            box-shadow: 0 0 15px rgba(var(--draw-color), 0.6);
+        }
 
 .battle-content {
     display: flex;

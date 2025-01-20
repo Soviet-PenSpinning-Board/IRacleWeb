@@ -1,9 +1,6 @@
 ﻿if (typeof this.lockMemberUpdate === 'undefined') {
 
-    onOpenModal.attach(function (sender, args) {
-        if (args[0].id !== 'mainModal')
-            return;
-
+    onOpenModal.attach('mainModal', function (sender, args) {
         args[0].dataset.personId = args[1].id;
 
         const player = getPlayerObject(args[1].id);

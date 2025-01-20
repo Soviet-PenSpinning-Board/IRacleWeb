@@ -21,7 +21,7 @@ namespace TestPens.Controllers
 
         public IActionResult Index()
         {
-            return View(battleService.GetActiveBattles());
+            return View((battleService.GetActiveBattles(), battleService.GetUnactiveBattles(0, 10)));
         }
     }
 }
