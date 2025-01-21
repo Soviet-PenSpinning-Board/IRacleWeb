@@ -45,8 +45,8 @@ namespace TestPens.Models.Changes
             return new PositionChange
             {
                 UtcTime = UtcTime,
-                TargetPosition = TargetPosition,
                 TargetPerson = TargetPerson,
+                TargetPosition = NewPosition,
                 NewPosition = TargetPosition,
             };
         }

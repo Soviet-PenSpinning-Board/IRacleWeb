@@ -26,6 +26,10 @@ namespace TestPens.Models
 
                 foreach (BaseChange change in deltaHeadChanges!)
                 {
+                    if (!change.Validate(calculatedTierList, out string msg))
+                    {
+                        throw new InvalidOperationException(msg);
+                    }
                     change.Initialize(calculatedTierList);
                     if (change.IsAffective())
                         change.Apply(calculatedTierList);

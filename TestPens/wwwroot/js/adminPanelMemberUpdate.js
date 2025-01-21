@@ -15,7 +15,7 @@
 }
 
 function playerPropertiesUpdate() {
-    const modal = document.getElementsByClassName("modal")[0];
+    const modal = document.getElementById('mainModal');
 
     const id = modal.dataset.personId;
 

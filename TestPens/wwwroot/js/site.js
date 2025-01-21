@@ -40,6 +40,6 @@ function closeModal(id = 'mainModal') {
 
 window.onclick = function(event) {
     if (event.target.classList.contains('modal')) {
-        closeModal();
+        closeModal(event.target.id);
     }
 };

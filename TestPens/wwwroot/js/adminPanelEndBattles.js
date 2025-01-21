@@ -1,8 +1,9 @@
 ﻿if (typeof this.lockEndBattles === 'undefined') {
     onOpenModal.attach('battleModal', function (sender, args) {
-        console.log(args[1]);
         const guid = args[1].dataset.guid;
         args[0].dataset.guid = guid;
+        document.getElementsByClassName("left-win")[0].innerText = args[1].children[0].children[0].children[1].innerText;
+        document.getElementsByClassName("right-win")[0].innerText = args[1].children[0].children[2].children[1].innerText;
     });
 
     var lockEndBattles = 'a';
@@ -26,6 +27,7 @@ function setBattleResult(result) {
     }).then(response => {
         if (response.ok) {
             alert('Изменения успешно сохранены!');
+            ResetMainPage();
         } else {
             alert('Произошла ошибка при сохранении.');
         }

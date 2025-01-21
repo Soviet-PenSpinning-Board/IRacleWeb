@@ -9,8 +9,6 @@
     var battledPlayers = new Set();
 }
 
-battledPlayers.clear();
-
 document.getElementById("startBattle").addEventListener('change', function () {
     const modal = document.getElementsByClassName("modal")[0];
     const id = modal.dataset.personId;
@@ -64,6 +62,8 @@ function clearBattleCache() {
     battledPlayers.clear();
 }
 
+clearBattleCache();
+
 function addBattleChange() {
     let arr = [];
     battledPlayers.forEach(id => {
@@ -89,6 +89,7 @@ function addBattleChange() {
         if (response.ok) {
             alert('Изменения успешно сохранены!');
             clearBattleCache();
+            ResetMainPage();
         } else {
             alert('Произошла ошибка при сохранении.');
         }

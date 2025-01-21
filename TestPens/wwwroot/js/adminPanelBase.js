@@ -12,25 +12,29 @@ function CreateChange(properties, type) {
 
 $(document).ready(function () {
     $("#submitButton").click(function () {
-        authToken = $("#passwordInput").val();
-
-        $.ajax({
-            url: '/admin/checkpassword',
-            type: 'POST',
-            data: { password: authToken },
-            success: function (response) {
-                $("#resultContainer").empty().html(response);
-                changeCache.length = 0;
-                const targButton = document.getElementById("submitButton");
-                targButton.classList.add("pressed");
-                targButton.innerText = 'Сбросить';
-            },
-            error: function () {
-                alert("Ошибка запроса. Посмотрите в консоль на F12 и сообщите");
-            }
-        });
+        ResetMainPage();
     });
 });
+
+function ResetMainPage() {
+    authToken = $("#passwordInput").val();
+
+    $.ajax({
+        url: '/admin/checkpassword',
+        type: 'POST',
+        data: { password: authToken },
+        success: function (response) {
+            $("#resultContainer").empty().html(response);
+            changeCache.length = 0;
+            const targButton = document.getElementById("submitButton");
+            targButton.classList.add("pressed");
+            targButton.innerText = 'Сбросить';
+        },
+        error: function () {
+            alert("Ошибка запроса. Посмотрите в консоль на F12 и сообщите");
+        }
+    });
+}
 
 document.getElementById('saveChanges').addEventListener('click', function () {
     if (changeCache.length > 0) {
@@ -43,10 +47,7 @@ document.getElementById('saveChanges').addEventListener('click', function () {
         }).then(response => {
             if (response.ok) {
                 alert('Изменения успешно сохранены!');
-                changeCache.length = 0;
-                document.querySelectorAll('.tier-person').forEach(e => {
-                    e.classList.remove("modified")
-                });
+                ResetMainPage();
             } else {
                 alert('Произошла ошибка при сохранении.');
             }

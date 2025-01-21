@@ -2,72 +2,73 @@
 @using TestPens.Service.Abstractions
 @model (Permissions, IReadOnlyDictionary<Tier, List<PersonModel>>, IReadOnlyDictionary<Guid, BattleModel>)
 
-@{
+@if (Model.Item1.HasFlag(Permissions.ChangeProperties) || Model.Item1.HasFlag(Permissions.ChangePositions))
+{
     int id = 0;
+
+    <h2>Редактируемый тирлист:</h2>
+
+    <section class="editable-tierlist">
+        @foreach (var tierGroup in Model.Item2)
+        {
+            (string mainColor, string secColor) = tierGroup.Key.GetColors();
+            <section class="tier-block">
+                <h2 class="tier-title" tier-background-gradient data-tier="@tierGroup.Key">
+                    @tierGroup.Key.GetName() Tier
+                </h2>
+                <ul class="tier-people" data-tier="@tierGroup.Key">
+
+                    @{
+                        int it = 1;
+                        foreach (var person in tierGroup.Value)
+                        {
+                            <li id="uid-@id" class="tier-person" data-guid="@person.Guid" data-inactive="@person.InDrop" data-tier="@tierGroup.Key" data-video="@person.VideoLink" data-avatar="@person.AvatarUrl" onclick="openModal(this)">
+                                <span class="tier-circle" tier-background-gradient data-tier="@tierGroup.Key"></span>@person.Nickname</li>
+                            it++;
+                            id++;
+                        }
+                    }
+                </ul>
+            </section>
+        }
+    </section>
 }
 
-<section class="editable-tierlist">
-    @foreach (var tierGroup in Model.Item2)
-    {
-        (string mainColor, string secColor) = tierGroup.Key.GetColors();
-        <section class="tier-block">
-            <h2 class="tier-title" tier-background-gradient data-tier="@tierGroup.Key">
-                @tierGroup.Key.GetName() Tier
-            </h2>
-            <ul class="tier-people" data-tier="@tierGroup.Key">
 
-                @{
-                    int it = 1;
-                    foreach (var person in tierGroup.Value)
-                    {
-                        <li id="uid-@id" class="tier-person" data-guid="@person.Guid" data-inactive="@person.InDrop" data-tier="@tierGroup.Key" data-video="@person.VideoLink" data-avatar="@person.AvatarUrl" onclick="openModal(this)">
-                            <span class="tier-circle" tier-background-gradient data-tier="@tierGroup.Key"></span>@person.Nickname</li>
-                        it++;
-                        id++;
-                    }
-                }
-            </ul>
-        </section>
-    }
-</section>
+@if (Model.Item1.HasFlag(Permissions.StartBattles))
+{
+    <h2>Добавление нового баттла</h2>
 
+    <h4><i>Ссылку можно оставить пустой, тогда будут использованы закрепленные комбы участников</i></h4>
 
-<section class="active-battles">
-    @if (Model.Item1.HasFlag(Permissions.StartBattles))
-    {
-        <h2>Добавление нового баттла</h2>
-
-        <h4><i>Ссылку можно оставить пустой, тогда будут использованы закрепленные комбы участников</i></h4>
-
-        <div class="battle-card-example">
-            <div class="battle-content">
-                <div class="participant createBattleExample">
-                    <div class="avatarBattle">
-                        <img src="/avatars/Art.png" alt="Левый участник" />
-                    </div>
-                    <h3><span class="tier-circle" tier-background-gradient></span>Ник1</h3>
-                    <input type="url" class="battle-link" placeholder="Ссылка для левого участника" />
+    <div class="battle-card-example">
+        <div class="battle-content">
+            <div class="participant createBattleExample">
+                <div class="avatarBattle">
+                    <img src="/avatars/Art.png" alt="Левый участник" />
                 </div>
-                <span class="vs">VS</span>
-                <div class="participant createBattleExample">
-                    <div class="avatarBattle">
-                        <img src="/avatars/Art.png" alt="Ник2" />
-                    </div>
-                    <h3><span class="tier-circle" tier-background-gradient></span>Ник2</h3>
-                    <input type="url" class="battle-link" placeholder="Ссылка для правого участника" />
+                <h3><span class="tier-circle" tier-background-gradient></span>Ник1</h3>
+                <input type="url" class="battle-link" placeholder="Ссылка для левого участника" />
+            </div>
+            <span class="vs">VS</span>
+            <div class="participant createBattleExample">
+                <div class="avatarBattle">
+                    <img src="/avatars/Art.png" alt="Ник2" />
                 </div>
+                <h3><span class="tier-circle" tier-background-gradient></span>Ник2</h3>
+                <input type="url" class="battle-link" placeholder="Ссылка для правого участника" />
             </div>
         </div>
-        <button id="create-battle-button" data-full="None" class="save-button">Добавить баттл</button>
-        <button onclick="clearBattleCache()">Сбросить</button>
+    </div>
+    <button id="create-battle-button" data-full="None" class="save-button">Добавить баттл</button>
+    <button onclick="clearBattleCache()">Сбросить</button>
 
-    }
-    @if (Model.Item1.HasFlag(Permissions.EndBattles))
-    {
-        <h2>Активные баттлы</h2>
-        <partial name="_BattleGroupPartial" model="@((Model.Item3, false))" />
-    }
-</section>
+}
+@if (Model.Item1.HasFlag(Permissions.EndBattles))
+{
+    <h2>Активные баттлы</h2>
+    <partial name="_BattleGroupPartial" model="@((Model.Item3, false))" />
+}
 
 @{
     if (Model.Item1.HasFlag(Permissions.MembersEdit) || Model.Item1.HasFlag(Permissions.StartBattles))
@@ -118,7 +119,7 @@
         <div class="modal" id="battleModal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2>Выберите результат</h2>
+                    <h2>Кто победил?</h2>
                 </div>
                 <div class="modal-body">
                     <button class="result-button left-win" onclick="setBattleResult('LeftWin')">

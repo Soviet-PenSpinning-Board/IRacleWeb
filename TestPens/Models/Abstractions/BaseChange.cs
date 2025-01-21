@@ -16,6 +16,30 @@ namespace TestPens.Models.Abstractions
 
         public ShortPositionModel TargetPosition { get; set; } = null!;
 
+        public virtual bool Validate(Dictionary<Tier, List<PersonModel>> head, out string reason)
+        {
+            if (!Enum.IsDefined(TargetPosition.Tier))
+            {
+                reason = $"TargetPosition.Tier указан неправильно! ({TargetPosition.Tier})";
+                return false;
+            }
+
+            if (!head.TryGetValue(TargetPosition.Tier, out var list))
+            {
+                reason = $"TargetPosition.Tier указан неправильно, в теории это сообщение невозможно? ({TargetPosition.Tier})";
+                return false;
+            }
+
+            if (list.Count <= TargetPosition.TierPosition)
+            {
+                reason = $"TargetPosition.TierPosition указан неправильно! ({TargetPosition.TierPosition}/{list.Count})";
+                return false;
+            }
+
+            reason = string.Empty;
+            return true;
+        }
+
         public virtual void Initialize(Dictionary<Tier, List<PersonModel>> head)
         {
             if (TargetPerson != null)

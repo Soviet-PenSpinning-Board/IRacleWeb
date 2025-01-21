@@ -116,6 +116,7 @@ main {
     .modal-content iframe {
         width: 100%;
         aspect-ratio: 16 / 9;
+        display: block;
     }
 
 button {
