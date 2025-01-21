@@ -2,7 +2,7 @@
 @using TestPens.Service.Abstractions
 @model (Permissions, IReadOnlyDictionary<Tier, List<PersonModel>>, IReadOnlyDictionary<Guid, BattleModel>)
 
-@if (Model.Item1.HasFlag(Permissions.ChangeProperties) || Model.Item1.HasFlag(Permissions.ChangePositions))
+@if (Model.Item1.HasFlag(Permissions.ChangeProperties) || Model.Item1.HasFlag(Permissions.ChangePositions) || Model.Item1.HasFlag(Permissions.StartBattles))
 {
     int id = 0;
 

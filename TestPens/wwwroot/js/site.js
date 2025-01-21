@@ -19,8 +19,12 @@ ModalEvent.prototype = {
     }
 };
 
-onOpenModal = new ModalEvent(this);
-onCloseModal = new ModalEvent(this);
+function initModals() {
+    onOpenModal = new ModalEvent(this);
+    onCloseModal = new ModalEvent(this);
+}
+
+initModals();
 
 function openModal(obj, id = 'mainModal') {
     const modal = document.getElementById(id);

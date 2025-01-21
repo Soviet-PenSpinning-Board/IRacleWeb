@@ -24,6 +24,7 @@ function ResetMainPage() {
         type: 'POST',
         data: { password: authToken },
         success: function (response) {
+            initModals();
             $("#resultContainer").empty().html(response);
             changeCache.length = 0;
             const targButton = document.getElementById("submitButton");

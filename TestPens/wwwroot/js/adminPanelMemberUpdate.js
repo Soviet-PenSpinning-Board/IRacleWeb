@@ -1,18 +1,13 @@
-﻿if (typeof this.lockMemberUpdate === 'undefined') {
+﻿onOpenModal.attach('mainModal', function (sender, args) {
+    args[0].dataset.personId = args[1].id;
 
-    onOpenModal.attach('mainModal', function (sender, args) {
-        args[0].dataset.personId = args[1].id;
+    const player = getPlayerObject(args[1].id);
 
-        const player = getPlayerObject(args[1].id);
-
-        document.getElementById("nickname").value = player.Nickname;
-        document.getElementById("inDrop").checked = player.InDrop;
-        document.getElementById("videoLink").value = player.VideoLink;
-        document.getElementById("avatarUrl").value = player.AvatarUrl;
-    });
-
-    var lockMemberUpdate = 'a';
-}
+    document.getElementById("nickname").value = player.Nickname;
+    document.getElementById("inDrop").checked = player.InDrop;
+    document.getElementById("videoLink").value = player.VideoLink;
+    document.getElementById("avatarUrl").value = player.AvatarUrl;
+});
 
 function playerPropertiesUpdate() {
     const modal = document.getElementById('mainModal');

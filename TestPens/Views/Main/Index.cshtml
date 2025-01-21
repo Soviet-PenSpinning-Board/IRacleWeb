@@ -9,7 +9,7 @@
     (string mainColor, string secColor) = tierGroup.Key.GetColors();
     <style>
         .tier-category[data-tier="@tierGroup.Key"]::before {
-            background: linear-gradient(90deg, var(@($"--{tierGroup.Key}-color-main")), var(@($"--{tierGroup.Key}-color-main")));
+            background: linear-gradient(90deg, var(@($"--{tierGroup.Key}-color-main")), var(@($"--{tierGroup.Key}-color-secondary")));
         }
     </style>
     <h2 class="tier-category" data-tier="@tierGroup.Key" tier-box-shadow>@tierGroup.Key.GetName() Tier</h2>

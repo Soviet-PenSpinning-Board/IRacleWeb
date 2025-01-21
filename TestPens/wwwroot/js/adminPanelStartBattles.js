@@ -1,11 +1,11 @@
-﻿if (typeof battledPlayers === 'undefined') {
-    onOpenModal.attach('mainModal', function (sender, args) {
-        const id = args[1].id;
-        args[0].dataset.personId = id;
+﻿onOpenModal.attach('mainModal', function (sender, args) {
+    const id = args[1].id;
+    args[0].dataset.personId = id;
 
-        document.getElementById("startBattle").checked = battledPlayers.has(id);
-    });
+    document.getElementById("startBattle").checked = battledPlayers.has(id);
+});
 
+if (typeof battledPlayers === 'undefined') {
     var battledPlayers = new Set();
 }
 
