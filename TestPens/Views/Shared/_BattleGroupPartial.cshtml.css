@@ -36,6 +36,16 @@
         border: 3px solid var(--outline-color);
     }
 
+.battle-card[data-result="LeftWin"] .battle-content .participant.left .avatarBattle {
+    box-shadow: 0 0 15px green;
+    border-color: lawngreen;
+}
+
+.battle-card[data-result="RightWin"] .battle-content .participant.right .avatarBattle {
+    box-shadow: 0 0 15px green;
+    border-color: lawngreen;
+}
+
         .participant .avatarBattle img {
             width: 100%;
             height: 100%;
