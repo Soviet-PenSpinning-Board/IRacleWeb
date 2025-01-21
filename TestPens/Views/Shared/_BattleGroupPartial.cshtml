@@ -1,0 +1,32 @@
+﻿@model (IReadOnlyDictionary<Guid, BattleModel>, bool)
+
+<section class="battles-group">
+    @foreach (var battle in Model.Item1)
+    {
+        <div class="battle-card" data-guid="@battle.Key" data-result="@battle.Value.Result">
+            <div class="battle-content">
+                <div class="participant left">
+                    <div class="avatarBattle">
+                        <img src="/avatars/Art.png" alt="@battle.Value.Left.MainModel!.Nickname" />
+                    </div>
+                    <h3><span class="tier-circle" tier-background-gradient data-tier="@battle.Value.Left.PreBattlePosition!.Tier"></span>@battle.Value.Left.MainModel!.Nickname</h3>
+                    @if (Model.Item2)
+                    {
+                        <iframe class="battleVideo" src="@(battle.Value.Left.VideoUrl ?? battle.Value.Left.MainModel!.VideoLink)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    }
+                </div>
+                <span class="vs">VS</span>
+                <div class="participant right">
+                    <div class="avatarBattle">
+                        <img src="/avatars/Art.png" alt="@battle.Value.Right.MainModel!.Nickname" />
+                    </div>
+                    <h3><span class="tier-circle" tier-background-gradient data-tier="@battle.Value.Right.PreBattlePosition!.Tier"></span>@battle.Value.Right.MainModel!.Nickname</h3>
+                    @if (Model.Item2)
+                    {
+                        <iframe class="battleVideo" src="@(battle.Value.Right.VideoUrl ?? battle.Value.Right.MainModel!.VideoLink)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</section>

@@ -14,17 +14,6 @@ namespace TestPens.Models.Changes
         {
         }
 
-        public GlobalPersonChange(PersonModel person, ShortPositionModel position, bool isNew) :
-            base(DateTime.UtcNow)
-        {
-            Person = person;
-            Position = position;
-            IsNew = isNew;
-        }
-
-        public PersonModel Person { get; set; } = null!;
-        public ShortPositionModel Position { get; set; } = null!;
-
         public bool IsNew { get; set; }
 
         public override ChangeType Type { get; set; } = ChangeType.GlobalPerson;
@@ -32,14 +21,22 @@ namespace TestPens.Models.Changes
         public override Permissions GetPermission() =>
              Permissions.GlobalMember;
 
+        public override void Initialize(Dictionary<Tier, List<PersonModel>> head)
+        {
+            if (IsNew)
+                return;
+
+            base.Initialize(head);
+        }
+
         public override void Apply(Dictionary<Tier, List<PersonModel>> tierListState)
         {
-            List<PersonModel> tier = tierListState[Position.Tier];
+            List<PersonModel> tier = tierListState[TargetPosition.Tier];
 
             if (IsNew)
-                tier.Insert(Position.TierPosition, Person);
+                tier.Insert(TargetPosition.TierPosition, TargetPerson!);
             else
-                tier.RemoveAt(Position.TierPosition);
+                tier.RemoveAt(TargetPosition.TierPosition);
         }
 
         public override BaseChange RevertedChange()
@@ -47,8 +44,8 @@ namespace TestPens.Models.Changes
             return new GlobalPersonChange
             {
                 UtcTime = UtcTime,
-                Position = Position,
-                Person = Person,
+                TargetPosition = TargetPosition,
+                TargetPerson = TargetPerson,
                 IsNew = !IsNew,
             };
         }

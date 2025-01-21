@@ -12,7 +12,25 @@ namespace TestPens.Models.Abstractions
 
         public abstract ChangeType Type { get; set; }
 
-        public virtual void Initialize(Dictionary<Tier, List<PersonModel>> head) { }
+        public PersonModel? TargetPerson { get; set; }
+
+        public ShortPositionModel TargetPosition { get; set; } = null!;
+
+        public virtual void Initialize(Dictionary<Tier, List<PersonModel>> head)
+        {
+            if (TargetPerson != null)
+                return;
+
+            PersonModel currentPerson = head[TargetPosition.Tier][TargetPosition.TierPosition];
+            TargetPerson = new PersonModel
+            {
+                Guid = currentPerson.Guid,
+                Nickname = currentPerson.Nickname,
+                AvatarUrl = currentPerson.AvatarUrl,
+                InDrop = currentPerson.InDrop,
+                VideoLink = currentPerson.VideoLink,
+            };
+        }
 
         public virtual bool IsAffective() => true;
 

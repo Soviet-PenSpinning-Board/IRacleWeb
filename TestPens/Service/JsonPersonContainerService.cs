@@ -83,7 +83,7 @@ public class JsonPersonContainerService : IPersonContainerService
     public void AddChanges(IEnumerable<BaseChange> changes)
     {
         EnsureCachedChanges();
-        cachedHeadState = GetHead().ApplyChanges(changes);
+        cachedHeadState = (GetHead().ApplyChanges(changes));
         cachedChanges!.AddRange(changes);
         Save();
     }
@@ -118,8 +118,7 @@ public class JsonPersonContainerService : IPersonContainerService
     public void Save()
     {
         TierListState head = GetHead();
-        var changes = GetAllChanges();
         File.WriteAllText(HeadPath, JsonSerializer.Serialize(head.TierList, Program.JsonOptions));
-        File.WriteAllText(ChangesPath, JsonSerializer.Serialize(changes, Program.JsonOptions));
+        File.WriteAllText(ChangesPath, JsonSerializer.Serialize(cachedChanges, Program.JsonOptions));
     }
 }

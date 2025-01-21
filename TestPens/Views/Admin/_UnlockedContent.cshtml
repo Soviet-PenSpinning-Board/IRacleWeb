@@ -10,17 +10,8 @@
     @foreach (var tierGroup in Model.Item2)
     {
         (string mainColor, string secColor) = tierGroup.Key.GetColors();
-        <style>
-            .tier-circle[data-tier="@tierGroup.Key"] {
-            background: linear-gradient(90deg, @mainColor, @secColor );
-            }
-
-            .tier-title[data-tier="@tierGroup.Key"] {
-            background: linear-gradient(90deg, @mainColor, @secColor );
-            }
-        </style>
         <section class="tier-block">
-            <h2 class="tier-title" data-tier="@tierGroup.Key">
+            <h2 class="tier-title" tier-background-gradient data-tier="@tierGroup.Key">
                 @tierGroup.Key.GetName() Tier
             </h2>
             <ul class="tier-people" data-tier="@tierGroup.Key">
@@ -30,7 +21,7 @@
                     foreach (var person in tierGroup.Value)
                     {
                         <li id="uid-@id" class="tier-person" data-guid="@person.Guid" data-inactive="@person.InDrop" data-tier="@tierGroup.Key" data-video="@person.VideoLink" data-avatar="@person.AvatarUrl" onclick="openModal(this)">
-                            <span class="tier-circle" data-tier="@tierGroup.Key"></span>@person.Nickname</li>
+                            <span class="tier-circle" tier-background-gradient data-tier="@tierGroup.Key"></span>@person.Nickname</li>
                         it++;
                         id++;
                     }
@@ -48,13 +39,13 @@
 
         <h4><i>Ссылку можно оставить пустой, тогда будут использованы закрепленные комбы участников</i></h4>
 
-        <div class="battle-card">
+        <div class="battle-card-example">
             <div class="battle-content">
                 <div class="participant createBattleExample">
                     <div class="avatarBattle">
                         <img src="/avatars/Art.png" alt="Левый участник" />
                     </div>
-                    <h3><span class="tier-circle"></span>Ник1</h3>
+                    <h3><span class="tier-circle" tier-background-gradient></span>Ник1</h3>
                     <input type="url" class="battle-link" placeholder="Ссылка для левого участника" />
                 </div>
                 <span class="vs">VS</span>
@@ -62,7 +53,7 @@
                     <div class="avatarBattle">
                         <img src="/avatars/Art.png" alt="Ник2" />
                     </div>
-                    <h3><span class="tier-circle"></span>Ник2</h3>
+                    <h3><span class="tier-circle" tier-background-gradient></span>Ник2</h3>
                     <input type="url" class="battle-link" placeholder="Ссылка для правого участника" />
                 </div>
             </div>
@@ -74,41 +65,11 @@
     @if (Model.Item1.HasFlag(Permissions.EndBattles))
     {
         <h2>Активные баттлы</h2>
-        <section class="battles-group">
-            @foreach (var battle in Model.Item3.Values)
-            {
-                <div class="battle-card" onclick="openModal(this, 'battleModal')">
-                    <div class="battle-content">
-                        <div class="participant">
-                            <div class="avatarBattle">
-                                <img src="/avatars/Art.png" alt="@battle.Left.MainModel!.Nickname" />
-                            </div>
-                            <h3><span class="tier-circle" data-tier="@battle.Left.PreBattlePosition!.Tier"></span>@battle.Left.MainModel!.Nickname</h3>
-                        </div>
-                        <span class="vs">VS</span>
-                        <div class="participant">
-                            <div class="avatarBattle">
-                                <img src="/avatars/Art.png" alt="@battle.Right.MainModel!.Nickname" />
-                            </div>
-                            <h3><span class="tier-circle" data-tier="@battle.Right.PreBattlePosition!.Tier"></span>@battle.Right.MainModel!.Nickname</h3>
-                        </div>
-                    </div>
-                </div>
-            }
-        </section>
-
+        <partial name="_BattleGroupPartial" model="@((Model.Item3, false))" />
     }
 </section>
 
 @{
-    if (Model.Item1.HasFlag(Permissions.ChangePositions))
-    {
-        <script src="/js/Sortable.min.js">
-        </script>
-        <script src="/js/adminPanelPosition.js">
-        </script>
-    }
-
     if (Model.Item1.HasFlag(Permissions.MembersEdit) || Model.Item1.HasFlag(Permissions.StartBattles))
     {
         <div class="modal" id="mainModal">
@@ -150,22 +111,56 @@
                 </div>
             </div>
         </div>
-
-        @if (Model.Item1.HasFlag(Permissions.MembersEdit))
-        {
-            <script src="/js/adminPanelMemberUpdate.js">
-            </script>
-        }
     }
 
     @if (Model.Item1.HasFlag(Permissions.EndBattles))
     {
-        
+        <div class="modal" id="battleModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Выберите результат</h2>
+                </div>
+                <div class="modal-body">
+                    <button class="result-button left-win" onclick="setBattleResult('LeftWin')">
+                        Победил левый
+                    </button>
+                    <button class="result-button draw" onclick="setBattleResult('Draw')">
+                        Ничья
+                    </button>
+                    <button class="result-button right-win" onclick="setBattleResult('RightWin')">
+                        Победил правый
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button class="cancel-button" onclick="closeModal('battleModal')">Отмена</button>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (Model.Item1.HasFlag(Permissions.ChangePositions))
+    {
+        <script src="/js/Sortable.min.js">
+        </script>
+        <script src="/js/adminPanelPosition.js">
+        </script>
+    }
+
+    @if (Model.Item1.HasFlag(Permissions.MembersEdit))
+    {
+        <script src="/js/adminPanelMemberUpdate.js">
+        </script>
     }
 
     @if (Model.Item1.HasFlag(Permissions.StartBattles))
     {
         <script src="/js/adminPanelStartBattles.js">
+        </script>
+    }
+
+    @if (Model.Item1.HasFlag(Permissions.EndBattles))
+    {
+        <script src="/js/adminPanelEndBattles.js">
         </script>
     }
 }

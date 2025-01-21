@@ -8,6 +8,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/site.css">
     <link rel="stylesheet" href="/@(nameof(TestPens)).styles.css" />
+    @foreach (Tier tier in Enum.GetValues<Tier>()) 
+    {
+        (string mainColor, string secColor) = tier.GetColors();
+        <style>
+            :root {
+                @($"--{tier}-color-main"): @mainColor;
+                @($"--{tier}-color-secondary"): @secColor;
+            }
+
+            [data-tier="@tier"][tier-background-gradient] {
+                background: linear-gradient(90deg, var(@($"--{tier}-color-main")), var(@($"--{tier}-color-secondary")));
+            }
+
+            [data-tier="@tier"][tier-box-shadow] {
+                box-shadow: 0 0 15px var(@($"--{tier}-color-main"));
+            }
+        </style>
+    }
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="/js/site.js"></script>
 </head>

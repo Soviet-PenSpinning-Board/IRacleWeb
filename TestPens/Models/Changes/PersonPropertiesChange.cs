@@ -16,20 +16,11 @@ namespace TestPens.Models.Changes
 
         public override ChangeType Type { get; set; } = ChangeType.PersonProperties;
 
-        public ShortPositionModel Position { get; set; } = null!;
-        public PersonModel OldProperties { get; set; } = null!;
         public PersonModel NewProperties { get; set; } = null!;
 
         public override bool IsAffective()
         {
-            return OldProperties != NewProperties;
-        }
-
-        public override void Initialize(Dictionary<Tier, List<PersonModel>> head)
-        {
-            base.Initialize(head);
-            if (OldProperties == null)
-                OldProperties = head[Position.Tier][Position.TierPosition];
+            return TargetPerson != NewProperties;
         }
 
         public override Permissions GetPermission() =>
@@ -37,7 +28,7 @@ namespace TestPens.Models.Changes
 
         public override void Apply(Dictionary<Tier, List<PersonModel>> tierListState)
         {
-            PersonModel person = tierListState[Position.Tier][Position.TierPosition];
+            PersonModel person = tierListState[TargetPosition.Tier][TargetPosition.TierPosition];
 
             person.Nickname = NewProperties.Nickname.Trim();
             person.AvatarUrl = NewProperties.AvatarUrl;
@@ -50,9 +41,9 @@ namespace TestPens.Models.Changes
             return new PersonPropertiesChange
             {
                 UtcTime = UtcTime,
-                Position = Position,
-                OldProperties = NewProperties,
-                NewProperties = OldProperties,
+                TargetPosition = TargetPosition,
+                TargetPerson = NewProperties,
+                NewProperties = TargetPerson!,
             };
         }
     }

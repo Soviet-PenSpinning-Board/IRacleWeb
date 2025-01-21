@@ -105,7 +105,7 @@ namespace TestPens.Service.Abstractions
                 PositionChange change = new PositionChange
                 {
                     NewPosition = loserPos,
-                    OldPosition = winnerPos
+                    TargetPosition = winnerPos
                 };
                 personContainer.AddChanges([change]);
             }

@@ -15,7 +15,7 @@ document.querySelectorAll('.tier-people').forEach(tier => {
                     Tier: toTier,
                     TierPosition: toIndex,
                 },
-                OldPosition: {
+                TargetPosition: {
                     Tier: fromTier,
                     TierPosition: fromIndex,
                 },

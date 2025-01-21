@@ -79,7 +79,9 @@ namespace TestPens.Models
 
         public TierListState ApplyChanges(IEnumerable<BaseChange> changes)
         {
-            return new TierListState(this, changes);
+            var @new = new TierListState(this, changes);
+            _ = @new.TierList;
+            return @new;
         }
 
         public TierListState RevertChanges(IEnumerable<BaseChange> changes)

@@ -25,6 +25,7 @@
     text-transform: uppercase;
     font-size: 20px;
     font-weight: bold;
+    margin-top: 0px;
     padding: 10px;
     border-radius: 5px;
     color: var(--text-color);
@@ -81,14 +82,6 @@
         transition: background-color 0.3s ease, border 0.3s ease;
     }
 
-.tier-circle {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    margin-right: 10px;
-    display: inline-block;
-}
-
 .modal-content {
     width: 400px; /* Ширина модального окна */
     padding: 20px;
@@ -132,8 +125,8 @@
 
 .modal-body {
     display: flex;
-    flex-direction: column; /* Вертикальное выравнивание */
-    gap: 10px; /* Отступы между полями */
+    flex-direction: column;
+    gap: 10px;
 }
 
     .modal-body label {
@@ -159,7 +152,7 @@
 
 .modal-footer {
     display: flex;
-    justify-content: space-between; /* Разместить кнопки по краям */
+    justify-content: space-between;
     gap: 10px;
 }
 
@@ -171,7 +164,7 @@
     box-sizing: border-box;
 }
 
-.battle-card {
+.battle-card-example {
     background: var(--white-bg);
     border-radius: 10px;
     padding: 20px;
@@ -245,3 +238,20 @@
         background-color: #d32f2f;
         border: 2px solid #f44336;
     }
+
+.result-button.left-win {
+    background: linear-gradient(90deg, #00d4ff, #0080f5);
+    border-color: #00d4ff;
+}
+
+/* Ничья */
+.result-button.draw {
+    background: linear-gradient(90deg, #b398ff, #9200fa);
+    border-color: #b398ff;
+}
+
+/* Победил правый */
+.result-button.right-win {
+    background: linear-gradient(90deg, #e64189, #ff0f0f);
+    border-color: #e64189;
+}

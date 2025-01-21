@@ -37,7 +37,7 @@ function playerPropertiesUpdate() {
     }
 
     const obj = {
-        Position: {
+        TargetPosition: {
             Tier: tier,
             TierPosition: index,
         },
