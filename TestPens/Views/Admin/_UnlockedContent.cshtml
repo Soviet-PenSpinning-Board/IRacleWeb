@@ -60,8 +60,8 @@
             </div>
         </div>
     </div>
-    <button id="create-battle-button" data-full="None" class="save-button">Добавить баттл</button>
-    <button onclick="clearBattleCache()">Сбросить</button>
+    <button id="create-battle-button">Добавить баттл</button>
+    <button class="cancel-button" onclick="resetBattles()">Сбросить</button>
 
 }
 @if (Model.Item1.HasFlag(Permissions.EndBattles))

@@ -22,13 +22,13 @@ function setBattleResult(result) {
         },
     }).then(response => {
         if (response.ok) {
-            alert('Изменения успешно сохранены!');
+            alertModal('Изменения успешно сохранены!');
             ResetMainPage();
         } else {
-            alert('Произошла ошибка при сохранении.');
+            alertModal('Произошла ошибка при сохранении.');
         }
     }).catch(error => {
         console.error('Ошибка при отправке данных:', error);
-        alert('Произошла ошибка при сохранении.');
+        alertModal('Произошла ошибка при сохранении.');
     });
 }

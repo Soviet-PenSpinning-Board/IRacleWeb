@@ -25,11 +25,8 @@ document.getElementById("startBattle").addEventListener('change', function () {
     }
 
     let elems = Array.from(document.getElementsByClassName("createBattleExample"));
-    elems.forEach(elem => {
-        // мда
-        elem.children[1].firstChild.dataset.tier = "";
-        elem.children[1].childNodes[1].textContent = "Участник";
-    });
+
+    resetBattles(false);
 
     let i = 0;
     battledPlayers.forEach(id => {
@@ -44,25 +41,30 @@ document.getElementById("startBattle").addEventListener('change', function () {
     let button = document.getElementById("create-battle-button");
 
     if (battledPlayers.size == 2) {
-        button.dataset.full = "Yes";
+        button.classList.add("save-button");
         button.addEventListener("click", addBattleChange);
     }
     else {
-        button.dataset.full = "None";
+        button.classList.remove("save-button");
         button.removeEventListener("click", addBattleChange);
     }
 });
 
-function clearBattleCache() {
+function resetBattles(clearCache = true) {
     Array.from(document.getElementsByClassName("createBattleExample")).forEach(elem => {
         // мда
         elem.children[1].firstChild.dataset.tier = "";
         elem.children[1].childNodes[1].textContent = "Участник";
     });
-    battledPlayers.clear();
+
+    if (clearCache) {
+        let button = document.getElementById("create-battle-button");
+        button.classList.remove("save-button");
+        battledPlayers.clear();
+    }
 }
 
-clearBattleCache();
+resetBattles();
 
 function addBattleChange() {
     let arr = [];
@@ -87,14 +89,14 @@ function addBattleChange() {
         body: JSON.stringify(prop),
     }).then(response => {
         if (response.ok) {
-            alert('Изменения успешно сохранены!');
-            clearBattleCache();
+            alertModal('Изменения успешно сохранены!');
+            resetBattles();
             ResetMainPage();
         } else {
-            alert('Произошла ошибка при сохранении.');
+            alertModal('Произошла ошибка при сохранении.');
         }
     }).catch(error => {
         console.error('Ошибка при отправке данных:', error);
-        alert('Произошла ошибка при сохранении.');
+        alertModal('Произошла ошибка при сохранении.');
     });
 }

@@ -19,8 +19,15 @@ ModalEvent.prototype = {
     }
 };
 
+function alertModal(text) {
+    openModal(text, 'alertModal')
+}
+
 function initModals() {
     onOpenModal = new ModalEvent(this);
+    onOpenModal.attach('alertModal', (sender, args) => {
+        args[0].firstElementChild.firstElementChild.innerText = args[1];
+    })
     onCloseModal = new ModalEvent(this);
 }
 

@@ -28,11 +28,11 @@ function ResetMainPage() {
             $("#resultContainer").empty().html(response);
             changeCache.length = 0;
             const targButton = document.getElementById("submitButton");
-            targButton.classList.add("pressed");
+            targButton.classList.add("cancel-button");
             targButton.innerText = 'Сбросить';
         },
         error: function () {
-            alert("Ошибка запроса. Посмотрите в консоль на F12 и сообщите");
+            alertModal("Ошибка запроса. Посмотрите в консоль на F12 и сообщите");
         }
     });
 }
@@ -47,17 +47,17 @@ document.getElementById('saveChanges').addEventListener('click', function () {
             body: JSON.stringify(changeCache),
         }).then(response => {
             if (response.ok) {
-                alert('Изменения успешно сохранены!');
+                alertModal('Изменения успешно сохранены!');
                 ResetMainPage();
             } else {
-                alert('Произошла ошибка при сохранении.');
+                alertModal('Произошла ошибка при сохранении.');
             }
         }).catch(error => {
             console.error('Ошибка при отправке данных:', error);
-            alert('Произошла ошибка при сохранении.');
+            alertModal('Произошла ошибка при сохранении.');
         });
     } else {
-        alert('Нет изменений для сохранения.');
+        alertModal('Нет изменений для сохранения.');
     }
 });
 
