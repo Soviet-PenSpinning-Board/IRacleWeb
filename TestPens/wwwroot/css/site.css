@@ -16,12 +16,13 @@ body {
 }
 
 header {
-  background: var(--text-color);
-  color: var(--white-bg);
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    background: var(--background-color);
+    color: var(--text-color);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 4px solid var(--outline-color); /* Темная полоска снизу */
 }
 
 header h1 {
@@ -39,10 +40,10 @@ header nav ul li {
   margin-left: 15px;
 }
 
-header nav ul li a {
-  color: var(--white-bg);
-  text-decoration: none;
-}
+    header nav ul li a {
+        color: var(--text-color);
+        text-decoration: none;
+    }
 
 main {
   padding: 20px;
@@ -53,8 +54,9 @@ main {
 }
 
 footer {
-    background: var(--text-color);
-    color: var(--white-bg);
+    border-top: 4px solid var(--outline-color); /* Темная полоска снизу */
+    background: var(--background-color);
+    color: var(--text-color);
     text-align: center;
     padding: 10px;
     margin-top: 20px;
