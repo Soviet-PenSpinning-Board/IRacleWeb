@@ -1,5 +1,6 @@
 ﻿:root {
-    --modified-color: #e3e3e3; 
+    --dragging-color: #e3e3e3;
+    --dragging-border-color: #aaa;
 }
 
 .editable-tierlist {
@@ -62,8 +63,8 @@
 
     .tier-person.dragging {
         opacity: 0.7;
-        background-color: #e3e3e3;
-        border: 2px dashed #aaa;
+        background-color: var(--dragging-color);
+        border: 2px dashed var(--dragging-border-color);
         cursor: grabbing;
     }
 
@@ -76,7 +77,7 @@
 
     /* Для всех остальных элементов hover работает нормально */
     .tier-person:hover {
-        background-color: #f0f0f0;
+        background-color: var(--background-color);
         cursor: pointer;
     }
 
