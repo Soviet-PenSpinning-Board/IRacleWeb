@@ -12,6 +12,14 @@
     cursor: default;
 }
 
+body.dark-theme {
+    --background-color: #121212;
+    --text-color: #e0e0e0;
+    --outline-color: #a0a0a0;
+    --white-bg: #1e1e1e;
+    --card-shadow: rgba(0, 0, 0, 0.5);
+}
+
 * {
     color: var(--text-color);
 }
@@ -37,20 +45,25 @@ header h1 {
   margin: 0;
 }
 
-header nav ul {
-  list-style: none;
-  display: flex;
-  padding: 0;
-  margin: 0;
-}
-
-header nav ul li {
-  margin-left: 15px;
-}
-
-    header nav ul li a {
-        text-decoration: none;
+    header nav {
+        margin-left: auto;
+        margin-right: 15px;
     }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+            padding: 0;
+            margin: 0;
+        }
+
+            header nav ul li {
+                margin-left: 15px;
+            }
+
+                header nav ul li a {
+                    text-decoration: none;
+                }
 
 main {
   padding: 20px;
@@ -207,4 +220,8 @@ button {
     border-radius: 50%;
     margin-right: 10px;
     display: inline-block;
+}
+
+#themeToggle {
+    margin-top: 0px;
 }
