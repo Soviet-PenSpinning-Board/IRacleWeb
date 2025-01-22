@@ -11,11 +11,19 @@
     @foreach (Tier tier in Enum.GetValues<Tier>()) 
     {
         (string mainColor, string secColor) = tier.GetColors();
+        (string darkMainColor, string darkSecColor) = tier.GetColorsDark();
+
         <style>
             :root {
                 @($"--{tier}-color-main"): @mainColor;
                 @($"--{tier}-color-secondary"): @secColor;
             }
+
+            body.dark-theme {
+                @($"--{tier}-color-main"): @darkMainColor;
+                @($"--{tier}-color-secondary"): @darkSecColor;
+            }
+
 
             [data-tier="@tier"][tier-background-gradient] {
                 background: linear-gradient(90deg, var(@($"--{tier}-color-main")), var(@($"--{tier}-color-secondary")));

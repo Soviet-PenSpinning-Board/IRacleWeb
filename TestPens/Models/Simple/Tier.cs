@@ -30,5 +30,17 @@
             Tier.E => ("#00ff7a", "#00ff07"),
             _ => ("#ffffff", "#000000")
         };
+
+        public static (string, string) GetColorsDark(this Tier tier) => tier switch
+        {
+            Tier.SPlus => ("#5e5e5e", "#303030"),
+            Tier.S => ("#8c0101", "#451a1a"),
+            Tier.A => ("#b031b5", "#910050"),
+            Tier.B => ("#1d7c98", "#002681"),
+            Tier.C => ("#9c8a05", "#965000"),
+            Tier.D => ("#9aa813", "#4e7000"),
+            Tier.E => ("#2eab6a", "#007103"),
+            _ => ("#000000", "#ffffff")
+        };
     }
 }
