@@ -60,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
     themeToggle.addEventListener("click", () => {
         document.body.classList.toggle("dark-theme");
 
-        // Сохраняем текущую тему в LocalStorage
         if (document.body.classList.contains("dark-theme")) {
             themeToggle.textContent = "☀️";
         } else {
