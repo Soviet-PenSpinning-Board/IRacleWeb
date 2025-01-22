@@ -4,6 +4,11 @@
     --outline-color: #666;
     --white-bg: #fff;
     --card-shadow: rgba(0, 0, 0, 0.1);
+
+    --dragging-color: #e3e3e3;
+    --dragging-border-color: #aaa;
+    --modified-color: #ffbb0f;
+
     cursor: default;
 }
 

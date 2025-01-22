@@ -1,9 +1,4 @@
-﻿:root {
-    --dragging-color: #e3e3e3;
-    --dragging-border-color: #aaa;
-}
-
-.editable-tierlist {
+﻿.editable-tierlist {
     padding: 20px;
     margin: 0 auto;
     background-color: var(--background-color);
@@ -82,8 +77,7 @@
     }
 
     .tier-person.modified {
-        background-color: #fff3cd;
-        border: 2px dashed #ffc107;
+        border: 3px dashed var(--modified-color);
         transition: background-color 0.3s ease, border 0.3s ease;
     }
 
