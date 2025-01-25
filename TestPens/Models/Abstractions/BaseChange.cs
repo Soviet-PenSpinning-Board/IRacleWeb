@@ -46,14 +46,7 @@ namespace TestPens.Models.Abstractions
                 return;
 
             PersonModel currentPerson = head[TargetPosition.Tier][TargetPosition.TierPosition];
-            TargetPerson = new PersonModel
-            {
-                Guid = currentPerson.Guid,
-                Nickname = currentPerson.Nickname,
-                AvatarUrl = currentPerson.AvatarUrl,
-                InDrop = currentPerson.InDrop,
-                VideoLink = currentPerson.VideoLink,
-            };
+            TargetPerson = currentPerson.Copy();
         }
 
         public virtual bool IsAffective() => true;

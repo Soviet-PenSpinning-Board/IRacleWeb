@@ -1,8 +1,8 @@
 ﻿onOpenModal.attach('mainModal', function (sender, args) {
     args[0].dataset.personId = args[1].id;
-
     const player = getPlayerObject(args[1].id);
 
+    args[0].firstElementChild.firstElementChild.lastElementChild.firstElementChild.src = player.AvatarUrl;
     document.getElementById("nickname").value = player.Nickname;
     document.getElementById("inDrop").checked = player.InDrop;
     document.getElementById("videoLink").value = player.VideoLink;

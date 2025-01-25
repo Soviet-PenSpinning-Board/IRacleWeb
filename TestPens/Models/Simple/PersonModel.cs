@@ -17,6 +17,18 @@
 
         public string? AvatarUrl { get; set; }
 
+        public PersonModel Copy()
+        {
+            return new PersonModel()
+            {
+                Guid = Guid,
+                Nickname = Nickname,
+                InDrop = InDrop,
+                VideoLink = VideoLink,
+                AvatarUrl = AvatarUrl,
+            };
+        }
+
         public static bool operator ==(PersonModel? left, PersonModel? right)
         {
             if (left is null || right is null)

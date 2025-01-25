@@ -34,7 +34,7 @@ namespace TestPens.Models.Changes
             List<PersonModel> tier = tierListState[TargetPosition.Tier];
 
             if (IsNew)
-                tier.Insert(TargetPosition.TierPosition, TargetPerson!);
+                tier.Insert(TargetPosition.TierPosition, TargetPerson!.Copy());
             else
                 tier.RemoveAt(TargetPosition.TierPosition);
         }

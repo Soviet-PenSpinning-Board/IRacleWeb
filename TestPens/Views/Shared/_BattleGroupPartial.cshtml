@@ -7,7 +7,7 @@
             <div class="battle-content">
                 <div class="participant left" data-video="@(battle.Value.Left.VideoUrl ?? battle.Value.Left.MainModel!.VideoLink)">
                     <div class="avatarBattle">
-                        <img src="/avatars/Art.png" alt="@battle.Value.Left.MainModel!.Nickname" />
+                        <img src="@(battle.Value.Left.MainModel!.AvatarUrl)" alt="@battle.Value.Left.MainModel!.Nickname" />
                     </div>
                     <h3><span class="tier-circle" tier-background-gradient data-tier="@battle.Value.Left.PreBattlePosition!.Tier"></span>@battle.Value.Left.MainModel!.Nickname</h3>
                     <iframe class="battleVideo" style="display: none;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -15,7 +15,7 @@
                 <span class="vs">VS</span>
                 <div class="participant right" data-video="@(battle.Value.Right.VideoUrl ?? battle.Value.Right.MainModel!.VideoLink)">
                     <div class="avatarBattle">
-                        <img src="/avatars/Art.png" alt="@battle.Value.Right.MainModel!.Nickname" />
+                        <img src="@(battle.Value.Right.MainModel!.AvatarUrl)" alt="@battle.Value.Right.MainModel!.Nickname" />
                     </div>
                     <h3><span class="tier-circle" tier-background-gradient data-tier="@battle.Value.Right.PreBattlePosition!.Tier"></span>@battle.Value.Right.MainModel!.Nickname</h3>
                     <iframe class="battleVideo" style="display: none;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

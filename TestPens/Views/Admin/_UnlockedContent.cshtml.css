@@ -127,21 +127,10 @@
     flex-direction: column;
     gap: 10px;
 }
-
-    .modal-body label {
-        font-size: 14px;
-        font-weight: bold;
-        color: var(--text-color);
-    }
-
     .modal-body input[type="text"],
     .modal-body input[type="url"],
     .modal-body input[type="checkbox"] {
-        width: 100%;
-        padding: 10px;
         font-size: 14px;
-        border: 1px solid var(--outline-color);
-        border-radius: 5px;
         box-sizing: border-box;
     }
 

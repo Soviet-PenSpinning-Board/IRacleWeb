@@ -78,25 +78,25 @@
                 <div class="modal-header">
                     <h2>Редактирование</h2>
                     <div class="avatarModal">
-                        <img src="@($"/avatars/Art.png")"/>
+                        <img src=""/>
                     </div>
                 </div>
                 <div class="modal-body">
                     @if (Model.Item1.HasFlag(Permissions.MembersEdit))
                     {
                         <label for="nickname">Никнейм:</label>
-                        <input type="text" id="nickname" placeholder="Введите никнейм">
+                        <input class="input-field" type="text" id="nickname" placeholder="Введите никнейм">
 
                         <div>
                             <label for="inDrop">В дропе:</label>
-                            <input type="checkbox" id="inDrop">
+                            <input class="input-field" type="checkbox" id="inDrop">
                         </div>
 
                         <label for="videoLink">Ссылка на видео:</label>
-                        <input type="url" id="videoLink" placeholder="Введите ссылку">
+                        <input class="input-field" type="url" id="videoLink" placeholder="Введите ссылку">
 
                         <label for="avatarUrl">Ссылка на аватарку:</label>
-                        <input type="url" id="avatarUrl" placeholder="Введите ссылку">
+                        <input class="input-field" type="url" id="avatarUrl" placeholder="Введите ссылку">
                     }
                     @if (Model.Item1.HasFlag(Permissions.StartBattles))
                     {
