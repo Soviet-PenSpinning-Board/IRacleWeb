@@ -2,12 +2,12 @@
 
 namespace TestPens.Extensions
 {
-    public class CommonExtentions
+    public static class CommonExtentions
     {
         private static readonly Regex YoutubeRegex = new Regex(@"(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([\w\-]{11})", RegexOptions.Compiled);
         private static readonly Regex GoogleRegex = new Regex(@"(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/(?:file\/d\/|open\?id=)([\w\-]+)", RegexOptions.Compiled);
 
-        public static bool TryTransformToIframeUrl(string videoUrl, out string result)
+        public static string TransformToIframeUrl(this string videoUrl)
         {
             if (string.IsNullOrWhiteSpace(videoUrl))
             {
@@ -19,8 +19,7 @@ namespace TestPens.Extensions
                 var match = YoutubeRegex.Match(videoUrl);
                 if (match.Success)
                 {
-                    result = $"https://www.youtube.com/embed/{match.Groups[1].Value}";
-                    return true;
+                    return $"https://www.youtube.com/embed/{match.Groups[1].Value}";
                 }
             }
 
@@ -29,13 +28,11 @@ namespace TestPens.Extensions
                 var match = GoogleRegex.Match(videoUrl);
                 if (match.Success)
                 {
-                    result = $"https://drive.google.com/file/d/{match.Groups[1].Value}/preview";
-                    return true;
+                    return $"https://drive.google.com/file/d/{match.Groups[1].Value}/preview";
                 }
             }
 
-            result = string.Empty;
-            return false;
+            return videoUrl;
         }
     }
 }

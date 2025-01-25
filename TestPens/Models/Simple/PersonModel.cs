@@ -13,9 +13,9 @@
 
         public bool InDrop { get; set; }
 
-        public string? VideoLink { get; set; }
+        public string VideoLink { get; set; } = null!;
 
-        public string? AvatarUrl { get; set; }
+        public string AvatarUrl { get; set; } = null!;
 
         public PersonModel Copy()
         {

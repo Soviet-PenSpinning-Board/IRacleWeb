@@ -1,6 +1,7 @@
 ﻿
 using System;
 
+using TestPens.Extensions;
 using TestPens.Models.Abstractions;
 using TestPens.Models.Simple;
 using TestPens.Service.Abstractions;
@@ -33,7 +34,7 @@ namespace TestPens.Models.Changes
             person.Nickname = NewProperties.Nickname.Trim();
             person.AvatarUrl = NewProperties.AvatarUrl;
             person.InDrop = NewProperties.InDrop;
-            person.VideoLink = NewProperties.VideoLink;
+            person.VideoLink = NewProperties.VideoLink!.TransformToIframeUrl();
         }
 
         public override BaseChange RevertedChange()
