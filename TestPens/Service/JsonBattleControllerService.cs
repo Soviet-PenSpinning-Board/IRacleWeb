@@ -97,7 +97,7 @@ namespace TestPens.Service.Abstractions
 
             if (winnerPos == ShortPositionModel.Unknown || loserPos == ShortPositionModel.Unknown)
             {
-                _logger.LogError("Один из участников баттла между {nick1} ({guid1}) и {nick2} ({guid2}) имеет неопределенную позицию", winner.MainModel.Nickname, winner.MainModel.Guid, loser.MainModel.Nickname, loser.MainModel.Guid);
+                _logger.LogError("Один из участников баттла между {nick1} ({guid1}) и {nick2} ({guid2}) имеет неопределенную позицию", winner.MainModel!.Nickname, winner.MainModel.Guid, loser.MainModel!.Nickname, loser.MainModel.Guid);
                 return;
             }
             if (winnerPos > loserPos)

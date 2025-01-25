@@ -7,13 +7,13 @@ namespace TestPens.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly ILogger<MainController> _logger;
+        private readonly ILogger<AdminController> _logger;
         private readonly IPersonContainerService _personService;
         private readonly IBattleControllerService _battleService;
 
         private readonly ITokenManager _tokenManager;
 
-        public AdminController(ILogger<MainController> logger, IPersonContainerService containerService, ITokenManager tokenManager, IBattleControllerService battleService)
+        public AdminController(ILogger<AdminController> logger, IPersonContainerService containerService, ITokenManager tokenManager, IBattleControllerService battleService)
         {
             _logger = logger;
             _personService = containerService;

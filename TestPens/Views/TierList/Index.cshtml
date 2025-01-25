@@ -1,0 +1,52 @@
+﻿@using TestPens.Models.Simple
+@{
+    ViewData["Title"] = "Тирлист SPSB";
+}
+@model IReadOnlyDictionary<Tier, List<PersonModel>>
+
+@foreach (var tierGroup in Model)
+{
+    (string mainColor, string secColor) = tierGroup.Key.GetColors();
+    <style>
+        .tier-category[data-tier="@tierGroup.Key"]::before {
+            background: linear-gradient(90deg, var(@($"--{tierGroup.Key}-color-main")), var(@($"--{tierGroup.Key}-color-secondary")));
+        }
+    </style>
+    <h2 class="tier-category" data-tier="@tierGroup.Key" tier-box-shadow>@tierGroup.Key.GetName() Tier</h2>
+    int it = 1;
+    <section class="players-group">
+        @foreach (var item in tierGroup.Value)
+        {
+            <div class="player-card" onclick="openModal('@item.VideoLink')">
+                <div class="card-content">
+                    <div class="info">
+                        <h3 data-drop="@item.InDrop">@($"{it}. {item.Nickname}")</h3>
+                        <p class="tier" data-tier="@tierGroup.Key" tier-background-gradient tier-box-shadow>@tierGroup.Key.GetName() Tier</p>
+                    </div>
+                    <div class="avatar">
+                        <img src="@item.AvatarUrl" alt="@item.Nickname" />
+                    </div>
+                </div>
+            </div>
+            it++;
+        }
+    </section>
+}
+
+<div class="modal" id="mainModal">
+    <div class="modal-content">
+        <iframe id="videoFrame" src="" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+</div>
+
+<script>
+        onOpenModal.attach('mainModal', function (sender,args) {
+            const iframe = document.getElementById("videoFrame");
+            iframe.src = args[1];
+        });
+
+        onCloseModal.attach('mainModal', function (sender,args) {
+            const iframe = document.getElementById("videoFrame");
+            iframe.src = '';
+        });
+</script>

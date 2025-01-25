@@ -8,13 +8,13 @@ namespace TestPens.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TierListController : ControllerBase
+    public class TierListApiController : ControllerBase
     {
-        private readonly ILogger<TierListController> _logger;
+        private readonly ILogger<TierListApiController> _logger;
         private readonly IPersonContainerService _containerService;
         private readonly ITokenManager _tokenManager;
 
-        public TierListController(ILogger<TierListController> logger, IPersonContainerService containerService, ITokenManager tokenManager)
+        public TierListApiController(ILogger<TierListApiController> logger, IPersonContainerService containerService, ITokenManager tokenManager)
         {
             _logger = logger;
             _containerService = containerService;

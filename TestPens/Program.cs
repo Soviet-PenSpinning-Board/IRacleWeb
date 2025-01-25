@@ -5,6 +5,8 @@ using TestPens.Extensions;
 using TestPens.Service;
 using TestPens.Service.Abstractions;
 
+using Westwind.AspNetCore.Markdown;
+
 namespace TestPens
 {
     public class Program
@@ -26,6 +28,8 @@ namespace TestPens
 
             builder.Services.AddSingleton<ITokenManager, JsonTokenManager>();
 
+            builder.Services.AddMarkdown();
+
             // Add services to the container.
             builder.Services
                 .AddControllersWithViews()
@@ -40,11 +44,10 @@ namespace TestPens
             var app = builder.Build();
 
             app.UseHttpsRedirection();
+            app.UseMarkdown();
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            //app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",

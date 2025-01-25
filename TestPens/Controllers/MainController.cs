@@ -11,17 +11,15 @@ namespace TestPens.Controllers
     public class MainController : Controller
     {
         private readonly ILogger<MainController> _logger;
-        private readonly IPersonContainerService containerService;
 
-        public MainController(ILogger<MainController> logger, IPersonContainerService containerService)
+        public MainController(ILogger<MainController> logger)
         {
             _logger = logger;
-            this.containerService = containerService;
         }
 
         public IActionResult Index()
         {
-            return View(containerService.GetHead().TierList);
+            return View();
         }
     }
 }

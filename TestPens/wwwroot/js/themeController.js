@@ -14,8 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (document.documentElement.classList.contains("dark-theme")) {
             themeToggle.textContent = "☀️";
+            localStorage.setItem("theme", "dark");
         } else {
             themeToggle.textContent = "🌙";
+            localStorage.setItem("theme", "light");
         }
     });
 });

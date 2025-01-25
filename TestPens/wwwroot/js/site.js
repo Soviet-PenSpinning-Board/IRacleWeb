@@ -48,7 +48,6 @@ function closeModal(id = 'mainModal') {
     onCloseModal.notify(id, modal);
 }
 
-
 window.onclick = function(event) {
     if (event.target.classList.contains('modal')) {
         closeModal(event.target.id);

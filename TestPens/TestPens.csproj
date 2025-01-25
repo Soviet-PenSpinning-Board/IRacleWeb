@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+
+  <ItemGroup>
+    <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.21.0" />
+  </ItemGroup>
 </Project>

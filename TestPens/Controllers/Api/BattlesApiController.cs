@@ -9,13 +9,13 @@ namespace TestPens.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BattlesController : ControllerBase
+    public class BattlesApiController : ControllerBase
     {
-        private readonly ILogger<BattlesController> _logger;
+        private readonly ILogger<BattlesApiController> _logger;
         private readonly IBattleControllerService _battleService;
         private readonly ITokenManager _tokenManager;
 
-        public BattlesController(ILogger<BattlesController> logger, IBattleControllerService battleService, ITokenManager tokenManager)
+        public BattlesApiController(ILogger<BattlesApiController> logger, IBattleControllerService battleService, ITokenManager tokenManager)
         {
             _logger = logger;
             _battleService = battleService;
