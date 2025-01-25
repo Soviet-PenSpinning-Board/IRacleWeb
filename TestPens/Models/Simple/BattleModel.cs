@@ -45,7 +45,7 @@ public class BattledPersonModel
             {
                 if (group.Value[i].Guid == Guid)
                 {
-                    return (group.Value[i], new ShortPositionModel { Tier = group.Key, TierPosition = i });
+                    return (group.Value[i].Copy(), new ShortPositionModel { Tier = group.Key, TierPosition = i });
                 }
             }
         }
