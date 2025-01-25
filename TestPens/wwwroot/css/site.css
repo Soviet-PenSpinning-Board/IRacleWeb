@@ -12,7 +12,7 @@
     cursor: default;
 }
 
-body.dark-theme {
+html.dark-theme {
     --background-color: #121212;
     --text-color: #e0e0e0;
     --outline-color: #a0a0a0;

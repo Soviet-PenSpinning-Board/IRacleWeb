@@ -54,16 +54,3 @@ window.onclick = function(event) {
         closeModal(event.target.id);
     }
 };
-
-document.addEventListener("DOMContentLoaded", () => {
-    let themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener("click", () => {
-        document.body.classList.toggle("dark-theme");
-
-        if (document.body.classList.contains("dark-theme")) {
-            themeToggle.textContent = "☀️";
-        } else {
-            themeToggle.textContent = "🌙";
-        }
-    });
-});
