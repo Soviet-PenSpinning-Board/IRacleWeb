@@ -76,11 +76,15 @@ function addBattleChange() {
         arr.push(getFullPlayerObject(id));
     });
 
+    let videos = document.getElementsByClassName('battle-link');
+
     let prop = {
         Left: {
+            VideoUrl: videos[0].value,
             Guid: arr[0].Guid,
         },
         Right: {
+            VideoUrl: videos[1].value,
             Guid: arr[1].Guid,
         },
     };

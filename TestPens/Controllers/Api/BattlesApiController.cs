@@ -51,7 +51,7 @@ namespace TestPens.Controllers.Api
         }
 
         [HttpPost("add")]
-        public IActionResult GetActiveBattles(string token, [FromBody] BattleModel battle)
+        public IActionResult CreateBattle(string token, [FromBody] BattleModel battle)
         {
             if (!CheckPermissions(token, Permissions.StartBattles))
             {

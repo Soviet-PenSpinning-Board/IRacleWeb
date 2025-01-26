@@ -25,6 +25,12 @@ public class BattleModel
     {
         (Left.MainModel, Left.PreBattlePosition) = Left.GetActualProperties(tierListState);
         (Right.MainModel, Right.PreBattlePosition) = Right.GetActualProperties(tierListState);
+
+        if (string.IsNullOrWhiteSpace(Left.VideoUrl))
+            Left.VideoUrl = Left.MainModel!.VideoLink;
+
+        if (string.IsNullOrWhiteSpace(Right.VideoUrl))
+            Right.VideoUrl = Right.MainModel!.VideoLink;
     }
 
     public BattleResult Result { get; set; } = BattleResult.Unfinished;
