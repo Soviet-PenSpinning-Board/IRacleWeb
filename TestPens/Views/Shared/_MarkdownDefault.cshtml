@@ -24,7 +24,6 @@
 
     let firstAttrib = tocList.attributes[0].name;
 
-    console.log(tocList);
     headers.forEach((header, index) => {
         let level = header.tagName.substring(1);
         const tocItem = document.createElement('li');
@@ -44,7 +43,6 @@
             tableOfContents.classList.toggle("hidden");
         });
 
-        // Закрываем оглавление, если кликаем вне панели
         document.addEventListener("click", function (event) {
             if (
                 !tableOfContents.contains(event.target) &&

@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 
+using TestPens.Extensions;
+
 namespace TestPens.Models.Simple;
 
 public class BattleModel
@@ -23,14 +25,18 @@ public class BattleModel
 
     public void Initialize(TierListState tierListState)
     {
-        (Left.MainModel, Left.PreBattlePosition) = Left.GetActualProperties(tierListState);
-        (Right.MainModel, Right.PreBattlePosition) = Right.GetActualProperties(tierListState);
+        InitializePartial(tierListState, Left);
+        InitializePartial(tierListState, Right);
+    }
 
-        if (string.IsNullOrWhiteSpace(Left.VideoUrl))
-            Left.VideoUrl = Left.MainModel!.VideoLink;
+    public void InitializePartial(TierListState tierListState, BattledPersonModel personModel)
+    {
+        (personModel.MainModel, personModel.PreBattlePosition) = personModel.GetActualProperties(tierListState);
 
-        if (string.IsNullOrWhiteSpace(Right.VideoUrl))
-            Right.VideoUrl = Right.MainModel!.VideoLink;
+        if (string.IsNullOrWhiteSpace(personModel.VideoUrl))
+            personModel.VideoUrl = personModel.MainModel!.VideoLink;
+        else
+            personModel.VideoUrl = personModel.VideoUrl!.TransformToIframeUrl();
     }
 
     public BattleResult Result { get; set; } = BattleResult.Unfinished;
