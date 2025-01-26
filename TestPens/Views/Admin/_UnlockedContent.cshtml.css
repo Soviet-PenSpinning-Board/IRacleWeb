@@ -81,6 +81,20 @@
         transition: background-color 0.3s ease, border 0.3s ease;
     }
 
+.new-person {
+    margin-bottom: 30px;
+    border: 2px solid var(--outline-color);
+    border-radius: 10px;
+    padding: 10px;
+    background-color: var(--background-color);
+    display: inline-block;
+    flex-direction: column;
+}
+
+    .new-person .input-field {
+        width: auto;
+    }
+
 .modal-content {
     width: 400px; /* Ширина модального окна */
     padding: 20px;

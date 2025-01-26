@@ -34,6 +34,28 @@
     </section>
 }
 
+@if (Model.Item1.HasFlag(Permissions.GlobalMember))
+{
+    <h2>Добавление нового человека</h2>
+    <div class="new-person">
+        <div>
+            <p>Никнейм:</p>
+            <input class="input-field" type="text" id="nickname-example" placeholder="Введите никнейм">
+        </div>
+
+        <div>
+            <p>Ссылка на видео:</p>
+            <input class="input-field" type="url" id="videoLink-example" placeholder="Введите ссылку">
+        </div>
+
+        <div>
+            <p>Ссылка на аватарку:</p>
+            <input class="input-field" type="url" id="avatarUrl-example" placeholder="Введите ссылку">
+        </div>
+    </div>
+    <button id="addNewPerson" class="save-button">Сохранить</button>
+}
+
 
 @if (Model.Item1.HasFlag(Permissions.StartBattles))
 {
