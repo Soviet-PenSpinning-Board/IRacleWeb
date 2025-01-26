@@ -1,0 +1,59 @@
+﻿@using TestPens.Models.Simple
+@using Westwind.AspNetCore.Markdown
+
+@model string
+
+<div class="content-layout">
+    <!-- Оглавление -->
+    <button id="tocToggle" class="toc-toggle">Содержание</button>
+    <aside class="table-of-contents">
+        <h2>Содержание</h2>
+        <ul id="toc-list">
+        </ul>
+    </aside>
+
+    <!-- Основной контент -->
+    <div class="markdown-content">
+        @await Markdown.ParseHtmlStringFromFileAsync(Model)
+    </div>
+</div>
+
+<script>
+    const tocList = document.getElementById('toc-list');
+    const headers = document.querySelectorAll('.markdown-content h1, .markdown-content h2, .markdown-content h3');
+
+    let firstAttrib = tocList.attributes[0].name;
+
+    console.log(tocList);
+    headers.forEach((header, index) => {
+        let level = header.tagName.substring(1);
+        const tocItem = document.createElement('li');
+        tocItem.setAttribute(firstAttrib, "");
+        tocItem.classList.add("toc-item");
+        tocItem.classList.add(`level-${level}`);
+        tocItem.innerHTML = `<a ${firstAttrib} href="#${header.id}">${header.textContent}</a>`;
+        tocList.appendChild(tocItem);
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const tocToggle = document.getElementById("tocToggle");
+        const tableOfContents = document.getElementsByClassName("table-of-contents")[0];
+
+        tocToggle.addEventListener("click", function () {
+            tableOfContents.classList.toggle("visible");
+            tableOfContents.classList.toggle("hidden");
+        });
+
+        // Закрываем оглавление, если кликаем вне панели
+        document.addEventListener("click", function (event) {
+            if (
+                !tableOfContents.contains(event.target) &&
+                event.target !== tocToggle &&
+                tableOfContents.classList.contains("visible")
+            ) {
+                tableOfContents.classList.remove("visible");
+                tableOfContents.classList.add("hidden");
+            }
+        });
+    });
+</script>

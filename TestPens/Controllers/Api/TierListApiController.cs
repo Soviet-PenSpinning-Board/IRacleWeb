@@ -6,7 +6,7 @@ using TestPens.Service.Abstractions;
 
 namespace TestPens.Controllers.Api
 {
-    [Route("api/[controller]")]
+    [Route("api/TierList")]
     [ApiController]
     public class TierListApiController : ControllerBase
     {

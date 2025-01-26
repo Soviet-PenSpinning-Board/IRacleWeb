@@ -15,7 +15,15 @@
     position: sticky;
     top: 20px;
     height: fit-content;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
+
+    .table-of-contents.hidden {
+        transform: translateX(-100%);
+        opacity: 0;
+        position: absolute;
+    }
+
 
     .table-of-contents h2 {
         margin-top: 0px;
@@ -58,5 +66,38 @@
 .markdown-content {
     flex: 1;
     line-height: 1.8;
-    color: var(--text-color);
+}
+
+.toc-toggle {
+    display: none;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+}
+
+@media (max-width: 768px) {
+    .content-layout {
+        flex-direction: column;
+    }
+
+    .table-of-contents {
+        flex: 1;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        background-color: var(--white-bg);
+        box-shadow: 0 4px 6px var(--card-shadow);
+        z-index: 1000;
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+        .table-of-contents.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+    .toc-toggle {
+        display: block;
+    }
 }

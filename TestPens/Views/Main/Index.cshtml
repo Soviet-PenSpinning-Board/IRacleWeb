@@ -3,36 +3,5 @@
 @{
     ViewData["Title"] = "Главная";
 }
-@model string
 
-<div class="content-layout">
-    <!-- Оглавление -->
-    <aside class="table-of-contents">
-        <h2>Содержание</h2>
-        <ul id="toc-list">
-        </ul>
-    </aside>
-
-    <!-- Основной контент -->
-    <div class="markdown-content">
-        @Markdown.ParseHtmlStringFromFile("/markdown/mainPage.md")
-    </div>
-</div>
-
-<script>
-    const tocList = document.getElementById('toc-list');
-    const headers = document.querySelectorAll('.markdown-content h1, .markdown-content h2, .markdown-content h3');
-
-    let firstAttrib = tocList.attributes[0].name;
-
-    console.log(tocList);
-    headers.forEach((header, index) => {
-        let level = header.tagName.substring(1);
-        const tocItem = document.createElement('li');
-        tocItem.setAttribute(firstAttrib, "");
-        tocItem.classList.add("toc-item");
-        tocItem.classList.add(`level-${level}`);
-        tocItem.innerHTML = `<a ${firstAttrib} href="#${header.id}">${header.textContent}</a>`;
-        tocList.appendChild(tocItem);
-    });
-</script>
+<partial name="_MarkdownDefault" model="@("/markdown/mainpage.md")">

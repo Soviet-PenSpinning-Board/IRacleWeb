@@ -7,7 +7,7 @@ using TestPens.Service.Abstractions;
 
 namespace TestPens.Controllers.Api
 {
-    [Route("api/[controller]")]
+    [Route("api/battles")]
     [ApiController]
     public class BattlesApiController : ControllerBase
     {
