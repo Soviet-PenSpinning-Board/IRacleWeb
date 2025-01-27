@@ -130,7 +130,7 @@ public class JsonPersonContainerService : IPersonContainerService
         EnsureCachedChanges();
         for (int i = cachedChanges!.Count - 1; i >= 0; i--)
         {
-            if (cachedChanges![i].UtcTime > utsTime)
+            if (cachedChanges![i].UtcTime < utsTime)
             {
                 RevertLast(cachedChanges!.Count - 1 - i);
                 return;
@@ -143,7 +143,7 @@ public class JsonPersonContainerService : IPersonContainerService
         EnsureCachedChanges();
         for (int i = cachedChanges!.Count - 1; i >= 0; i--)
         {
-            if (cachedChanges![i].UtcTime > utsTime)
+            if (cachedChanges![i].UtcTime < utsTime)
             {
                 return RevertLastNode(cachedChanges!.Count - 1 - i);
             }
