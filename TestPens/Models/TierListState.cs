@@ -22,7 +22,7 @@ namespace TestPens.Models
 
                 TierListState head = headState!;
 
-                calculatedTierList = new(head.TierList);
+                calculatedTierList = ShadowCopy(head.TierList);
 
                 foreach (BaseChange change in deltaHeadChanges!)
                 {
@@ -40,6 +40,17 @@ namespace TestPens.Models
                 deltaHeadChanges = null;
 
                 return calculatedTierList;
+
+                Dictionary<Tier, List<PersonModel>> ShadowCopy(IReadOnlyDictionary<Tier, List<PersonModel>> oldDict)
+                {
+                    Dictionary<Tier, List<PersonModel>> result = new(oldDict.Count);
+                    foreach (var item in oldDict)
+                    {
+                        result.Add(item.Key, new(oldDict[item.Key]));
+                    }
+
+                    return result;
+                }
             }
         }
 
