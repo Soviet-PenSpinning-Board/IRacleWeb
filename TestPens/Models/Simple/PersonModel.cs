@@ -22,7 +22,7 @@
             return new PersonModel()
             {
                 Guid = Guid,
-                Nickname = Nickname,
+                Nickname = Nickname.Trim(),
                 InDrop = InDrop,
                 VideoLink = VideoLink,
                 AvatarUrl = AvatarUrl,

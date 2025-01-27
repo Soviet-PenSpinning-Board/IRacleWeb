@@ -40,21 +40,20 @@
     <div class="new-person">
         <div>
             <p>Никнейм:</p>
-            <input class="input-field" type="text" id="nickname-example" placeholder="Введите никнейм">
+            <input class="input-field" autocomplete="off" type="text" id="nickname-new-person" placeholder="Введите никнейм">
         </div>
 
         <div>
             <p>Ссылка на видео:</p>
-            <input class="input-field" type="url" id="videoLink-example" placeholder="Введите ссылку">
+            <input class="input-field" autocomplete="off" type="url" id="videoLink-new-person" placeholder="Введите ссылку">
         </div>
 
         <div>
             <p>Ссылка на аватарку:</p>
-            <input class="input-field" type="url" id="avatarUrl-example" placeholder="Введите ссылку">
+            <input class="input-field" autocomplete="off" type="url" id="avatarUrl-new-person" placeholder="Введите ссылку">
         </div>
 
-        <button id="addNewPerson" class="save-button">Сохранить</button>
-
+        <button id="addNewPerson" class="save-button" onclick="CreateNewPerson()">Сохранить</button>
     </div>
 }
 
@@ -72,7 +71,7 @@
                     <img src="/avatars/Art.png" alt="Левый участник" />
                 </div>
                 <h3><span class="tier-circle" tier-background-gradient></span>Ник1</h3>
-                <input type="url" class="battle-link" placeholder="Ссылка для левого участника" />
+                <input type="url" autocomplete="off" class="battle-link" placeholder="Ссылка для левого участника" />
             </div>
             <span class="vs">VS</span>
             <div class="participant createBattleExample">
@@ -80,7 +79,7 @@
                     <img src="/avatars/Art.png" alt="Ник2" />
                 </div>
                 <h3><span class="tier-circle" tier-background-gradient></span>Ник2</h3>
-                <input type="url" class="battle-link" placeholder="Ссылка для правого участника" />
+                <input type="url" autocomplete="off" class="battle-link" placeholder="Ссылка для правого участника" />
             </div>
         </div>
     </div>
@@ -109,7 +108,7 @@
                     @if (Model.Item1.HasFlag(Permissions.MembersEdit))
                     {
                         <label for="nickname">Никнейм:</label>
-                        <input class="input-field" type="text" id="nickname" placeholder="Введите никнейм">
+                        <input class="input-field" autocomplete="off" type="text" id="nickname" placeholder="Введите никнейм">
 
                         <div>
                             <label for="inDrop">В дропе:</label>
@@ -117,10 +116,10 @@
                         </div>
 
                         <label for="videoLink">Ссылка на видео:</label>
-                        <input class="input-field" type="url" id="videoLink" placeholder="Введите ссылку">
+                        <input class="input-field" autocomplete="off" type="url" id="videoLink" placeholder="Введите ссылку">
 
                         <label for="avatarUrl">Ссылка на аватарку:</label>
-                        <input class="input-field" type="url" id="avatarUrl" placeholder="Введите ссылку">
+                        <input class="input-field" autocomplete="off" type="url" id="avatarUrl" placeholder="Введите ссылку">
                     }
                     @if (Model.Item1.HasFlag(Permissions.StartBattles))
                     {
@@ -186,6 +185,12 @@
     @if (Model.Item1.HasFlag(Permissions.EndBattles))
     {
         <script src="/js/adminPanelEndBattles.js">
+        </script>
+    }
+
+    @if (Model.Item1.HasFlag(Permissions.GlobalMember))
+    {
+        <script src="/js/adminPanelGlobalMember.js">
         </script>
     }
 }

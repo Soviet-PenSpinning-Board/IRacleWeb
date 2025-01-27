@@ -38,6 +38,10 @@ function ResetMainPage() {
 }
 
 document.getElementById('saveChanges').addEventListener('click', function () {
+    sendUpdates();
+});
+
+function sendUpdates() {
     if (changeCache.length > 0) {
         fetch(`/api/tierlist/addchanges?token=${authToken}`, {
             method: 'POST',
@@ -59,7 +63,7 @@ document.getElementById('saveChanges').addEventListener('click', function () {
     } else {
         alertModal('Нет изменений для сохранения.');
     }
-});
+}
 
 function getPlayerObject(id) {
     let htmlDoc = document.getElementById(id);

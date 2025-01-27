@@ -1,6 +1,7 @@
 ﻿
 using System;
 
+using TestPens.Extensions;
 using TestPens.Models.Abstractions;
 using TestPens.Models.Simple;
 using TestPens.Service.Abstractions;
@@ -23,8 +24,12 @@ namespace TestPens.Models.Changes
 
         public override void Initialize(Dictionary<Tier, List<PersonModel>> head)
         {
-            if (IsNew)
+            if (IsNew && TargetPosition == ShortPositionModel.Unknown)
+            {
+                TargetPerson!.VideoLink = TargetPerson.VideoLink.TransformToIframeUrl();
+                TargetPosition = new ShortPositionModel { Tier = Tier.E, TierPosition = head[Tier.E].Count };
                 return;
+            }
 
             base.Initialize(head);
         }
