@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace TestPens.Extensions
 {
@@ -33,6 +34,11 @@ namespace TestPens.Extensions
             }
 
             return videoUrl;
+        }
+
+        public static bool TryConvertToDateTime(string rawDateTime, out DateTime dateTime)
+        {
+            return DateTime.TryParseExact(rawDateTime, "", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime);
         }
     }
 }

@@ -5,21 +5,3 @@
 @model IReadOnlyDictionary<Tier, List<PersonModel>>
 
 <partial name="_MainTierListPartial" model="@(Model)" />
-
-<div class="modal" id="mainModal">
-    <div class="modal-content">
-        <iframe id="videoFrame" src="" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-</div>
-
-<script>
-        onOpenModal.attach('mainModal', function (sender,args) {
-            const iframe = document.getElementById("videoFrame");
-            iframe.src = args[1];
-        });
-
-        onCloseModal.attach('mainModal', function (sender,args) {
-            const iframe = document.getElementById("videoFrame");
-            iframe.src = '';
-        });
-</script>

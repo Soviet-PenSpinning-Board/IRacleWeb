@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Globalization;
 using System.IO.Pipes;
 
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,17 @@ namespace TestPens.Controllers
         public IActionResult Index()
         {
             return View(containerService.GetHead().TierList);
+        }
+
+        public IActionResult TimeMachine()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult TimeMachineMain(DateTime dateTime)
+        {
+            return PartialView("_MainTierListPartial", containerService.RevertAllAfterNode(dateTime).TierList);
         }
     }
 }

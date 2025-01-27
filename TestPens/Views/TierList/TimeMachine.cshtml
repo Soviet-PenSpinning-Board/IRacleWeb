@@ -1,0 +1,13 @@
+﻿@using TestPens.Models.Simple
+@{
+    ViewData["Title"] = "Машина времени";
+}
+
+<input id="time-machine-destination" class="input-field" type="datetime-local" min="2025-01-01T00:00" required>
+
+<button id="applyTimeChangesButton" class="save-button" onclick="SumbitTimeMachine()">Сохранить</button>
+
+<div id="resultContainer"></div>
+
+<script src="/js/libs/moment.min.js"></script>
+<script src="/js/timeMachine.js"></script>

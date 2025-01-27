@@ -169,6 +169,7 @@ main {
 }
 
     #alertModal .modal-content {
+        padding: 10px;
         height: 40%;
         width: 40%;
         display: flex;

@@ -101,6 +101,34 @@ namespace TestPens.Controllers.Api
             }
         }
 
+        [HttpGet("node/reverttime")]
+        public IActionResult RevertAfterNode([FromBody] DateTime dateTime)
+        {
+            try
+            {
+                return Ok(_containerService.RevertAllAfterNode(dateTime).TierList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка: ");
+                return Problem(ex.ToString());
+            }
+        }
+
+        [HttpGet("node/revert/{count}")]
+        public IActionResult RevertAfterNode(int count)
+        {
+            try
+            {
+                return Ok(_containerService.RevertLastNode(count).TierList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ошибка: ");
+                return Problem(ex.ToString());
+            }
+        }
+
         private bool CheckPermissions(string token, Permissions needPermissiosn)
         {
             Permissions targetPermissions = _tokenManager.CheckToken(token);
