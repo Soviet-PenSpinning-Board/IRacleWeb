@@ -92,27 +92,64 @@ public class JsonPersonContainerService : IPersonContainerService
     public void RevertLast(int count)
     {
         EnsureCachedChanges();
-        if (cachedChanges!.Count == 0)
+        if (cachedChanges!.Count == 0 || count == 0)
             return;
 
+        // блин
         int startIndex = Math.Max(cachedChanges!.Count - count, 0);
         int endIndex = cachedChanges!.Count - 1;
         int length = endIndex - startIndex + 1;
 
-        List<BaseChange> toRevertChanges = cachedChanges!.Slice(startIndex, length);
-        
-        toRevertChanges.Reverse();
-
-        cachedHeadState = GetHead().RevertChanges(toRevertChanges);
+        cachedHeadState = RevertLastNode(count);
 
         cachedChanges.RemoveRange(startIndex, length);
 
         Save();
     }
 
+    public TierListState RevertLastNode(int count)
+    {
+        EnsureCachedChanges();
+        if (cachedChanges!.Count == 0 || count == 0)
+            return GetHead();
+
+        // блин
+        int startIndex = Math.Max(cachedChanges!.Count - count, 0);
+        int endIndex = cachedChanges!.Count - 1;
+        int length = endIndex - startIndex + 1;
+
+        List<BaseChange> toRevertChanges = cachedChanges!.Slice(startIndex, length);
+
+        toRevertChanges.Reverse();
+
+        return GetHead().RevertChanges(toRevertChanges);
+    }
+
     public void RevertAllAfter(DateTime utsTime)
     {
-        // TODO: когда займусь машиной времени
+        EnsureCachedChanges();
+        for (int i = cachedChanges!.Count - 1; i >= 0; i--)
+        {
+            if (cachedChanges![i].UtcTime > utsTime)
+            {
+                RevertLast(cachedChanges!.Count - 1 - i);
+                return;
+            }
+        }
+    }
+
+    public TierListState RevertAllAfterNode(DateTime utsTime)
+    {
+        EnsureCachedChanges();
+        for (int i = cachedChanges!.Count - 1; i >= 0; i--)
+        {
+            if (cachedChanges![i].UtcTime > utsTime)
+            {
+                return RevertLastNode(cachedChanges!.Count - 1 - i);
+            }
+        }
+
+        return RevertLastNode(cachedChanges!.Count);
     }
 
     public void Save()

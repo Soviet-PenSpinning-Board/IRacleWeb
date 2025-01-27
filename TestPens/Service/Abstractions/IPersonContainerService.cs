@@ -14,4 +14,8 @@ public interface IPersonContainerService
     public void RevertLast(int count);
 
     public void RevertAllAfter(DateTime utsTime);
+
+    public TierListState RevertLastNode(int count);
+
+    public TierListState RevertAllAfterNode(DateTime utsTime);
 }
