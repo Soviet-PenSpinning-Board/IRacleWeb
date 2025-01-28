@@ -13,10 +13,10 @@
 }
 
 html.dark-theme {
-    --background-color: #121212;
+    --background-color: #1b1b1f;
     --text-color: #e0e0e0;
     --outline-color: #a0a0a0;
-    --white-bg: #1e1e1e;
+    --white-bg: #212121;
     --card-shadow: rgba(0, 0, 0, 0.5);
 }
 
