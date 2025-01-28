@@ -23,6 +23,8 @@ namespace TestPens
 
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Configuration.AddEnvironmentVariables();
+
             builder.Services.AddSingleton<IPersonContainerService, JsonPersonContainerService>();
             builder.Services.AddSingleton<IBattleControllerService, JsonBattleControllerService>();
 

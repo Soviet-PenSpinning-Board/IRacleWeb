@@ -102,7 +102,7 @@ namespace TestPens.Controllers.Api
         }
 
         [HttpGet("node/reverttime")]
-        public IActionResult RevertAfterNode([FromBody] DateTime dateTime)
+        public IActionResult RevertAfterNode(DateTime dateTime)
         {
             try
             {
