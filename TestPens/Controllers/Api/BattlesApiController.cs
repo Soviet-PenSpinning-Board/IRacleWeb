@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 using TestPens.Models;
-using TestPens.Models.Abstractions;
+using TestPens.Models.Dto;
+using TestPens.Models.Real;
 using TestPens.Models.Simple;
 using TestPens.Service.Abstractions;
 
@@ -51,7 +52,7 @@ namespace TestPens.Controllers.Api
         }
 
         [HttpPost("add")]
-        public IActionResult CreateBattle(string token, [FromBody] BattleModel battle)
+        public IActionResult CreateBattle(string token, [FromBody] BattleDto battle)
         {
             if (!CheckPermissions(token, Permissions.StartBattles))
             {

@@ -1,107 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-using TestPens.Models.Abstractions;
+using TestPens.Models.Dto;
+using TestPens.Models.Dto.Changes;
+using TestPens.Models.Real;
+using TestPens.Models.Real.Changes;
 using TestPens.Models.Simple;
 
 namespace TestPens.Models
 {
     public class TierListState
     {
-        private TierListState? headState;
-        private IEnumerable<BaseChange>? deltaHeadChanges;
-        private Dictionary<Tier, List<PersonModel>>? calculatedTierList;
-
-        public IReadOnlyDictionary<Tier, List<PersonModel>> TierList
-        {
-            get
-            {
-                if (calculatedTierList != null)
-                    return calculatedTierList!;
-
-                TierListState head = headState!;
-
-                calculatedTierList = ShadowCopy(head.TierList);
-
-                foreach (BaseChange change in deltaHeadChanges!)
-                {
-                    if (!change.Validate(calculatedTierList, out string msg))
-                    {
-                        throw new InvalidOperationException(msg);
-                    }
-                    change.Initialize(calculatedTierList);
-                    if (change.IsAffective())
-                        change.Apply(calculatedTierList);
-                }
-
-                // с этого момента объект может забывать про родителя и изменения, и становится полноценным для нормальной отчистки, мб не надо
-                headState = null;
-                deltaHeadChanges = null;
-
-                return calculatedTierList;
-
-                Dictionary<Tier, List<PersonModel>> ShadowCopy(IReadOnlyDictionary<Tier, List<PersonModel>> oldDict)
-                {
-                    Dictionary<Tier, List<PersonModel>> result = new(oldDict.Count);
-                    foreach (var item in oldDict)
-                    {
-                        result.Add(item.Key, new(oldDict[item.Key]));
-                    }
-
-                    return result;
-                }
-            }
-        }
-
-        public bool IsHead => headState == null || deltaHeadChanges == null;
+        public List<ChangeBaseModel>? cachedChanges;
+        public IReadOnlyDictionary<Tier, List<PersonModel>> TierList { get; }
 
         public TierListState(Dictionary<Tier, List<PersonModel>> tierList)
         {
-            calculatedTierList = tierList;
+            TierList = tierList;
         }
 
-        public TierListState(TierListState head, IEnumerable<BaseChange> deltaHeadChanges)
+        public TierListState(TierListState head, IReadOnlyCollection<ChangeBaseDto> changes, bool revert)
         {
-            headState = head;
-            this.deltaHeadChanges = deltaHeadChanges;
-        }
+            TierList = head.ShadowCopy();
 
-        public bool TryGetMember(ShortPositionModel position, [NotNullWhen(true)] out PersonModel? person)
-        {
-            person = null;
-            if (!TierList.TryGetValue(position.Tier, out var list) || position.TierPosition >= list.Count)
+            cachedChanges = new(changes.Count);
+
+            foreach (ChangeBaseDto change in changes)
             {
-                person = null;
-                return false;
+                if (!change.Validate(this, out string reason))
+                {
+                    throw new InvalidOperationException(reason);
+                }
+
+                var changeModel = change.CreateFrom(this);
+                cachedChanges.Add(changeModel);
+
+                if (changeModel.IsAffective())
+                {
+                    changeModel.Apply(this, revert);
+                }
             }
-
-            person = list[position.TierPosition];
-            return true;
         }
 
-        public PersonModel? GetMember(ShortPositionModel position)
-        {
-            TryGetMember(position, out PersonModel? result);
-
-            return result;
-        }
-
-        public TierListState ApplyChange(BaseChange change)
+        public TierListState ApplyChange(ChangeBaseDto change)
         {
             return ApplyChanges([change]);
         }
 
-        public TierListState ApplyChanges(IEnumerable<BaseChange> changes)
+        public TierListState ApplyChanges(IReadOnlyCollection<ChangeBaseDto> changes, bool revert = false)
         {
-            var @new = new TierListState(this, changes);
-            _ = @new.TierList;
+            return new TierListState(this, changes, revert);
+        }
+
+        public TierListState ApplyChanges(IReadOnlyCollection<ChangeBaseModel> changes, bool revert = false)
+        {
+            var @new = new TierListState(ShadowCopy());
+            foreach (ChangeBaseModel change in changes)
+            {
+                if (change.IsAffective())
+                {
+                    change.Apply(@new, revert);
+                }
+            }
+
             return @new;
         }
 
-        public TierListState RevertChanges(IEnumerable<BaseChange> changes)
+        private Dictionary<Tier, List<PersonModel>> ShadowCopy()
         {
-            return ApplyChanges(changes.Select(change => change.RevertedChange()));
+            Dictionary<Tier, List<PersonModel>> result = new(TierList.Count);
+            foreach (var item in TierList)
+            {
+                result.Add(item.Key, new(TierList[item.Key]));
+            }
+
+            return result;
         }
     }
 }

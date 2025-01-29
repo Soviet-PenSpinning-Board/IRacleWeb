@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 using TestPens.Models;
-using TestPens.Models.Abstractions;
+using TestPens.Models.Dto;
+using TestPens.Models.Dto.Changes;
+using TestPens.Models.Real.Changes;
+using TestPens.Models.Simple;
 using TestPens.Service.Abstractions;
 
 namespace TestPens.Controllers.Api
@@ -41,7 +44,7 @@ namespace TestPens.Controllers.Api
         {
             try
             {
-                IEnumerable<BaseChange> changes = _containerService.GetAllChanges(offset, limit, after);
+                IEnumerable<ChangeBaseModel> changes = _containerService.GetAllChanges(offset, limit, after);
                 return Ok(changes);
             }
             catch (Exception ex)
@@ -52,14 +55,14 @@ namespace TestPens.Controllers.Api
         }
 
         [HttpPost("addchanges")]
-        public IActionResult AddChanges(string token, [FromBody] List<BaseChange> changes)
+        public IActionResult AddChanges(string token, [FromBody] List<ChangeBaseDto> changes)
         {
             Permissions neededPermissions = Permissions.None;
 
             TierListState head = _containerService.GetHead();
-            foreach (BaseChange change in changes)
+            foreach (ChangeBaseDto change in changes)
             {
-                neededPermissions |= change.GetPermission();
+                neededPermissions |= change.Type.GetPermissions();
             }
 
             if (!CheckPermissions(token, neededPermissions))

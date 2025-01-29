@@ -1,5 +1,6 @@
-﻿using TestPens.Models.Abstractions;
-using TestPens.Models;
+﻿using TestPens.Models;
+using TestPens.Models.Dto;
+using TestPens.Models.Real;
 using TestPens.Models.Simple;
 
 namespace TestPens.Service.Abstractions
@@ -12,6 +13,6 @@ namespace TestPens.Service.Abstractions
 
         public bool ChangeResult(Guid guid, BattleResult battleResult, bool performPositionChange);
 
-        public Guid AddBattle(BattleModel battle);
+        public Guid AddBattle(BattleDto battle);
     }
 }

@@ -1,5 +1,7 @@
 ﻿using TestPens.Models;
-using TestPens.Models.Abstractions;
+using TestPens.Models.Dto;
+using TestPens.Models.Dto.Changes;
+using TestPens.Models.Real.Changes;
 
 namespace TestPens.Service.Abstractions;
 
@@ -7,9 +9,9 @@ public interface IPersonContainerService
 {
     public TierListState GetHead();
 
-    public IEnumerable<BaseChange> GetAllChanges(int offset = 0, int limit = int.MaxValue, DateTime? afterTime = null);
+    public IEnumerable<ChangeBaseModel> GetAllChanges(int offset = 0, int limit = int.MaxValue, DateTime? afterTime = null);
 
-    public void AddChanges(IEnumerable<BaseChange> changes);
+    public void AddChanges(IReadOnlyCollection<ChangeBaseDto> changes);
 
     public void RevertLast(int count);
 

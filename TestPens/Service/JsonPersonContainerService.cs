@@ -5,7 +5,10 @@ using System.Text.Json.Serialization;
 
 using TestPens.Extensions;
 using TestPens.Models;
-using TestPens.Models.Abstractions;
+using TestPens.Models.Dto;
+using TestPens.Models.Dto.Changes;
+using TestPens.Models.Real;
+using TestPens.Models.Real.Changes;
 using TestPens.Models.Simple;
 using TestPens.Service.Abstractions;
 
@@ -13,22 +16,21 @@ namespace TestPens.Service;
 
 public class JsonPersonContainerService : IPersonContainerService
 {
-    private List<BaseChange>? cachedChanges;
+    private List<ChangeBaseModel>? cachedChanges;
     private TierListState? cachedHeadState;
 
     private ILogger<JsonPersonContainerService> _logger;
-    private IConfiguration configuration;
 
-    private string HeadPath => configuration.GetValue<string>("HeadPath")
-                ?? throw new NullReferenceException("Конфигурация HeadPath не задана!");
+    private string HeadPath { get; }
 
-    private string ChangesPath => configuration.GetValue<string>("ChangesPath")
-            ?? throw new NullReferenceException("Конфигурация HeadPath не задана!");
+    private string ChangesPath { get; }
 
     public JsonPersonContainerService(ILogger<JsonPersonContainerService> logger, IConfiguration configuration   )
     {
         _logger = logger;
-        this.configuration = configuration;
+
+        HeadPath = Path.Combine(configuration.GetValue<string>("ConfigPath")!, "main.json");
+        ChangesPath = Path.Combine(configuration.GetValue<string>("ConfigPath")!, "changes.json");
     }
 
     public TierListState GetHead()
@@ -55,7 +57,7 @@ public class JsonPersonContainerService : IPersonContainerService
         cachedHeadState = new TierListState(data);
     }
 
-    public IEnumerable<BaseChange> GetAllChanges(int offset = 0, int limit = int.MaxValue, DateTime? afterTime = null!)
+    public IEnumerable<ChangeBaseModel> GetAllChanges(int offset = 0, int limit = int.MaxValue, DateTime? afterTime = null!)
     {
         EnsureCachedChanges();
 
@@ -77,14 +79,15 @@ public class JsonPersonContainerService : IPersonContainerService
         }
 
         string content = File.ReadAllText(ChangesPath);
-        cachedChanges = JsonSerializer.Deserialize<List<BaseChange>>(content, Program.JsonOptions)!;
+        cachedChanges = JsonSerializer.Deserialize<List<ChangeBaseModel>>(content, Program.JsonOptions)!;
     }
 
-    public void AddChanges(IEnumerable<BaseChange> changes)
+    public void AddChanges(IReadOnlyCollection<ChangeBaseDto> changes)
     {
         EnsureCachedChanges();
         cachedHeadState = (GetHead().ApplyChanges(changes));
-        cachedChanges!.AddRange(changes);
+        cachedChanges!.AddRange(cachedHeadState.cachedChanges!);
+        cachedHeadState.cachedChanges!.Clear();
         Save();
     }
 
@@ -118,11 +121,11 @@ public class JsonPersonContainerService : IPersonContainerService
         int endIndex = cachedChanges!.Count - 1;
         int length = endIndex - startIndex + 1;
 
-        List<BaseChange> toRevertChanges = cachedChanges!.Slice(startIndex, length);
+        List<ChangeBaseModel> toRevertChanges = cachedChanges!.Slice(startIndex, length);
 
         toRevertChanges.Reverse();
 
-        return GetHead().RevertChanges(toRevertChanges);
+        return GetHead().ApplyChanges(toRevertChanges, true);
     }
 
     public void RevertAllAfter(DateTime utsTime)

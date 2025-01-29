@@ -16,7 +16,8 @@ namespace TestPens
         public static void Main(string[] args)
         {
             JsonOptions.Converters.Add(new JsonStringEnumConverter());
-            JsonOptions.Converters.Add(new ChangesConverter());
+            JsonOptions.Converters.Add(new ChangesDtoConverter());
+            JsonOptions.Converters.Add(new ChangesModelConverter());
 
             JsonOptions.AllowTrailingCommas = true;
             JsonOptions.PropertyNameCaseInsensitive = true;
@@ -38,7 +39,8 @@ namespace TestPens
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                    options.JsonSerializerOptions.Converters.Add(new ChangesConverter());
+                    options.JsonSerializerOptions.Converters.Add(new ChangesDtoConverter());
+                    options.JsonSerializerOptions.Converters.Add(new ChangesModelConverter());
                     options.JsonSerializerOptions.AllowTrailingCommas = true;
                     options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                 });

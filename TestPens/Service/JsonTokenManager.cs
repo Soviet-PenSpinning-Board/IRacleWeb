@@ -14,13 +14,7 @@ namespace TestPens.Service
         {
             _logger = logger;
 
-            string path = configuration.GetValue<string>("TokensPath")!;
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                _logger.LogError("Конфигурация пути файла токенов не задана! ('TokensPath')");
-                Tokens = new();
-                return;
-            }
+            string path = Path.Combine(configuration.GetValue<string>("ConfigPath")!, "tokens.json");
 
             if (!File.Exists(path))
             {

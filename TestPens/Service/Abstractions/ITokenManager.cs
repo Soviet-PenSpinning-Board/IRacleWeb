@@ -1,6 +1,4 @@
-﻿
-
-namespace TestPens.Service.Abstractions
+﻿namespace TestPens.Service.Abstractions
 {
     public interface ITokenManager
     {

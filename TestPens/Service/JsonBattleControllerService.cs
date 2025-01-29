@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text.Json;
 
 using TestPens.Models;
-using TestPens.Models.Abstractions;
-using TestPens.Models.Changes;
+using TestPens.Models.Dto;
+using TestPens.Models.Dto.Changes;
+using TestPens.Models.Real;
+using TestPens.Models.Real.Changes;
 using TestPens.Models.Simple;
 
 namespace TestPens.Service.Abstractions
@@ -18,14 +20,15 @@ namespace TestPens.Service.Abstractions
         private readonly IConfiguration configuration;
         private readonly IPersonContainerService personContainer;
 
-        private string BattlesPath => configuration.GetValue<string>("BattlesPath")
-                    ?? throw new NullReferenceException("Конфигурация BattlesPath не задана!");
+        private string BattlesPath { get; }
 
         public JsonBattleControllerService(ILogger<JsonBattleControllerService> logger, IConfiguration configuration, IPersonContainerService personContainer)
         {
             _logger = logger;
             this.configuration = configuration;
             this.personContainer = personContainer;
+
+            BattlesPath = Path.Combine(configuration.GetValue<string>("ConfigPath")!, "battles.json");
         }
 
         public void EnsureCachedBattles()
@@ -92,31 +95,37 @@ namespace TestPens.Service.Abstractions
         private void TryChangeBattlePositions(BattledPersonModel winner, BattledPersonModel loser)
         {
             TierListState head = personContainer.GetHead();
-            (_, ShortPositionModel winnerPos) = winner.GetActualProperties(head);
-            (_, ShortPositionModel loserPos) = loser.GetActualProperties(head);
+            (_, PositionModel winnerPos) = winner.GetActual(head);
+            (_, PositionModel loserPos) = loser.GetActual(head);
 
-            if (winnerPos == ShortPositionModel.Unknown || loserPos == ShortPositionModel.Unknown)
+            if (winnerPos == PositionModel.Unknown || loserPos == PositionModel.Unknown)
             {
                 _logger.LogError("Один из участников баттла между {nick1} ({guid1}) и {nick2} ({guid2}) имеет неопределенную позицию", winner.MainModel!.Nickname, winner.MainModel.Guid, loser.MainModel!.Nickname, loser.MainModel.Guid);
                 return;
             }
+
             if (winnerPos > loserPos)
             {
-                PositionChange change = new PositionChange
+                PositionChangeDto change = new PositionChangeDto
                 {
-                    NewPosition = loserPos,
-                    TargetPosition = winnerPos
+                    TargetPosition = winnerPos.ToForm(),
+                    NewPosition = loserPos.ToForm(),
                 };
+
                 personContainer.AddChanges([change]);
             }
         }
 
-        public Guid AddBattle(BattleModel battle)
+        public Guid AddBattle(BattleDto battle)
         {
             EnsureCachedBattles();
-            battle.Initialize(personContainer.GetHead());
+            BattleModel model = battle.CreateFrom(personContainer.GetHead());
+
+            if (model.Left.PreBattlePosition == PositionModel.Unknown || model.Left.PreBattlePosition == PositionModel.Unknown)
+                throw new InvalidOperationException($"Один/несколько из участников {battle.Left.Guid} и {battle.Right.Guid} не найден/найдены!");
+            
             Guid guid = Guid.NewGuid();
-            cachedBattles!.Add(guid, battle);
+            cachedBattles!.Add(guid, model);
 
             Save();
 
