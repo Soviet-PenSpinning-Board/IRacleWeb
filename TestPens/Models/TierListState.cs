@@ -74,7 +74,7 @@ namespace TestPens.Models
             Dictionary<Tier, List<PersonModel>> result = new(TierList.Count);
             foreach (var item in TierList)
             {
-                result.Add(item.Key, new(TierList[item.Key]));
+                result.Add(item.Key, new(TierList[item.Key].Select(a => a.Copy())));
             }
 
             return result;
