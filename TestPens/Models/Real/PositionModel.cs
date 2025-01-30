@@ -25,15 +25,6 @@ namespace TestPens.Models.Real
             return null;
         }
 
-        public PositionDto ToForm()
-        {
-            return new PositionDto
-            {
-                Tier = Tier,
-                TierPosition = TierPosition
-            };
-        }
-
         public static bool operator ==(PositionModel? left, PositionModel? right)
         {
             if (left is null || right is null)

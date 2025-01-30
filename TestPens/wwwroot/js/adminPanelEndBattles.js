@@ -1,5 +1,5 @@
 ﻿onOpenModal.attach('battleModal', function (sender, args) {
-    const guid = args[1].dataset.guid;
+    const guid = args[1].id;
     args[0].dataset.guid = guid;
     document.getElementsByClassName("left-win")[0].innerText = args[1].children[0].children[0].children[1].innerText;
     document.getElementsByClassName("right-win")[0].innerText = args[1].children[0].children[2].children[1].innerText;

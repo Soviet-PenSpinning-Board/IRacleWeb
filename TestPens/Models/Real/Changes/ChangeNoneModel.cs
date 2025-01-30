@@ -6,20 +6,10 @@ using TestPens.Service.Abstractions;
 
 namespace TestPens.Models.Real.Changes
 {
-    public class NoneChangeModel : ChangeBaseModel
+    public class ChangeNoneModel : ChangeBaseModel
     {
         public override ChangeType Type { get; set; } = ChangeType.None;
 
         public override void Apply(TierListState state, bool revert) { }
-
-        public override ChangeBaseDto ToForm()
-        {
-            return new NoneChangeDto
-            {
-                UtcTime = UtcTime,
-                TargetPerson = TargetPerson.ToForm(),
-                TargetPosition = TargetPosition.ToForm(),
-            };
-        }
     }
 }

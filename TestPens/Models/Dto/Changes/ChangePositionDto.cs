@@ -6,19 +6,19 @@ using TestPens.Service.Abstractions;
 
 namespace TestPens.Models.Dto.Changes
 {
-    public class PositionChangeDto : ChangeBaseDto
+    public class ChangePositionDto : ChangeBaseDto
     {
         public override ChangeType Type { get; set; } = ChangeType.ChangePosition;
 
         public PositionDto NewPosition { get; set; } = null!;
 
-        public override PositionChangeModel CreateFrom(TierListState head)
+        public override ChangePositionModel CreateFrom(TierListState head)
         {
             PositionModel position = TargetPosition.CreateFrom(head);
-            return new PositionChangeModel
+            return new ChangePositionModel
             {
                 UtcTime = DateTime.UtcNow,
-                TargetPerson = position.GetPerson(head)!,
+                TargetPerson = position.GetPerson(head)!.Copy(),
                 TargetPosition = position,
                 NewPosition = NewPosition.CreateFrom(head),
             };

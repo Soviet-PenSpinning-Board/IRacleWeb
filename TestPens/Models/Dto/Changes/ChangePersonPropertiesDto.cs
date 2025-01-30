@@ -10,19 +10,19 @@ using TestPens.Service.Abstractions;
 
 namespace TestPens.Models.Dto.Changes
 {
-    public class PersonPropertiesChangeDto : ChangeBaseDto
+    public class ChangePersonPropertiesDto : ChangeBaseDto
     {
         public override ChangeType Type { get; set; } = ChangeType.PersonProperties;
 
         public PersonDto NewProperties { get; set; } = null!;
 
-        public override PersonPropertiesChangeModel CreateFrom(TierListState head)
+        public override ChangePersonPropertiesModel CreateFrom(TierListState head)
         {
             PositionModel position = TargetPosition.CreateFrom(head);
-            return new PersonPropertiesChangeModel
+            return new ChangePersonPropertiesModel
             {
                 UtcTime = DateTime.UtcNow,
-                TargetPerson = position.GetPerson(head)!,
+                TargetPerson = position.GetPerson(head)!.Copy(),
                 TargetPosition = position,
                 NewProperties = NewProperties.CreateFrom(head),
             };

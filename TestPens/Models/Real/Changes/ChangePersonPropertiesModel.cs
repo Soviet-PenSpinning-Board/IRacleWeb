@@ -10,7 +10,7 @@ using TestPens.Service.Abstractions;
 
 namespace TestPens.Models.Real.Changes
 {
-    public class PersonPropertiesChangeModel : ChangeBaseModel
+    public class ChangePersonPropertiesModel : ChangeBaseModel
     {
         public override ChangeType Type { get; set; } = ChangeType.PersonProperties;
 
@@ -25,17 +25,6 @@ namespace TestPens.Models.Real.Changes
             person.AvatarUrl = toSet.AvatarUrl;
             person.InDrop = toSet.InDrop;
             person.VideoLink = toSet.VideoLink;
-        }
-
-        public override ChangeBaseDto ToForm()
-        {
-            return new PersonPropertiesChangeDto
-            {
-                UtcTime = UtcTime,
-                TargetPerson = TargetPerson.ToForm(),
-                TargetPosition = TargetPosition.ToForm(),
-                NewProperties = NewProperties.ToForm(),
-            };
         }
     }
 }

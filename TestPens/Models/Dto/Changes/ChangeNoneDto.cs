@@ -6,14 +6,14 @@ using TestPens.Service.Abstractions;
 
 namespace TestPens.Models.Dto.Changes
 {
-    public class NoneChangeDto : ChangeBaseDto
+    public class ChangeNoneDto : ChangeBaseDto
     {
         public override ChangeType Type { get; set; } = ChangeType.None;
 
         public override ChangeBaseModel CreateFrom(TierListState head)
         {
             PositionModel position = TargetPosition.CreateFrom(head);
-            return new NoneChangeModel
+            return new ChangeNoneModel
             {
                 UtcTime = DateTime.UtcNow,
                 TargetPerson = position.GetPerson(head)!,

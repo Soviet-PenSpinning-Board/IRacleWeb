@@ -1,5 +1,8 @@
 ﻿@model IReadOnlyDictionary<Tier, List<PersonModel>>
 
+
+<partial name="_TierListDataHelperPartial" model="@Model" />
+
 @foreach (var tierGroup in Model)
 {
     (string mainColor, string secColor) = tierGroup.Key.GetColors();
@@ -13,7 +16,7 @@
     <section class="players-group">
         @foreach (var item in tierGroup.Value)
         {
-            <div class="player-card" onclick="openModal('@item.VideoLink')">
+            <div class="player-card" onclick="openModal('@item.VideoLink', 'videoModal')">
                 <div class="card-content">
                     <div class="info">
                         <h3 data-drop="@item.InDrop">@($"{it}. {item.Nickname}")</h3>
@@ -28,21 +31,3 @@
         }
     </section>
 }
-
-<div class="modal" id="mainModal">
-    <div class="modal-content">
-        <iframe id="videoFrame" src="" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-</div>
-
-<script>
-    onOpenModal.attach('mainModal', function (sender,args) {
-        const iframe = document.getElementById("videoFrame");
-        iframe.src = args[1];
-    });
-
-    onCloseModal.attach('mainModal', function (sender,args) {
-        const iframe = document.getElementById("videoFrame");
-        iframe.src = '';
-    });
-</script>

@@ -5,10 +5,14 @@ document.querySelectorAll('.tier-people').forEach(tier => {
         animation: 150,
         onEnd: function (evt) {
             evt.item.classList.remove('dragging');
+
             const fromIndex = evt.oldIndex; // Элемент, который перетащили
             const fromTier = evt.from.dataset.tier; // Откуда перетащили
             const toTier = evt.to.dataset.tier; // Куда перетащили
             const toIndex = evt.newIndex; // Новая позиция элемента
+
+            if (fromIndex === toIndex && toTier === fromTier)
+                return;
 
             const obj = {
                 NewPosition: {
@@ -21,12 +25,8 @@ document.querySelectorAll('.tier-people').forEach(tier => {
                 },
             };
 
-            if (fromIndex === toIndex && toTier === fromTier)
-                return;
-
             changeCache.push(CreateChange(obj, "ChangePosition"));
 
-            evt.item.dataset.tier = toTier;
             evt.item.children[0].dataset.tier = toTier;
 
             evt.item.classList.add('modified');

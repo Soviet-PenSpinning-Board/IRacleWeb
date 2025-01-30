@@ -1,6 +1,7 @@
 ﻿onOpenModal.attach('mainModal', function (sender, args) {
-    args[0].dataset.personId = args[1].id;
-    const player = getPlayerObject(args[1].id);
+    let guid = args[1].id;
+    args[0].dataset.guid = guid;
+    const player = AllPersonByGuid.get(guid);
 
     args[0].firstElementChild.firstElementChild.lastElementChild.firstElementChild.src = player.AvatarUrl;
     document.getElementById("nickname").value = player.Nickname;
@@ -12,12 +13,11 @@
 function playerPropertiesUpdate() {
     const modal = document.getElementById('mainModal');
 
-    const id = modal.dataset.personId;
+    const guid = modal.dataset.guid;
 
-    const targetBlock = document.getElementById(id);
+    const targetBlock = document.getElementById(guid);
 
-    const tier = targetBlock.dataset.tier;
-    const index = $(`#${id}`).index();
+    const player = AllPersonByGuid.get(guid);
 
     const nickname = document.getElementById("nickname").value;
     const inDrop = document.getElementById("inDrop").checked;
@@ -29,19 +29,13 @@ function playerPropertiesUpdate() {
         return;
     }
 
-
-    const player = {
-        Nickname: nickname,
-        InDrop: inDrop,
-        VideoLink: videoLink,
-        AvatarUrl: avatarUrl,
-    }
+    player.Nickname = nickname;
+    player.InDrop = inDrop;
+    player.VideoLink = videoLink;
+    player.AvatarUrl = avatarUrl;
 
     const obj = {
-        TargetPosition: {
-            Tier: tier,
-            TierPosition: index,
-        },
+        TargetPosition: getIndexAndTier(guid),
         NewProperties: player,
     };
 
@@ -49,7 +43,7 @@ function playerPropertiesUpdate() {
 
     targetBlock.classList.add('modified');
 
-    setPlayerObject(id, player);
+    setPlayerObject(guid);
 
     closeModal();
 }

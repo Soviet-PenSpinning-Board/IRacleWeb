@@ -13,11 +13,6 @@ public class BattleModel : IModelObject<BattleDto>
     public BattledPersonModel Right { get; set; } = null!;
 
     public BattleResult Result { get; set; } = BattleResult.Unfinished;
-
-    public BattleDto ToForm()
-    {
-        throw new NotImplementedException();
-    }
 }
 
 public class BattledPersonModel : IModelObject<BattledPersonDto>
@@ -45,10 +40,5 @@ public class BattledPersonModel : IModelObject<BattledPersonDto>
         }
 
         return (null!, PositionModel.Unknown);
-    }
-
-    public BattledPersonDto ToForm()
-    {
-        throw new NotImplementedException();
     }
 }

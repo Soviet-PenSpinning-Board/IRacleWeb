@@ -106,10 +106,17 @@ namespace TestPens.Service.Abstractions
 
             if (winnerPos > loserPos)
             {
-                PositionChangeDto change = new PositionChangeDto
+                ChangePositionDto change = new ChangePositionDto
                 {
-                    TargetPosition = winnerPos.ToForm(),
-                    NewPosition = loserPos.ToForm(),
+                    TargetPosition = new PositionDto { 
+                        Tier = winnerPos.Tier,
+                        TierPosition = winnerPos.TierPosition 
+                    },
+                    NewPosition = new PositionDto
+                    {
+                        Tier = loserPos.Tier,
+                        TierPosition = loserPos.TierPosition
+                    },
                 };
 
                 personContainer.AddChanges([change]);

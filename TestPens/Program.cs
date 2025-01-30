@@ -1,7 +1,12 @@
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+using Microsoft.Extensions.Options;
+
 using TestPens.Extensions;
+using TestPens.Models.Dto.Changes;
+using TestPens.Models.Real.Changes;
 using TestPens.Service;
 using TestPens.Service.Abstractions;
 
@@ -33,6 +38,39 @@ namespace TestPens
 
             builder.Services.AddMarkdown();
 
+            if (builder.Environment.IsDevelopment())
+            {
+                builder.Services.AddEndpointsApiExplorer();
+                builder.Services.AddSwaggerGen(opt =>
+                {
+                    opt.UseOneOfForPolymorphism();
+                    opt.SelectDiscriminatorNameUsing(subType =>
+                    {
+                        if (!typeof(ChangeBaseDto).IsAssignableFrom(subType) && !typeof(ChangeBaseModel).IsAssignableFrom(subType))
+                        {
+                            return null;
+                        }
+
+                        return "type";
+                    });
+                    opt.SelectDiscriminatorValueUsing(subType =>
+                    {
+                        if (!typeof(ChangeBaseDto).IsAssignableFrom(subType) && !typeof(ChangeBaseModel).IsAssignableFrom(subType))
+                        {
+                            return null;
+                        }
+
+                        object obj = Activator.CreateInstance(subType)!;
+                        return subType.GetProperty("Type")!.GetValue(obj)!.ToString();
+                    });
+
+                    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    opt.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+                });
+
+
+            }
+
             // Add services to the container.
             builder.Services
                 .AddControllersWithViews()
@@ -46,6 +84,12 @@ namespace TestPens
                 });
 
             var app = builder.Build();
+
+            if (builder.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
             app.UseHttpsRedirection();
             app.UseMarkdown();

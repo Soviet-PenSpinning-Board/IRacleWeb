@@ -1,10 +1,10 @@
 ﻿onOpenModal.attach('mainModal', function (sender, args) {
-    const id = args[1].id;
-    args[0].dataset.personId = id;
-    const player = getPlayerObject(id);
+    const guid = args[1].id;
+    args[0].dataset.guid = guid;
+    const player = AllPersonByGuid.get(guid);
     args[0].firstElementChild.firstElementChild.lastElementChild.firstElementChild.src = player.AvatarUrl;
 
-    document.getElementById("startBattle").checked = battledPlayers.has(id);
+    document.getElementById("startBattle").checked = battledPlayers.has(guid);
 });
 
 if (typeof battledPlayers === 'undefined') {
@@ -13,17 +13,17 @@ if (typeof battledPlayers === 'undefined') {
 
 document.getElementById("startBattle").addEventListener('change', function () {
     const modal = document.getElementsByClassName("modal")[0];
-    const id = modal.dataset.personId;
-    if (this.checked && !battledPlayers.has(id)) {
+    const guid = modal.dataset.guid;
+    if (this.checked && !battledPlayers.has(guid)) {
         if (battledPlayers.size >= 2) {
             alert("Нельзя за 1 раз указать в параметры баттла больше двух человек!");
             this.checked = false;
             return;
         }
-        battledPlayers.add(id);
+        battledPlayers.add(guid);
     }
-    else if (!this.checked && battledPlayers.has(id)) {
-        battledPlayers.delete(id);
+    else if (!this.checked && battledPlayers.has(guid)) {
+        battledPlayers.delete(guid);
     }
 
     let elems = Array.from(document.getElementsByClassName("createBattleExample"));
@@ -31,8 +31,8 @@ document.getElementById("startBattle").addEventListener('change', function () {
     resetBattles(false);
 
     let i = 0;
-    battledPlayers.forEach(id => {
-        let playerObj = getFullPlayerObject(id);
+    battledPlayers.forEach(guid => {
+        let playerObj = AllPersonByGuid.get(guid);;
 
         // мда
         elems[i].children[0].children[0].src = playerObj.AvatarUrl;
@@ -72,8 +72,8 @@ resetBattles();
 
 function addBattleChange() {
     let arr = [];
-    battledPlayers.forEach(id => {
-        arr.push(getFullPlayerObject(id));
+    battledPlayers.forEach(guid => {
+        arr.push(guid);
     });
 
     let videos = document.getElementsByClassName('battle-link');
@@ -81,11 +81,11 @@ function addBattleChange() {
     let prop = {
         Left: {
             VideoUrl: videos[0].value,
-            Guid: arr[0].Guid,
+            Guid: arr[0],
         },
         Right: {
             VideoUrl: videos[1].value,
-            Guid: arr[1].Guid,
+            Guid: arr[1],
         },
     };
 

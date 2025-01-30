@@ -36,18 +36,6 @@ namespace TestPens.Models.Real
             return null;
         }
 
-        public PersonDto ToForm()
-        {
-            return new PersonDto
-            {
-                Guid = Guid,
-                Nickname = Nickname,
-                InDrop = InDrop,
-                VideoLink = VideoLink,
-                AvatarUrl = AvatarUrl,
-            };
-        }
-
         public PersonModel Copy()
         {
             return new PersonModel()

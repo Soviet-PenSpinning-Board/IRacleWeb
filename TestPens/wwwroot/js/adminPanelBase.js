@@ -65,34 +65,22 @@ function sendUpdates() {
     }
 }
 
-function getPlayerObject(id) {
-    let htmlDoc = document.getElementById(id);
-    return {
-        Nickname: htmlDoc.childNodes[2].nodeValue,
-        InDrop: htmlDoc.dataset.inactive === "True",
-        VideoLink: htmlDoc.dataset.video,
-        AvatarUrl: htmlDoc.dataset.avatar,
-    };
-}
-
-function getFullPlayerObject(id) {
-    let htmlDoc = document.getElementById(id);
-    return {
-        Guid: htmlDoc.dataset.guid,
-        Nickname: htmlDoc.childNodes[2].nodeValue,
-        InDrop: htmlDoc.dataset.inactive === "True",
-        VideoLink: htmlDoc.dataset.video,
-        AvatarUrl: htmlDoc.dataset.avatar,
-        Tier: htmlDoc.dataset.tier,
-        Index: $(`#${id}`).index(),
-    };
-}
-
-function setPlayerObject(id, playerData) {
-    let htmlDoc = document.getElementById(id);
+function setPlayerObject(guid) {
+    let htmlDoc = document.getElementById(guid);
+    let playerData = AllPersonByGuid.get(guid);
 
     htmlDoc.childNodes[2].nodeValue = playerData.Nickname;
     htmlDoc.dataset.inactive = playerData.InDrop ? "True" : "False";
-    htmlDoc.dataset.video = playerData.VideoLink;
-    htmlDoc.dataset.avatar = playerData.AvatarUrl;
+}
+
+function getIndexAndTier(guid) {
+    const targetBlock = document.getElementById(guid);
+
+    const tier = targetBlock.dataset.tier;
+    const index = $(`#${guid}`).index();
+
+    return {
+        Tier: tier,
+        TierPosition: index,
+    }
 }

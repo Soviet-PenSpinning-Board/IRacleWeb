@@ -10,7 +10,7 @@ using TestPens.Service.Abstractions;
 
 namespace TestPens.Models.Real.Changes
 {
-    public class GlobalPersonChangeModel : ChangeBaseModel
+    public class ChangeGlobalPersonModel : ChangeBaseModel
     {
         public override ChangeType Type { get; set; } = ChangeType.GlobalPerson;
 
@@ -24,17 +24,6 @@ namespace TestPens.Models.Real.Changes
                 tier.Insert(TargetPosition.TierPosition, TargetPerson.Copy());
             else
                 tier.RemoveAt(TargetPosition.TierPosition);
-        }
-
-        public override ChangeBaseDto ToForm()
-        {
-            return new GlobalPersonChangeDto
-            {
-                UtcTime = UtcTime,
-                TargetPerson = TargetPerson.ToForm(),
-                TargetPosition = TargetPosition.ToForm(),
-                IsNew = IsNew,
-            };
         }
     }
 }

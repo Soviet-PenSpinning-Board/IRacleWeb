@@ -11,18 +11,18 @@
 
     public class ChangesDtoConverter : JsonConverter<ChangeBaseDto>
     {
-        private readonly Dictionary<ChangeType, Type> types = new Dictionary<ChangeType, Type>
+        private static readonly Dictionary<ChangeType, Type> types = new Dictionary<ChangeType, Type>
         {
-            { ChangeType.None, typeof(NoneChangeDto) },
-            { ChangeType.ChangePosition, typeof(PositionChangeDto) },
-            { ChangeType.GlobalPerson, typeof(GlobalPersonChangeDto) },
-            { ChangeType.PersonProperties, typeof(PersonPropertiesChangeDto) },
+            { ChangeType.None, typeof(ChangeNoneDto) },
+            { ChangeType.ChangePosition, typeof(ChangePositionDto) },
+            { ChangeType.GlobalPerson, typeof(ChangeGlobalPersonDto) },
+            { ChangeType.PersonProperties, typeof(ChangePersonPropertiesDto) },
         };
 
         public override ChangeBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             Utf8JsonReader oldReader = reader;
-            NoneChangeDto message = JsonSerializer.Deserialize<NoneChangeDto>(ref reader, options)!;
+            ChangeNoneDto message = JsonSerializer.Deserialize<ChangeNoneDto>(ref reader, options)!;
             if (!types.TryGetValue(message.Type, out Type? type))
             {
                 return message;
@@ -35,7 +35,7 @@
         {
             if (!types.TryGetValue(value.Type, out Type? type))
             {
-                type = typeof(NoneChangeDto);
+                type = typeof(ChangeNoneDto);
             }
 
             JsonSerializer.Serialize(writer, value, type, options);
@@ -44,18 +44,18 @@
 
     public class ChangesModelConverter : JsonConverter<ChangeBaseModel>
     {
-        private readonly Dictionary<ChangeType, Type> types = new Dictionary<ChangeType, Type>
+        private static Dictionary<ChangeType, Type> types = new Dictionary<ChangeType, Type>
         {
-            { ChangeType.None, typeof(NoneChangeModel) },
-            { ChangeType.ChangePosition, typeof(PositionChangeModel) },
-            { ChangeType.GlobalPerson, typeof(GlobalPersonChangeModel) },
-            { ChangeType.PersonProperties, typeof(PersonPropertiesChangeModel) },
+            { ChangeType.None, typeof(ChangeNoneModel) },
+            { ChangeType.ChangePosition, typeof(ChangePositionModel) },
+            { ChangeType.GlobalPerson, typeof(ChangeGlobalPersonModel) },
+            { ChangeType.PersonProperties, typeof(ChangePersonPropertiesModel) },
         };
 
         public override ChangeBaseModel? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             Utf8JsonReader oldReader = reader;
-            NoneChangeModel message = JsonSerializer.Deserialize<NoneChangeModel>(ref reader, options)!;
+            ChangeNoneModel message = JsonSerializer.Deserialize<ChangeNoneModel>(ref reader, options)!;
             if (!types.TryGetValue(message.Type, out Type? type))
             {
                 return message;
@@ -68,7 +68,7 @@
         {
             if (!types.TryGetValue(value.Type, out Type? type))
             {
-                type = typeof(NoneChangeModel);
+                type = typeof(ChangeNoneModel);
             }
 
             JsonSerializer.Serialize(writer, value, type, options);

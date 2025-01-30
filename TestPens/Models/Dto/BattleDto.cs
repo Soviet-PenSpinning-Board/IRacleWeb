@@ -27,8 +27,6 @@ public class BattleDto : IDtoObject<BattleModel>
 public class BattledPersonDto : IDtoObject<BattledPersonModel>
 {
     public Guid Guid { get; set; }
-    public PersonModel? MainModel { get; set; } = null!;
-    public PositionModel? PreBattlePosition { get; set; } = null!;
     public string? VideoUrl { get; set; }
 
     public BattledPersonModel CreateFrom(TierListState head)

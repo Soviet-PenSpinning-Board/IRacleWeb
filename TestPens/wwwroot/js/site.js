@@ -25,10 +25,21 @@ function alertModal(text) {
 
 function initModals() {
     onOpenModal = new ModalEvent(this);
+    onCloseModal = new ModalEvent(this);
+
     onOpenModal.attach('alertModal', (sender, args) => {
         args[0].firstElementChild.firstElementChild.innerText = args[1];
     })
-    onCloseModal = new ModalEvent(this);
+
+    onOpenModal.attach('videoModal', function (sender, args) {
+        const iframe = document.getElementById("videoFrame");
+        iframe.src = args[1];
+    });
+
+    onCloseModal.attach('videoModal', function (sender, args) {
+        const iframe = document.getElementById("videoFrame");
+        iframe.src = '';
+    });
 }
 
 initModals();

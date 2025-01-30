@@ -1,5 +1,8 @@
 ﻿
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
+
+using Swashbuckle.AspNetCore.Annotations;
 
 using TestPens.Models.Real;
 using TestPens.Models.Real.Changes;
@@ -10,11 +13,7 @@ namespace TestPens.Models.Dto.Changes
 {
     public abstract class ChangeBaseDto : IDtoObject<ChangeBaseModel>
     {
-        public DateTime UtcTime { get; set; }
-
         public abstract ChangeType Type { get; set; }
-
-        public PersonDto? TargetPerson { get; set; }
 
         public PositionDto TargetPosition { get; set; } = null!;
 

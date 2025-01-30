@@ -10,9 +10,11 @@ using TestPens.Service.Abstractions;
 
 namespace TestPens.Models.Dto.Changes
 {
-    public class GlobalPersonChangeDto : ChangeBaseDto
+    public class ChangeGlobalPersonDto : ChangeBaseDto
     {
         public override ChangeType Type { get; set; } = ChangeType.GlobalPerson;
+
+        public PersonDto? NewPerson { get; set; }
 
         public bool IsNew { get; set; }
 
@@ -21,9 +23,9 @@ namespace TestPens.Models.Dto.Changes
             if (!IsNew)
                 return base.Validate(head, out reason);
 
-            if (TargetPerson == null)
+            if (NewPerson == null)
             {
-                reason = "$\"TargetPerson\" указан неправильно!";
+                reason = "$\"NewPerson\" указан неправильно!";
                 return false;
             }
 
@@ -42,16 +44,16 @@ namespace TestPens.Models.Dto.Changes
                     Tier = Tier.E,
                     TierPosition = head.TierList[Tier.E].Count,
                 };
-                person = TargetPerson!.CreateFrom(head);
+                person = NewPerson!.CreateFrom(head)!;
                 person.Guid = Guid.NewGuid();
             }
             else
             {
                 position = TargetPosition.CreateFrom(head);
-                person = position.GetPerson(head)!;
+                person = position.GetPerson(head)!.Copy();
             }
 
-            return new GlobalPersonChangeModel
+            return new ChangeGlobalPersonModel
             {
                 UtcTime = DateTime.UtcNow,
                 TargetPerson = person,

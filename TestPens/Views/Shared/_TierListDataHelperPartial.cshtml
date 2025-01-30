@@ -1,0 +1,26 @@
+﻿@model IDictionary<Tier, List<PersonModel>>
+
+<script>
+    if (typeof AllPersonByGuid === 'undefined') {
+        var AllPersonByGuid = new Map();
+    }
+    AllPersonByGuid.clear();
+</script>
+
+@foreach (var tierGroup in Model)
+{
+    int index = 0;
+    @foreach (var person in tierGroup.Value)
+    {
+        <script>
+            AllPersonByGuid.set('@person.Guid', {
+                Guid: '@person.Guid',
+                Nickname: '@person.Nickname',
+                InDrop: @(person.InDrop ? "true" : "false"),
+                VideoLink: '@person.VideoLink',
+                AvatarUrl: '@person.AvatarUrl',
+            });
+        </script>
+        index++;
+    }
+}

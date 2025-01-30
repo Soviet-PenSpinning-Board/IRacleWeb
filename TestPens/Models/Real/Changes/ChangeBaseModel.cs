@@ -1,6 +1,8 @@
 ﻿
 using System.Text.Json.Serialization;
 
+using Swashbuckle.AspNetCore.Annotations;
+
 using TestPens.Models.Dto.Changes;
 using TestPens.Models.Simple;
 using TestPens.Service.Abstractions;
@@ -20,7 +22,5 @@ namespace TestPens.Models.Real.Changes
         public virtual bool IsAffective() => true;
 
         public abstract void Apply(TierListState state, bool revert);
-
-        public abstract ChangeBaseDto ToForm();
     }
 }

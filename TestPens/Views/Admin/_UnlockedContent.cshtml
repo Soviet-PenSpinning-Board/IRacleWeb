@@ -3,7 +3,7 @@
 
 @if (Model.Item1.HasFlag(Permissions.ChangeProperties) || Model.Item1.HasFlag(Permissions.ChangePositions) || Model.Item1.HasFlag(Permissions.StartBattles))
 {
-    int id = 0;
+    <partial name="_TierListDataHelperPartial" model="@Model.Item2" />
 
     <h2>Редактируемый тирлист:</h2>
 
@@ -21,10 +21,9 @@
                         int it = 1;
                         foreach (var person in tierGroup.Value)
                         {
-                            <li id="uid-@id" class="tier-person" data-guid="@person.Guid" data-inactive="@person.InDrop" data-tier="@tierGroup.Key" data-video="@person.VideoLink" data-avatar="@person.AvatarUrl" onclick="openModal(this)">
+                            <li id="@person.Guid" class="tier-person" data-inactive="@person.InDrop" onclick="openModal(this)">
                                 <span class="tier-circle" tier-background-gradient data-tier="@tierGroup.Key"></span>@person.Nickname</li>
                             it++;
-                            id++;
                         }
                     }
                 </ul>

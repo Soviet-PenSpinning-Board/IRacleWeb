@@ -23,7 +23,17 @@ namespace TestPens.Controllers.Api
             _tokenManager = tokenManager;
         }
 
+        /// <summary>
+        /// Возвращает коллекцию битв исходя из параметров.
+        /// </summary>
+        /// <param name="offset">Оффсет от 0 для сдвига.</param>
+        /// <param name="limit">Лимит возвращаемых объектов.</param>
+        /// <returns>Словарь, ключ - <see cref="Guid"/> значение - <see cref="BattleModel"/>.</returns>
+        /// <response code="200">Возвращает коллекцию битв.</response>
+        /// <response code="400">При прочих проблемах с запросом.</response>
         [HttpGet("getunactive")]
+        [ProducesResponseType<IReadOnlyDictionary<Guid, BattleModel>>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetAllBattles(int offset = 0, int limit = 100)
         {
             try
@@ -33,11 +43,19 @@ namespace TestPens.Controllers.Api
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Ошибка: ");
-                return Problem(ex.ToString());
+                return BadRequest(ex.ToString());
             }
         }
 
+        /// <summary>
+        /// Возвращает коллекцию только активных битв.
+        /// </summary>
+        /// <returns>Словарь, ключ - <see cref="Guid"/> значение - <see cref="BattleModel"/>.</returns>
+        /// <response code="200">Возвращает коллекцию активных битв.</response>
+        /// <response code="400">При прочих проблемах с запросом.</response>
         [HttpGet("getactive")]
+        [ProducesResponseType<IReadOnlyDictionary<Guid, BattleModel>>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetActiveBattles()
         {
             try
@@ -47,11 +65,24 @@ namespace TestPens.Controllers.Api
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Ошибка: ");
-                return Problem(ex.ToString());
+                return BadRequest(ex.ToString());
             }
         }
 
+        /// <summary>
+        /// Создает битву, из <see cref="BattleDto"/>.
+        /// Требует авторизации.
+        /// </summary>
+        /// <param name="token">Токен авторизации.</param>
+        /// <param name="battle">Объект <see cref="BattleDto"/> для создания битвы.</param>
+        /// <returns><see cref="Guid"/> созданной битвы.</returns>
+        /// <response code="200">Возвращает <see cref="Guid"/> созданной битвы.</response>
+        /// <response code="400">При прочих проблемах с запросом.</response>
+        /// <response code="401">При недостатке прав токена.</response>
         [HttpPost("add")]
+        [ProducesResponseType<Guid>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult CreateBattle(string token, [FromBody] BattleDto battle)
         {
             if (!CheckPermissions(token, Permissions.StartBattles))
@@ -66,11 +97,28 @@ namespace TestPens.Controllers.Api
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Ошибка: ");
-                return Problem(ex.ToString());
+                return BadRequest(ex.ToString());
             }
         }
 
+        /// <summary>
+        /// Обновляет результат битв.
+        /// Требует авторизации.
+        /// </summary>
+        /// <param name="token">Токен авторизации.</param>
+        /// <param name="guid"><see cref="Guid"/> битвы который надо поменять.</param>
+        /// <param name="result">новый <see cref="BattleResult"/> битвы.</param>
+        /// <param name="positionChange">Нужно ли менять позицию людей при каких-либо возможных изменениях.</param>
+        /// <returns>Пустой статус код.</returns>
+        /// <response code="200">Результат поменялся.</response>
+        /// <response code="404">Битва не найдена.</response>
+        /// <response code="400">При прочих проблемах с запросом.</response>
+        /// <response code="401">При недостатке прав токена.</response>
         [HttpPut("update")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult UpdateResult(string token, Guid guid, BattleResult result, bool positionChange = true)
         {
             if (!CheckPermissions(token, Permissions.EndBattles))
@@ -92,7 +140,7 @@ namespace TestPens.Controllers.Api
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Ошибка: ");
-                return Problem(ex.ToString());
+                return BadRequest(ex.ToString());
             }
         }
 

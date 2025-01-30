@@ -1,0 +1,43 @@
+﻿.modal-content {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
+}
+
+.modal-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 30%;
+}
+
+.modal-avatar {
+    flex-shrink: 0;
+    /*margin-left: 20px;*/
+    border-radius: 50%;
+    overflow: hidden;
+    width: 100px;
+    height: 100px;
+    box-shadow: 0 4px 6px var(--card-shadow);
+    border: 3px solid var(--outline-color);
+}
+
+    .modal-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+
+.modal-info {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.modal-right {
+    flex: 1;
+    font-size: 18px;
+    line-height: 1.6;
+}

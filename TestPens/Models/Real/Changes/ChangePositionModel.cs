@@ -6,7 +6,7 @@ using TestPens.Service.Abstractions;
 
 namespace TestPens.Models.Real.Changes
 {
-    public class PositionChangeModel : ChangeBaseModel
+    public class ChangePositionModel : ChangeBaseModel
     {
         public override ChangeType Type { get; set; } = ChangeType.ChangePosition;
 
@@ -28,17 +28,6 @@ namespace TestPens.Models.Real.Changes
             oldTier.RemoveAt(oldPosition.TierPosition);
 
             newTier.Insert(newPosition.TierPosition, personModel);
-        }
-
-        public override ChangeBaseDto ToForm()
-        {
-            return new PositionChangeDto
-            {
-                UtcTime = UtcTime,
-                TargetPerson = TargetPerson.ToForm(),
-                TargetPosition = TargetPosition.ToForm(),
-                NewPosition = NewPosition.ToForm(),
-            };
         }
     }
 }

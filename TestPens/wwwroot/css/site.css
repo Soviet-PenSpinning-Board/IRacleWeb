@@ -164,17 +164,6 @@ main {
     align-items: center;
 }
 
-#alertModal {
-    align-items: flex-start;
-}
-
-    #alertModal .modal-content {
-        padding: 10px;
-        height: 40%;
-        width: 40%;
-        display: flex;
-        justify-content: center;
-    }
 
 .modal-content {
     position: relative;
@@ -187,6 +176,24 @@ main {
     overflow: hidden;
     animation: fadeIn 0.3s ease-in-out;
 }
+
+#videoModal iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    display: block;
+}
+
+#alertModal {
+    align-items: flex-start;
+}
+
+    #alertModal .modal-content {
+        padding: 10px;
+        height: 40%;
+        width: 40%;
+        display: flex;
+        justify-content: center;
+    }
 
 button {
     margin-top: 20px;
