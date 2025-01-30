@@ -76,7 +76,7 @@ function setPlayerObject(guid) {
 function getIndexAndTier(guid) {
     const targetBlock = document.getElementById(guid);
 
-    const tier = targetBlock.dataset.tier;
+    const tier = targetBlock.parentElement.dataset.tier;
     const index = $(`#${guid}`).index();
 
     return {

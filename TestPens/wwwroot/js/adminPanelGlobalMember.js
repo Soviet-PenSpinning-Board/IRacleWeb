@@ -9,7 +9,7 @@
     }
 
     changeCache.push(CreateChange({
-        TargetPerson: {
+        NewPerson: {
             Nickname: nickname,
             VideoLink: videoLink,
             AvatarUrl: avatarUrl,
