@@ -14,7 +14,7 @@
             VideoLink: videoLink,
             AvatarUrl: avatarUrl,
             InDrop: false,
-            Desctiption: "",
+            Description: "",
         },
         TargetPosition: {
             Tier: "E",
