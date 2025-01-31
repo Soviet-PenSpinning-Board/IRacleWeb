@@ -32,11 +32,11 @@ document.getElementById("startBattle").addEventListener('change', function () {
 
     let i = 0;
     battledPlayers.forEach(guid => {
-        let playerObj = AllPersonByGuid.get(guid);;
+        let playerObj = AllPersonByGuid.get(guid);
 
         // мда
         elems[i].children[0].children[0].src = playerObj.AvatarUrl;
-        elems[i].children[1].firstChild.dataset.tier = playerObj.Tier;
+        elems[i].children[1].firstChild.dataset.tier = getIndexAndTier(guid).Tier;
         elems[i].children[1].childNodes[1].textContent = playerObj.Nickname;
         i++;
     });

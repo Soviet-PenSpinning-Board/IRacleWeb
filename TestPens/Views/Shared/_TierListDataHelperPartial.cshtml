@@ -1,26 +1,17 @@
-﻿@model IDictionary<Tier, List<PersonModel>>
+﻿@using System.Text.Json;
+@model IDictionary<Tier, List<PersonModel>>
 
 <script>
     if (typeof AllPersonByGuid === 'undefined') {
         var AllPersonByGuid = new Map();
     }
     AllPersonByGuid.clear();
-</script>
 
-@foreach (var tierGroup in Model)
-{
-    int index = 0;
-    @foreach (var person in tierGroup.Value)
-    {
-        <script>
-            AllPersonByGuid.set('@person.Guid', {
-                Guid: '@person.Guid',
-                Nickname: '@person.Nickname',
-                InDrop: @(person.InDrop ? "true" : "false"),
-                VideoLink: '@person.VideoLink',
-                AvatarUrl: '@person.AvatarUrl',
-            });
-        </script>
-        index++;
+    var data = @Html.Raw(JsonSerializer.Serialize(Model));
+
+    for (const [tier, persons] of Object.entries(data)) {
+        for (const person of persons) {
+            AllPersonByGuid.set(person.Guid, person);
+        }
     }
-}
+</script>

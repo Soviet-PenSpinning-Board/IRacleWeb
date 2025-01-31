@@ -2,12 +2,12 @@
     <div class="modal-content">
         <div class="modal-left">
             <div class="modal-avatar">
-                <img src="" alt="" />
+                <img src="/avatars/Art.png" alt="Art" />
             </div>
             <div class="modal-info">
                 <p>Никнейм: Иван</p>
-                <p>В дропе: 25</p>
-                <button id="submitButton">Открыть видео</button>
+                <p>В дропе</p>
+                <button id="videoOpenButton">Видео</button>
             </div>
         </div>
         <div class="modal-right">
@@ -18,3 +18,34 @@
         </div>
     </div>
 </div>
+
+<script>
+    function openModalPerson(obj) {
+        let guid = obj.id;
+        let person = AllPersonByGuid.get(guid);
+        console.log(person);
+        if (!person.Description)
+            openModal(person.VideoLink, 'videoModal');
+        else
+            openModal(person, 'mainModal');
+    }
+
+    onOpenModal.attach('mainModal', function (sender, args) {
+        let player = args[1];
+
+        const avatarImg = args[0].firstElementChild.firstElementChild.firstElementChild.firstElementChild;
+        avatarImg.src = player.AvatarUrl;
+        avatarImg.alt = player.Nickname;
+
+        const infoArea = args[0].firstElementChild.firstElementChild.lastElementChild;
+        infoArea.children[0].textContent = `Никнейм: ${player.Nickname}`;
+        infoArea.children[1].textContent = player.InDrop ? 'В дропе' : '';
+        infoArea.children[2].onclick = function() {
+            openModal(player.VideoLink, 'videoModal');
+        }
+
+        const longText = args[0].firstElementChild.lastElementChild.firstElementChild;
+        longText.textContent = player.Description;
+    });
+</script>
+

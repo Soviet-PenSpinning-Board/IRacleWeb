@@ -9,6 +9,7 @@ namespace TestPens.Models.Real;
 
 public class BattleModel : IModelObject<BattleDto>
 {
+    public DateTime UtcTime { get; set; }
     public BattledPersonModel Left { get; set; } = null!;
     public BattledPersonModel Right { get; set; } = null!;
 

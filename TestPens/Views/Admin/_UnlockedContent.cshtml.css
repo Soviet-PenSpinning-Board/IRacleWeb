@@ -7,7 +7,7 @@
     box-shadow: 0 4px 6px var(--card-shadow);
 
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* иди нахуй 2 */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     margin-bottom: 40px;
     box-sizing: border-box;
@@ -63,14 +63,12 @@
         cursor: grabbing;
     }
 
-        /* Отключение hover для перетаскиваемого элемента */
         .tier-person.dragging:hover {
             background-color: initial;
             border: none;
             cursor: grabbing;
         }
 
-    /* Для всех остальных элементов hover работает нормально */
     .tier-person:hover {
         background-color: var(--background-color);
         cursor: pointer;
@@ -96,17 +94,17 @@
     }
 
 .modal-content {
-    width: 400px; /* Ширина модального окна */
+    width: 400px;
     padding: 20px;
     display: flex;
-    flex-direction: column; /* Вертикальное расположение элементов */
-    gap: 15px; /* Расстояние между элементами */
+    flex-direction: column;
+    gap: 15px;
 }
 
 .modal-header {
     display: flex;
-    justify-content: space-between; /* Разместить текст и аватарку по краям */
-    align-items: center; /* Выравнивание по вертикали */
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
 }
 

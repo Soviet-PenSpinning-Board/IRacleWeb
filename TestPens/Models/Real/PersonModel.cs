@@ -16,6 +16,8 @@ namespace TestPens.Models.Real
 
         public string AvatarUrl { get; set; } = null!;
 
+        public string Description { get; set; } = null!;
+
         public PositionModel? GetPosition(TierListState head)
         {
             foreach (var tierGroup in head.TierList)
@@ -45,6 +47,7 @@ namespace TestPens.Models.Real
                 InDrop = InDrop,
                 VideoLink = VideoLink,
                 AvatarUrl = AvatarUrl,
+                Description = Description,
             };
         }
 
@@ -54,11 +57,13 @@ namespace TestPens.Models.Real
             {
                 return ReferenceEquals(left, left);
             }
+
             return left.Guid == right.Guid &&
                 left.Nickname == right.Nickname &&
                 left.InDrop == right.InDrop &&
                 left.VideoLink == right.VideoLink &&
-                left.AvatarUrl == right.AvatarUrl;
+                left.AvatarUrl == right.AvatarUrl &&
+                left.Description == right.Description;
         }
 
         public static bool operator !=(PersonModel? left, PersonModel? right)
@@ -83,7 +88,7 @@ namespace TestPens.Models.Real
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Guid, Nickname, InDrop, VideoLink, AvatarUrl);
+            return HashCode.Combine(Guid, Nickname, InDrop, VideoLink, AvatarUrl, Description);
         }
     }
 }

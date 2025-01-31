@@ -15,6 +15,8 @@ namespace TestPens.Models.Dto
 
         public string AvatarUrl { get; set; } = null!;
 
+        public string Description { get; set; } = null!;
+
         public PersonModel CreateFrom(TierListState head)
         {
             return new PersonModel()
@@ -22,8 +24,9 @@ namespace TestPens.Models.Dto
                 Guid = Guid,
                 Nickname = Nickname.Trim(),
                 InDrop = InDrop,
-                VideoLink = VideoLink.TransformToIframeUrl(),
-                AvatarUrl = AvatarUrl,
+                VideoLink = VideoLink.Trim().TransformToIframeUrl(),
+                AvatarUrl = AvatarUrl.Trim(),
+                Description = Description.Trim(),
             };
         }
     }

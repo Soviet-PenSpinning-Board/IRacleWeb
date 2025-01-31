@@ -16,7 +16,7 @@
     <section class="players-group">
         @foreach (var item in tierGroup.Value)
         {
-            <div class="player-card" onclick="openModal('@item.VideoLink', 'videoModal')">
+            <div id="@item.Guid" class="player-card" onclick="openModalPerson(this)">
                 <div class="card-content">
                     <div class="info">
                         <h3 data-drop="@item.InDrop">@($"{it}. {item.Nickname}")</h3>
@@ -31,3 +31,5 @@
         }
     </section>
 }
+
+<partial name="_MainTierListModalPartial" />

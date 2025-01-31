@@ -1,15 +1,16 @@
-﻿.modal-content {
+﻿#mainModal .modal-content {
     display: flex;
     flex-direction: row;
     gap: 20px;
     padding: 20px;
+    width: auto;
+    max-width: 60%;
 }
 
 .modal-left {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 30%;
 }
 
 .modal-avatar {
@@ -30,10 +31,8 @@
         display: block;
     }
 
-
-.modal-info {
-    font-size: 14px;
-    line-height: 1.5;
+#videoOpenButton {
+    width: 100%;
 }
 
 .modal-right {

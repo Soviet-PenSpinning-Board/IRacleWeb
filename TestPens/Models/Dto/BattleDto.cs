@@ -20,6 +20,7 @@ public class BattleDto : IDtoObject<BattleModel>
             Left = Left.CreateFrom(head),
             Right = Right.CreateFrom(head),
             Result = Result,
+            UtcTime = DateTime.UtcNow
         };
     }
 }
