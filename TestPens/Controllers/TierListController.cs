@@ -38,7 +38,7 @@ namespace TestPens.Controllers
         [HttpPost]
         public IActionResult TimeMachineMain(DateTime dateTime)
         {
-            return PartialView("_MainTierListPartial", containerService.RevertAllAfterNode(dateTime).TierList);
+            return PartialView("TierList/_MainTierListPartial", containerService.RevertAllAfterNode(dateTime).TierList);
         }
     }
 }
