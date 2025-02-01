@@ -85,15 +85,15 @@ namespace TestPens
 
             var app = builder.Build();
 
+            app.UseHttpsRedirection();
+            app.UseMarkdown();
+            app.UseStaticFiles();
+
             if (builder.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            app.UseHttpsRedirection();
-            app.UseMarkdown();
-            app.UseStaticFiles();
 
             app.UseRouting();
 

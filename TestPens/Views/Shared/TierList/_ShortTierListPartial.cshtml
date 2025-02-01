@@ -1,0 +1,25 @@
+﻿@model IReadOnlyDictionary<Tier, List<PersonModel>>
+
+<section class="editable-tierlist">
+    @foreach (var tierGroup in Model)
+    {
+        (string mainColor, string secColor) = tierGroup.Key.GetColors();
+        <section class="tier-block">
+            <h2 class="tier-title" tier-background-gradient data-tier="@tierGroup.Key">
+                @tierGroup.Key.GetName() Tier
+            </h2>
+            <div class="tier-people" data-tier="@tierGroup.Key">
+                @{
+                    int it = 1;
+                    foreach (var person in tierGroup.Value)
+                    {
+                        <div id="@person.Guid" class="tier-person" data-inactive="@person.InDrop" onclick="openModalPerson(this)">
+                            <span class="tier-circle" tier-background-gradient data-tier="@tierGroup.Key"></span>@person.Nickname
+                        </div>
+                        it++;
+                    }
+                }
+            </div>
+        </section>
+    }
+</section>

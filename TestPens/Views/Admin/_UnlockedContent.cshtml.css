@@ -35,7 +35,9 @@
 }
 
 .tier-people {
-    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     padding: 0;
     margin: 0;
 }
@@ -45,11 +47,11 @@
     align-items: center;
     font-size: 16px;
     padding: 10px;
-    margin: 5px 0;
     border: 1px solid var(--outline-color);
     border-radius: 5px;
     background-color: var(--white-bg);
     transition: background-color 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
 }
 
     .tier-person[data-inactive="True"] {

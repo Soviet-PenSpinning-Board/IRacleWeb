@@ -25,6 +25,11 @@ namespace TestPens.Controllers
             return View(containerService.GetHead().TierList);
         }
 
+        public IActionResult Short()
+        {
+            return View(containerService.GetHead().TierList);
+        }
+
         public IActionResult TimeMachine()
         {
             return View();

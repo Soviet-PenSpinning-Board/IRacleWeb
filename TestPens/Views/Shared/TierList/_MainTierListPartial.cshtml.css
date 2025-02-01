@@ -7,7 +7,7 @@
     box-sizing: border-box;
 }
 
-.player-card {
+.tier-person {
     background: var(--white-bg);
     border-radius: 10px;
     padding: 20px;
@@ -18,7 +18,7 @@
     outline: 3px solid var(--outline-color);
 }
 
-    .player-card .tier {
+    .tier-person .tier {
         display: inline-block;
         padding: 10px 20px;
         border-radius: 20px;
@@ -31,12 +31,12 @@
         text-align: center;
     }
 
-    .player-card h3[data-drop="True"] {
+    .tier-person h3[data-drop="True"] {
         font-style: italic;
         font-weight: 400;
     }
 
-    .player-card:hover {
+    .tier-person:hover {
         transform: translateY(-10px);
         box-shadow: 0 10px 20px var(--card-shadow);
     }
