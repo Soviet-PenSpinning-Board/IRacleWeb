@@ -8,6 +8,14 @@
     <h2>Редактируемый тирлист:</h2>
 
     <partial name="TierList/_ShortTierListPartial" model="@Model.Item2" />
+
+    <script>
+        Array.from(document.getElementsByClassName("tier-person")).forEach(elem => {
+            elem.addEventListener("click", (e) => {
+                openModal(e.currentTarget);
+            });
+        });
+    </script>
 }
 
 @if (Model.Item1.HasFlag(Permissions.GlobalMember))
@@ -72,13 +80,6 @@
 @{
     if (Model.Item1.HasFlag(Permissions.MembersEdit) || Model.Item1.HasFlag(Permissions.StartBattles))
     {
-        <script>
-            Array.from(document.getElementsByClassName("tier-person")).forEach(elem => {
-                elem.addEventListener("click", (e) => {
-                    openModal(e.currentTarget);
-                });
-            });
-        </script>
         <div class="modal" id="mainModal">
             <div class="modal-content">
                 <div class="modal-header">
