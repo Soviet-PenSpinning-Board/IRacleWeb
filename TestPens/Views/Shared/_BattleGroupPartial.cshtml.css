@@ -6,7 +6,7 @@
     box-sizing: border-box;
 }
 
-battle-header {
+.battle-header {
     display: flex;
     justify-content: flex-end;
     padding-bottom: 10px;
@@ -42,6 +42,10 @@ battle-header {
     flex: 1;
     cursor: pointer;
 }
+    .participant h3
+    {
+        margin: 0px;
+    }
 
     .participant .avatarBattle {
         margin: 0 auto 10px;

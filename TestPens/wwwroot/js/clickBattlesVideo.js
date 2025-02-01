@@ -12,4 +12,4 @@
             iframe.style.display = '';
         }
     })
-})
+});
