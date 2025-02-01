@@ -1,9 +1,12 @@
-﻿@model (IReadOnlyDictionary<Guid, BattleModel>, bool)
+﻿@model IReadOnlyDictionary<Guid, BattleModel>
 
 <section class="battles-group">
-    @foreach (var battle in Model.Item1)
+    @foreach (var battle in Model)
     {
         <div class="battle-card" data-guid="@battle.Key" data-result="@battle.Value.Result">
+            <div class="battle-header">
+                <span class="battle-start-time">@battle.Value.UtcTime.ToString("dd MMM yyyy, HH:mm")</span>
+            </div>
             <div class="battle-content">
                 <div class="participant left" data-video="@(battle.Value.Left.VideoUrl ?? battle.Value.Left.MainModel!.VideoLink)">
                     <div class="avatarBattle">

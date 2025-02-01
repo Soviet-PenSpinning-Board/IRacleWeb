@@ -5,8 +5,7 @@ const changeCache = [];
 function CreateChange(properties, type) {
     return {
         ...properties,
-        Type: type,
-        UtcNow: new Date().getTime()
+        Type: type
     };
 }
 

@@ -7,28 +7,7 @@
 
     <h2>Редактируемый тирлист:</h2>
 
-    <section class="editable-tierlist">
-        @foreach (var tierGroup in Model.Item2)
-        {
-            (string mainColor, string secColor) = tierGroup.Key.GetColors();
-            <section class="tier-block">
-                <h2 class="tier-title" tier-background-gradient data-tier="@tierGroup.Key">
-                    @tierGroup.Key.GetName() Tier
-                </h2>
-                <div class="tier-people" data-tier="@tierGroup.Key"> 
-                    @{
-                        int it = 1;
-                        foreach (var person in tierGroup.Value)
-                        {
-                            <div id="@person.Guid" class="tier-person" data-inactive="@person.InDrop" onclick="openModal(this)">
-                                <span class="tier-circle" tier-background-gradient data-tier="@tierGroup.Key"></span>@person.Nickname</div>
-                            it++;
-                        }
-                    }
-                </div>
-            </section>
-        }
-    </section>
+    <partial name="TierList/_ShortTierListPartial" model="@Model.Item2" />
 }
 
 @if (Model.Item1.HasFlag(Permissions.GlobalMember))
@@ -87,12 +66,19 @@
 @if (Model.Item1.HasFlag(Permissions.EndBattles))
 {
     <h2>Активные баттлы</h2>
-    <partial name="_BattleGroupPartial" model="@((Model.Item3, false))" />
+    <partial name="_BattleGroupPartial" model="@(Model.Item3)" />
 }
 
 @{
     if (Model.Item1.HasFlag(Permissions.MembersEdit) || Model.Item1.HasFlag(Permissions.StartBattles))
     {
+        <script>
+            Array.from(document.getElementsByClassName("tier-person")).forEach(elem => {
+                elem.addEventListener("click", (e) => {
+                    openModal(e.currentTarget);
+                });
+            });
+        </script>
         <div class="modal" id="mainModal">
             <div class="modal-content">
                 <div class="modal-header">
