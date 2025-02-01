@@ -91,19 +91,31 @@
                 <div class="modal-body">
                     @if (Model.Item1.HasFlag(Permissions.MembersEdit))
                     {
-                        <label for="nickname">Никнейм:</label>
-                        <input class="input-field" autocomplete="off" type="text" id="nickname" placeholder="Введите никнейм">
+                        <div class="modal-body-item">
+                            <label for="nickname">Никнейм:</label>
+                            <input class="input-field" autocomplete="off" type="text" id="nickname" placeholder="Введите никнейм">
+                        </div>
+
+                        <div class="modal-body-item">
+                            <label for="videoLink">Ссылка на видео:</label>
+                            <input class="input-field" autocomplete="off" type="url" id="videoLink" placeholder="Введите ссылку">
+                        </div>
+
+                        <div class="modal-body-item">
+                            <label for="avatarUrl">Ссылка на аватарку:</label>
+                            <input class="input-field" autocomplete="off" type="url" id="avatarUrl" placeholder="Введите ссылку">
+                            <button onclick="document.getElementById('avatarUrl').value = 'default'" class="cancel-button">Сбросить</button>
+                        </div>
+
+                        <div class="modal-body-item">
+                            <label for="description">Описание:</label>
+                            <textarea class="input-field" id="description" autocomplete="off" placeholder="Введите описание..."></textarea>
+                        </div>
 
                         <div>
                             <label for="inDrop">В дропе:</label>
                             <input class="input-field" type="checkbox" id="inDrop">
                         </div>
-
-                        <label for="videoLink">Ссылка на видео:</label>
-                        <input class="input-field" autocomplete="off" type="url" id="videoLink" placeholder="Введите ссылку">
-
-                        <label for="avatarUrl">Ссылка на аватарку:</label>
-                        <input class="input-field" autocomplete="off" type="url" id="avatarUrl" placeholder="Введите ссылку">
                     }
                     @if (Model.Item1.HasFlag(Permissions.StartBattles))
                     {

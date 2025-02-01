@@ -96,18 +96,23 @@
     }
 
 .modal-content {
-    width: 400px;
+    width: auto;
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
+.modal-body-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
 }
 
     .modal-header h2 {
@@ -135,10 +140,9 @@
         display: block;
     }
 
-
 .modal-body {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
 }
     .modal-body input[type="text"],
@@ -150,6 +154,11 @@
 
     .modal-body input[type="checkbox"] {
         width: auto;
+    }
+
+    .modal-body textarea {
+        width: 100%;
+        height: 100%;
     }
 
 .modal-footer {

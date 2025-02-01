@@ -241,7 +241,7 @@ button {
 
 .input-field {
     width: 100%;
-    max-width: 400px;
+    max-width: 200px;
     padding: 10px 15px;
     font-size: 16px;
     border: 2px solid var(--outline-color);

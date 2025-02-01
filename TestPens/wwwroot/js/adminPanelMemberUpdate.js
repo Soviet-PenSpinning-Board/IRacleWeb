@@ -8,6 +8,7 @@
     document.getElementById("inDrop").checked = player.InDrop;
     document.getElementById("videoLink").value = player.VideoLink;
     document.getElementById("avatarUrl").value = player.AvatarUrl;
+    document.getElementById("description").value = player.Description;
 });
 
 function playerPropertiesUpdate() {
@@ -23,6 +24,7 @@ function playerPropertiesUpdate() {
     const inDrop = document.getElementById("inDrop").checked;
     const videoLink = document.getElementById("videoLink").value;
     const avatarUrl = document.getElementById("avatarUrl").value;
+    const description = document.getElementById("description").value;
 
     if (!nickname || !videoLink || !avatarUrl) {
         alertModal("Одно из полей не заполнено!");
@@ -33,6 +35,7 @@ function playerPropertiesUpdate() {
     player.InDrop = inDrop;
     player.VideoLink = videoLink;
     player.AvatarUrl = avatarUrl;
+    player.Description = description;
 
     const obj = {
         TargetPosition: getIndexAndTier(guid),
