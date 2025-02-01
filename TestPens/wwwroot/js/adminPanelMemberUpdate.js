@@ -26,7 +26,7 @@ function playerPropertiesUpdate() {
     const avatarUrl = document.getElementById("avatarUrl").value;
     const description = document.getElementById("description").value;
 
-    if (!nickname || !videoLink || !avatarUrl) {
+    if (!nickname || !videoLink) {
         alertModal("Одно из полей не заполнено!");
         return;
     }

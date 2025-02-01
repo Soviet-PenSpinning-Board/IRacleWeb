@@ -13,7 +13,7 @@
                     int it = 1;
                     foreach (var person in tierGroup.Value)
                     {
-                        <div id="@person.Guid" class="tier-person" data-inactive="@person.InDrop" onclick="openModalPerson(this)">
+                        <div id="@person.Guid" class="tier-person" data-inactive="@person.InDrop">
                             <span class="tier-circle" tier-background-gradient data-tier="@tierGroup.Key"></span>@person.Nickname
                         </div>
                         it++;

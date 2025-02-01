@@ -19,12 +19,13 @@ namespace TestPens.Models.Real.Changes
         public override void Apply(TierListState state, bool revert)
         {
             PersonModel person = state.TierList[TargetPosition.Tier][TargetPosition.TierPosition];
-            PersonModel toSet = !revert ? NewProperties : TargetPerson;
+            PersonModel fromSet = !revert ? NewProperties : TargetPerson;
 
-            person.Nickname = toSet.Nickname;
-            person.AvatarUrl = toSet.AvatarUrl;
-            person.InDrop = toSet.InDrop;
-            person.VideoLink = toSet.VideoLink;
+            person.Nickname = fromSet.Nickname;
+            person.AvatarUrl = fromSet.AvatarUrl;
+            person.InDrop = fromSet.InDrop;
+            person.VideoLink = fromSet.VideoLink;
+            person.Description = fromSet.Description;
         }
     }
 }

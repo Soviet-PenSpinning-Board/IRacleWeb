@@ -2,7 +2,7 @@
     <div class="modal-content">
         <div class="modal-left">
             <div class="modal-avatar">
-                <img src="/avatars/Art.png" alt="Art" />
+                <img src="" alt="Art" />
             </div>
             <div class="modal-info">
                 <p>Никнейм:</p>
@@ -18,6 +18,12 @@
 </div>
 
 <script>
+    Array.from(document.getElementsByClassName("tier-person")).forEach(elem => {
+        elem.addEventListener("click", (e) => {
+            openModalPerson(e.currentTarget);
+        });
+    });
+
     function openModalPerson(obj) {
         let guid = obj.id;
         let person = AllPersonByGuid.get(guid);

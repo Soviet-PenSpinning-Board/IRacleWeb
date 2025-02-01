@@ -58,7 +58,7 @@ function resetBattles(clearCache = true) {
         // мда
         elem.children[1].firstChild.dataset.tier = "";
         elem.children[1].childNodes[1].textContent = "Участник";
-        elem.children[0].children[0].src = "/avatars/Art.png";
+        elem.children[0].children[0].src = "/avatars/default.png";
     });
 
     if (clearCache) {

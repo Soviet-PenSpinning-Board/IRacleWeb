@@ -13,7 +13,7 @@
     <section class="players-group">
         @foreach (var item in tierGroup.Value)
         {
-            <div id="@item.Guid" class="tier-person" onclick="openModalPerson(this)">
+            <div id="@item.Guid" class="tier-person">
                 <div class="card-content">
                     <div class="info">
                         <h3 data-drop="@item.InDrop">@($"{it}. {item.Nickname}")</h3>
