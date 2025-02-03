@@ -11,5 +11,16 @@ namespace TestPens.Models.Real.Changes
         public override ChangeType Type { get; set; } = ChangeType.None;
 
         public override void Apply(TierListState state, bool revert) { }
+
+        public override GenericChangeDatabase ToGeneric(ulong chunk)
+        {
+            return new GenericChangeDatabase 
+            { 
+            };
+        }
+
+        public override void ReadData(GenericChangeDatabase genericChange)
+        {
+        }
     }
 }

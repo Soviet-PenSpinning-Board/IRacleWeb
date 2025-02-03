@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 using TestPens.Extensions;
@@ -9,8 +10,10 @@ using TestPens.Models.Dto.Changes;
 using TestPens.Models.Real.Changes;
 using TestPens.Service;
 using TestPens.Service.Abstractions;
-
+using TestPens.Service.DatabaseServices;
 using Westwind.AspNetCore.Markdown;
+
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace TestPens
 {
@@ -31,10 +34,15 @@ namespace TestPens
 
             builder.Configuration.AddEnvironmentVariables();
 
-            builder.Services.AddSingleton<IPersonContainerService, JsonPersonContainerService>();
-            builder.Services.AddSingleton<IBattleControllerService, JsonBattleControllerService>();
+            string connection = builder.Configuration.GetValue<string>("ConnectionString")!;
+
+            builder.Services.AddDbContext<ApplicationContext>(options => options.UseMySql(connection, new MySqlServerVersion("8.0")));
 
             builder.Services.AddSingleton<ITokenManager, JsonTokenManager>();
+
+            builder.Services.AddSingleton<ITierListContainerService, JsonTierListContainerService>();
+            builder.Services.AddScoped<IChangesContainerService, DatabaseChangesContainerService>();
+            builder.Services.AddScoped<IBattleControllerService, DatabaseBattleControllerService>();
 
             builder.Services.AddMarkdown();
 
@@ -100,6 +108,12 @@ namespace TestPens
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Main}/{action=Index}/{id?}");
+
+            using (var scope = app.Services.CreateScope())
+            {
+                ApplicationContext applicationContext = scope.ServiceProvider.GetService<ApplicationContext>()!;
+                applicationContext.Database.EnsureCreated();
+            }
 
             app.Run();
         }

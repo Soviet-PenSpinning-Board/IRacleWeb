@@ -161,6 +161,12 @@
         height: 100%;
     }
 
+.modal-battle-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .modal-footer {
     display: flex;
     justify-content: space-between;

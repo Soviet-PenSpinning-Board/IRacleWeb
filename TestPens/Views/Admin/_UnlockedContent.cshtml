@@ -1,5 +1,5 @@
 @using TestPens.Service.Abstractions
-@model (Permissions, IReadOnlyDictionary<Tier, List<PersonModel>>, IReadOnlyDictionary<Guid, BattleModel>)
+@model (Permissions, IReadOnlyDictionary<Tier, List<PersonModel>>, IEnumerable<BattleDatabase>)
 
 @if (Model.Item1.HasFlag(Permissions.ChangeProperties) || Model.Item1.HasFlag(Permissions.ChangePositions) || Model.Item1.HasFlag(Permissions.StartBattles))
 {
@@ -140,7 +140,7 @@
                 <div class="modal-header">
                     <h2>Кто победил?</h2>
                 </div>
-                <div class="modal-body">
+                <div class="modal-battle-body">
                     <button class="result-button left-win" onclick="setBattleResult('LeftWin')">
                         Победил левый
                     </button>

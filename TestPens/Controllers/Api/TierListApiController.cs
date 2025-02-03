@@ -5,6 +5,7 @@ using TestPens.Models.Dto;
 using TestPens.Models.Dto.Changes;
 using TestPens.Models.Real;
 using TestPens.Models.Real.Changes;
+using TestPens.Models.Shared;
 using TestPens.Models.Simple;
 using TestPens.Service.Abstractions;
 
@@ -15,13 +16,16 @@ namespace TestPens.Controllers.Api
     public class TierListApiController : ControllerBase
     {
         private readonly ILogger<TierListApiController> _logger;
-        private readonly IPersonContainerService _containerService;
+        private readonly ITierListContainerService _tierListContainer;
+        private readonly IChangesContainerService _changesContainer;
+
         private readonly ITokenManager _tokenManager;
 
-        public TierListApiController(ILogger<TierListApiController> logger, IPersonContainerService containerService, ITokenManager tokenManager)
+        public TierListApiController(ILogger<TierListApiController> logger, ITierListContainerService tierListContainer, IChangesContainerService changesContainer, ITokenManager tokenManager)
         {
             _logger = logger;
-            _containerService = containerService;
+            _tierListContainer = tierListContainer;
+            _changesContainer = changesContainer;
             _tokenManager = tokenManager;
         }
 
@@ -38,7 +42,7 @@ namespace TestPens.Controllers.Api
         {
             try
             {
-                TierListState head = _containerService.GetHead();
+                TierListState head = _tierListContainer.GetHead();
                 return Ok(head.TierList);
             }
             catch (Exception ex)
@@ -60,11 +64,11 @@ namespace TestPens.Controllers.Api
         [HttpGet("changes")]
         [ProducesResponseType<IEnumerable<ChangeBaseModel>>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult GetChanges(int offset = 0, int limit = 100, DateTime? after = null)
+        public async Task<IActionResult> GetChanges(int offset = 0, int limit = 100, DateTime? after = null)
         {
             try
             {
-                return Ok(_containerService.GetAllChanges(offset, limit, after));
+                return Ok(await _changesContainer.GetAllChanges(offset, limit, after));
             }
             catch (Exception ex)
             {
@@ -87,11 +91,11 @@ namespace TestPens.Controllers.Api
         [ProducesResponseType<IReadOnlyDictionary<Tier, List<PersonModel>>>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult AddChanges(string token, [FromBody] List<ChangeBaseDto> changes)
+        public async Task<IActionResult> AddChanges(string token, [FromBody] List<ChangeBaseDto> changes)
         {
             Permissions neededPermissions = Permissions.None;
 
-            TierListState head = _containerService.GetHead();
+            TierListState head = _tierListContainer.GetHead();
             foreach (ChangeBaseDto change in changes)
             {
                 neededPermissions |= change.Type.GetPermissions();
@@ -104,9 +108,9 @@ namespace TestPens.Controllers.Api
 
             try
             {
-                _containerService.AddChanges(changes);
+                await _changesContainer.AddChanges(changes);
 
-                return Ok(_containerService.GetHead().TierList);
+                return Ok(_tierListContainer.GetHead().TierList);
             }
             catch (Exception ex)
             {
@@ -129,7 +133,7 @@ namespace TestPens.Controllers.Api
         [ProducesResponseType<IReadOnlyDictionary<Tier, List<PersonModel>>>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult RevertLast(int count, string token)
+        public async Task<IActionResult> RevertLast(int count, string token)
         {
             if (!CheckPermissions(token, Permissions.GlobalChanges))
             {
@@ -138,8 +142,8 @@ namespace TestPens.Controllers.Api
 
             try
             {
-                _containerService.RevertLast(count);
-                TierListState head = _containerService.GetHead();
+                await _changesContainer.RevertLast(count);
+                TierListState head = _tierListContainer.GetHead();
                 return Ok(head.TierList);
             }
             catch (Exception ex)
@@ -159,11 +163,11 @@ namespace TestPens.Controllers.Api
         [HttpGet("node/revert/{count}")]
         [ProducesResponseType<IReadOnlyDictionary<Tier, List<PersonModel>>>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult RevertLastNode(int count)
+        public async Task<IActionResult> RevertLastNode(int count)
         {
             try
             {
-                return Ok(_containerService.RevertLastNode(count).TierList);
+                return Ok((await _changesContainer.RevertLastNode(count)).TierList);
             }
             catch (Exception ex)
             {
@@ -182,11 +186,11 @@ namespace TestPens.Controllers.Api
         [HttpGet("node/reverttime")]
         [ProducesResponseType<IReadOnlyDictionary<Tier, List<PersonModel>>>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult RevertAfterNode(DateTime dateTime)
+        public async Task<IActionResult> RevertAfterNode(DateTime dateTime)
         {
             try
             {
-                return Ok(_containerService.RevertAllAfterNode(dateTime).TierList);
+                return Ok((await _changesContainer.RevertAllAfterNode(dateTime)).TierList);
             }
             catch (Exception ex)
             {

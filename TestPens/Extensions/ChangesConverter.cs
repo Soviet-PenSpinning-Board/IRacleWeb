@@ -11,21 +11,13 @@
 
     public class ChangesDtoConverter : JsonConverter<ChangeBaseDto>
     {
-        private static readonly Dictionary<ChangeType, Type> types = new Dictionary<ChangeType, Type>
-        {
-            { ChangeType.None, typeof(ChangeNoneDto) },
-            { ChangeType.ChangePosition, typeof(ChangePositionDto) },
-            { ChangeType.GlobalPerson, typeof(ChangeGlobalPersonDto) },
-            { ChangeType.PersonProperties, typeof(ChangePersonPropertiesDto) },
-        };
-
         public override ChangeBaseDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             Utf8JsonReader oldReader = reader;
             ChangeNoneDto message = JsonSerializer.Deserialize<ChangeNoneDto>(ref reader, options)!;
-            if (!types.TryGetValue(message.Type, out Type? type))
+            if (message.Type.GetDtoType() is not Type type)
             {
-                return message;
+                return null;
             }
 
             return JsonSerializer.Deserialize(ref oldReader, type, options) as ChangeBaseDto;
@@ -33,7 +25,7 @@
 
         public override void Write(Utf8JsonWriter writer, ChangeBaseDto value, JsonSerializerOptions options)
         {
-            if (!types.TryGetValue(value.Type, out Type? type))
+            if (value.Type.GetDtoType() is not Type type)
             {
                 type = typeof(ChangeNoneDto);
             }
@@ -44,21 +36,13 @@
 
     public class ChangesModelConverter : JsonConverter<ChangeBaseModel>
     {
-        private static Dictionary<ChangeType, Type> types = new Dictionary<ChangeType, Type>
-        {
-            { ChangeType.None, typeof(ChangeNoneModel) },
-            { ChangeType.ChangePosition, typeof(ChangePositionModel) },
-            { ChangeType.GlobalPerson, typeof(ChangeGlobalPersonModel) },
-            { ChangeType.PersonProperties, typeof(ChangePersonPropertiesModel) },
-        };
-
         public override ChangeBaseModel? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             Utf8JsonReader oldReader = reader;
             ChangeNoneModel message = JsonSerializer.Deserialize<ChangeNoneModel>(ref reader, options)!;
-            if (!types.TryGetValue(message.Type, out Type? type))
+            if (message.Type.GetModelType() is not Type type)
             {
-                return message;
+                return null;
             }
 
             return JsonSerializer.Deserialize(ref oldReader, type, options) as ChangeBaseModel;
@@ -66,7 +50,7 @@
 
         public override void Write(Utf8JsonWriter writer, ChangeBaseModel value, JsonSerializerOptions options)
         {
-            if (!types.TryGetValue(value.Type, out Type? type))
+            if (value.Type.GetModelType() is not Type type)
             {
                 type = typeof(ChangeNoneModel);
             }

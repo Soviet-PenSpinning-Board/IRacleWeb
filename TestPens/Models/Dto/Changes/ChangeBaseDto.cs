@@ -6,6 +6,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 using TestPens.Models.Real;
 using TestPens.Models.Real.Changes;
+using TestPens.Models.Shared;
 using TestPens.Models.Simple;
 using TestPens.Service.Abstractions;
 
@@ -15,7 +16,7 @@ namespace TestPens.Models.Dto.Changes
     {
         public abstract ChangeType Type { get; set; }
 
-        public PositionDto TargetPosition { get; set; } = null!;
+        public PositionModel TargetPosition { get; set; } = null!;
 
         public virtual bool Validate(TierListState head, out string reason)
         {

@@ -1,9 +1,11 @@
-﻿using TestPens.Models.Dto;
+﻿using TestPens.Extensions;
+using TestPens.Models.Dto;
+using TestPens.Models.Real;
 using TestPens.Models.Simple;
 
-namespace TestPens.Models.Real
+namespace TestPens.Models.Shared
 {
-    public class PositionModel : IModelObject<PositionDto>
+    public class PositionModel
     {
         public static PositionModel Unknown { get; } = new PositionModel
         {

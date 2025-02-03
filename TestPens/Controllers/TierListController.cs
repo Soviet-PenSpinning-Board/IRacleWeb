@@ -12,22 +12,24 @@ namespace TestPens.Controllers
     public class TierListController : Controller
     {
         private readonly ILogger<TierListController> _logger;
-        private readonly IPersonContainerService containerService;
+        private readonly ITierListContainerService _tierListContainer;
+        private readonly IChangesContainerService _changesContainer;
 
-        public TierListController(ILogger<TierListController> logger, IPersonContainerService containerService)
+        public TierListController(ILogger<TierListController> logger, ITierListContainerService tierListContainer, IChangesContainerService changesContainer)
         {
             _logger = logger;
-            this.containerService = containerService;
+            _tierListContainer = tierListContainer;
+            _changesContainer = changesContainer;
         }
 
         public IActionResult Index()
         {
-            return View(containerService.GetHead().TierList);
+            return View(_tierListContainer.GetHead().TierList);
         }
 
         public IActionResult Short()
         {
-            return View(containerService.GetHead().TierList);
+            return View(_tierListContainer.GetHead().TierList);
         }
 
         public IActionResult TimeMachine()
@@ -36,9 +38,9 @@ namespace TestPens.Controllers
         }
 
         [HttpPost]
-        public IActionResult TimeMachineMain(DateTime dateTime)
+        public async Task<IActionResult> TimeMachineMain(DateTime dateTime)
         {
-            return PartialView("TierList/_MainTierListPartial", containerService.RevertAllAfterNode(dateTime).TierList);
+            return PartialView("TierList/_MainTierListPartial", (await _changesContainer.RevertAllAfterNode(dateTime)).TierList);
         }
     }
 }

@@ -2,25 +2,26 @@
 
 using TestPens.Extensions;
 using TestPens.Models.Real;
+using TestPens.Models.Shared;
 using TestPens.Models.Simple;
 
 namespace TestPens.Models.Dto;
 
-public class BattleDto : IDtoObject<BattleModel>
+public class BattleDto : IDtoObject<BattleDatabase>
 {
     public BattledPersonDto Left { get; set; } = null!;
     public BattledPersonDto Right { get; set; } = null!;
 
     public BattleResult Result { get; set; } = BattleResult.Unfinished;
 
-    public BattleModel CreateFrom(TierListState head)
+    public BattleDatabase CreateFrom(TierListState head)
     {
-        return new BattleModel
+        return new BattleDatabase
         {
             Left = Left.CreateFrom(head),
             Right = Right.CreateFrom(head),
             Result = Result,
-            UtcTime = DateTime.UtcNow
+            UtcTime = DateTime.UtcNow,
         };
     }
 }

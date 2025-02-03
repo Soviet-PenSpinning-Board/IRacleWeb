@@ -1,26 +1,26 @@
-﻿@model IReadOnlyDictionary<Guid, BattleModel>
+﻿@model IEnumerable<BattleDatabase>
 
 <section class="battles-group">
     @foreach (var battle in Model)
     {
-        <div class="battle-card" data-guid="@battle.Key" data-result="@battle.Value.Result">
+        <div class="battle-card" data-guid="@battle.Id" data-result="@battle.Result">
             <div class="battle-header">
-                <span class="battle-start-time" data-utc="@battle.Value.UtcTime.ToString("O")"></span>
+                <span class="battle-start-time" data-utc="@battle.UtcTime.ToString("O")"></span>
             </div>
             <div class="battle-content">
-                <div class="participant left" data-video="@(battle.Value.Left.VideoUrl ?? battle.Value.Left.MainModel!.VideoLink)">
+                <div class="participant left" data-video="@(battle.Left.VideoUrl ?? battle.Left.MainModel!.VideoLink)">
                     <div class="avatarBattle">
-                        <img src="@(battle.Value.Left.MainModel!.AvatarUrl)" alt="@battle.Value.Left.MainModel!.Nickname" />
+                        <img src="@(battle.Left.MainModel!.AvatarUrl)" alt="@battle.Left.MainModel!.Nickname" />
                     </div>
-                    <h3><span class="tier-circle" tier-background-gradient data-tier="@battle.Value.Left.PreBattlePosition!.Tier"></span>@battle.Value.Left.MainModel!.Nickname</h3>
+                    <h3><span class="tier-circle" tier-background-gradient data-tier="@battle.Left.PreBattlePosition!.Tier"></span>@battle.Left.MainModel!.Nickname</h3>
                     <iframe class="battleVideo" style="display: none;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
                 <span class="vs">VS</span>
-                <div class="participant right" data-video="@(battle.Value.Right.VideoUrl ?? battle.Value.Right.MainModel!.VideoLink)">
+                <div class="participant right" data-video="@(battle.Right.VideoUrl ?? battle.Right.MainModel!.VideoLink)">
                     <div class="avatarBattle">
-                        <img src="@(battle.Value.Right.MainModel!.AvatarUrl)" alt="@battle.Value.Right.MainModel!.Nickname" />
+                        <img src="@(battle.Right.MainModel!.AvatarUrl)" alt="@battle.Right.MainModel!.Nickname" />
                     </div>
-                    <h3><span class="tier-circle" tier-background-gradient data-tier="@battle.Value.Right.PreBattlePosition!.Tier"></span>@battle.Value.Right.MainModel!.Nickname</h3>
+                    <h3><span class="tier-circle" tier-background-gradient data-tier="@battle.Right.PreBattlePosition!.Tier"></span>@battle.Right.MainModel!.Nickname</h3>
                     <iframe class="battleVideo" style="display: none;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
             </div>

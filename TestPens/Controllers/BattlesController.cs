@@ -19,9 +19,9 @@ namespace TestPens.Controllers
             this.battleService = battleService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View((battleService.GetActiveBattles(), battleService.GetUnactiveBattles(0, 10)));
+            return View((await battleService.GetActiveBattles(), await battleService.GetUnactiveBattles(0, 10)));
         }
     }
 }

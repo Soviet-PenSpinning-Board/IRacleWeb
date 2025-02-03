@@ -1,22 +1,32 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 
 using TestPens.Extensions;
 using TestPens.Models.Dto;
-using TestPens.Models.Real;
+using TestPens.Models.Shared;
 using TestPens.Models.Simple;
 
 namespace TestPens.Models.Real;
 
-public class BattleModel : IModelObject<BattleDto>
+public class BattleDatabase
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Key]
+    public Guid Id { get; set; } = Guid.NewGuid();
+
     public DateTime UtcTime { get; set; }
+
+    [Column(TypeName = "JSON")]
     public BattledPersonModel Left { get; set; } = null!;
+
+    [Column(TypeName = "JSON")]
     public BattledPersonModel Right { get; set; } = null!;
 
     public BattleResult Result { get; set; } = BattleResult.Unfinished;
 }
 
-public class BattledPersonModel : IModelObject<BattledPersonDto>
+public class BattledPersonModel
 {
     public Guid Guid { get; set; }
     public PersonModel MainModel { get; set; } = null!;

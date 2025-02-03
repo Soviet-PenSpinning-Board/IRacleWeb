@@ -1,4 +1,6 @@
-﻿using TestPens.Service.Abstractions;
+﻿using TestPens.Models.Dto.Changes;
+using TestPens.Models.Real.Changes;
+using TestPens.Service.Abstractions;
 
 namespace TestPens.Models.Simple
 {
@@ -19,6 +21,24 @@ namespace TestPens.Models.Simple
             ChangeType.GlobalPerson => Permissions.GlobalMember,
             ChangeType.PersonProperties => Permissions.ChangeProperties,
             _ => Permissions.None,
+        };
+
+        public static Type? GetDtoType(this ChangeType type) => type switch
+        {
+            ChangeType.None => typeof(ChangeNoneDto),
+            ChangeType.ChangePosition => typeof(ChangePositionDto),
+            ChangeType.GlobalPerson => typeof(ChangeGlobalPersonDto),
+            ChangeType.PersonProperties => typeof(ChangePersonPropertiesDto),
+            _ => null,
+        };
+
+        public static Type? GetModelType(this ChangeType type) => type switch
+        {
+            ChangeType.None => typeof(ChangeNoneModel),
+            ChangeType.ChangePosition => typeof(ChangePositionModel),
+            ChangeType.GlobalPerson => typeof(ChangeGlobalPersonModel),
+            ChangeType.PersonProperties => typeof(ChangePersonPropertiesModel),
+            _ => null,
         };
     }
 }

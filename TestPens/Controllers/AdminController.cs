@@ -8,12 +8,12 @@ namespace TestPens.Controllers
     public class AdminController : Controller
     {
         private readonly ILogger<AdminController> _logger;
-        private readonly IPersonContainerService _personService;
+        private readonly ITierListContainerService _personService;
         private readonly IBattleControllerService _battleService;
 
         private readonly ITokenManager _tokenManager;
 
-        public AdminController(ILogger<AdminController> logger, IPersonContainerService containerService, ITokenManager tokenManager, IBattleControllerService battleService)
+        public AdminController(ILogger<AdminController> logger, ITierListContainerService containerService, ITokenManager tokenManager, IBattleControllerService battleService)
         {
             _logger = logger;
             _personService = containerService;
@@ -27,12 +27,12 @@ namespace TestPens.Controllers
         }
 
         [HttpPost]
-        public ActionResult CheckPassword(string password)
+        public async Task<IActionResult> CheckPassword(string password)
         {
             Permissions permissions = _tokenManager.CheckToken(password);
             if (permissions != Permissions.None)
             {
-                return PartialView("_UnlockedContent", (permissions, _personService.GetHead().TierList, _battleService.GetActiveBattles()));
+                return PartialView("_UnlockedContent", (permissions, _personService.GetHead().TierList, await _battleService.GetActiveBattles()));
             }
             else
             {

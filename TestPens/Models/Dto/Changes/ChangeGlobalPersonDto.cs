@@ -2,9 +2,9 @@
 using System;
 
 using TestPens.Extensions;
-using TestPens.Models.Dto;
 using TestPens.Models.Real;
 using TestPens.Models.Real.Changes;
+using TestPens.Models.Shared;
 using TestPens.Models.Simple;
 using TestPens.Service.Abstractions;
 
@@ -14,7 +14,7 @@ namespace TestPens.Models.Dto.Changes
     {
         public override ChangeType Type { get; set; } = ChangeType.GlobalPerson;
 
-        public PersonDto? NewPerson { get; set; }
+        public PersonModel? NewPerson { get; set; }
 
         public bool IsNew { get; set; }
 
@@ -36,7 +36,8 @@ namespace TestPens.Models.Dto.Changes
         public override ChangeBaseModel CreateFrom(TierListState head)
         {
             PositionModel position;
-            PersonModel person;
+            PersonModel? oldPerson = null;
+            PersonModel? newPerson = null;
             if (IsNew)
             {
                 position = new PositionModel
@@ -44,21 +45,21 @@ namespace TestPens.Models.Dto.Changes
                     Tier = Tier.E,
                     TierPosition = head.TierList[Tier.E].Count,
                 };
-                person = NewPerson!.CreateFrom(head)!;
-                person.Guid = Guid.NewGuid();
+                newPerson = NewPerson!;
+                newPerson.Guid = Guid.NewGuid();
             }
             else
             {
-                position = TargetPosition.CreateFrom(head);
-                person = position.GetPerson(head)!.Copy();
+                position = TargetPosition;
+                oldPerson = position.GetPerson(head)!.Copy();
             }
 
             return new ChangeGlobalPersonModel
             {
                 UtcTime = DateTime.UtcNow,
-                TargetPerson = person,
+                TargetPerson = oldPerson,
                 TargetPosition = position,
-                IsNew = IsNew,
+                NewPerson = newPerson,
             };
         }
     }
