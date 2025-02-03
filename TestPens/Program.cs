@@ -36,7 +36,7 @@ namespace TestPens
 
             string connection = builder.Configuration.GetValue<string>("ConnectionString")!;
 
-            builder.Services.AddDbContext<ApplicationContext>(options => options.UseMySql(connection, new MySqlServerVersion("8.0")));
+            builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlite(connection));
 
             builder.Services.AddSingleton<ITokenManager, JsonTokenManager>();
 
