@@ -113,15 +113,25 @@
                         </div>
 
                         <div>
-                            <label for="inDrop">В дропе:</label>
-                            <input class="input-field" type="checkbox" id="inDrop">
+                            <div class="toggle-menu">
+                                <span>В дропе:</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="inDrop">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
                         </div>
                     }
                     @if (Model.Item1.HasFlag(Permissions.StartBattles))
                     {
                         <div>
-                            <label for="startBattle">Выбрать для баттла:</label>
-                            <input type="checkbox" id="startBattle">
+                            <div class="toggle-menu">
+                                <span>Выбрать для баттла:</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="startBattle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
                         </div>
                     }
                 </div>

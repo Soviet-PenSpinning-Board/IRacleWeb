@@ -2,10 +2,6 @@
 @{
     ViewData["Title"] = "Тирлист SPSB";
 }
-@model IReadOnlyDictionary<Tier, List<PersonModel>>
+@model (string, IReadOnlyDictionary<Tier, List<PersonModel>>)
 
-<partial name="TierList/_TierListDataHelperPartial" model="@Model" />
-
-<partial name="TierList/_MainTierListPartial" model="@(Model)" />
-
-<partial name="TierList/_TierListModalPartial" />
+<partial name="TierList/_FullTierListPartial" model="@Model" />

@@ -22,14 +22,9 @@ namespace TestPens.Controllers
             _changesContainer = changesContainer;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(TierListType type = TierListType.Main)
         {
-            return View(_tierListContainer.GetHead().TierList);
-        }
-
-        public IActionResult Short()
-        {
-            return View(_tierListContainer.GetHead().TierList);
+            return View((type.GetView(), _tierListContainer.GetHead().TierList));
         }
 
         public IActionResult TimeMachine()
@@ -38,9 +33,9 @@ namespace TestPens.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> TimeMachineMain(DateTime dateTime)
+        public async Task<IActionResult> TimeMachineMain(DateTime dateTime, TierListType type = TierListType.Main)
         {
-            return PartialView("TierList/_MainTierListPartial", (await _changesContainer.RevertAllAfterNode(dateTime)).TierList);
+            return PartialView("TierList/_FullTierListPartial", (type.GetView(), (await _changesContainer.RevertAllAfterNode(dateTime)).TierList));
         }
     }
 }

@@ -1,0 +1,39 @@
+﻿@model (string, IReadOnlyDictionary<Tier, List<PersonModel>>)
+
+<div class="toggle-menu">
+    <span>Короткий вид:</span>
+    <label class="switch">
+        <input type="checkbox" id="viewToggle">
+        <span class="slider"></span>
+    </label>
+</div>
+
+<partial name="TierList/_TierListDataHelperPartial" model="@Model.Item2" />
+<div id="main-tier-list">
+    <partial name="TierList/_MainTierListPartial" model="@Model.Item2" />
+</div>
+
+<div id="short-tier-list">
+    <partial name="TierList/_ShortTierListPartial" model="@Model.Item2" />
+</div>
+
+<partial name="TierList/_TierListModalPartial" />
+
+<script>
+    document.getElementById("short-tier-list").style.display = "none";
+
+    document.getElementById("viewToggle").onclick = function () {
+        const mainTierList = document.getElementById("main-tier-list");
+        const shortTierList = document.getElementById("short-tier-list");
+        const toShort = this.checked;
+        if (toShort){
+            shortTierList.style.display = "block";
+            mainTierList.style.display = "none";
+        }
+        else
+        {
+            shortTierList.style.display = "none";
+            mainTierList.style.display = "block";
+        }
+    };
+</script>
