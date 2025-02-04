@@ -20,20 +20,20 @@
 <partial name="TierList/_TierListModalPartial" />
 
 <script>
-    document.getElementById("short-tier-list").style.display = "none";
+document.getElementById("short-tier-list").style.display = "none";
 
-    document.getElementById("viewToggle").onclick = function () {
-        const mainTierList = document.getElementById("main-tier-list");
-        const shortTierList = document.getElementById("short-tier-list");
-        const toShort = this.checked;
-        if (toShort){
-            shortTierList.style.display = "block";
-            mainTierList.style.display = "none";
-        }
-        else
-        {
-            shortTierList.style.display = "none";
-            mainTierList.style.display = "block";
-        }
-    };
+document.getElementById("viewToggle").onclick = function () {
+    const mainTierList = document.getElementById("main-tier-list");
+    const shortTierList = document.getElementById("short-tier-list");
+    const toShort = this.checked;
+    if (toShort){
+        shortTierList.style.display = "block";
+        mainTierList.style.display = "none";
+    }
+    else
+    {
+        shortTierList.style.display = "none";
+        mainTierList.style.display = "block";
+    }
+};
 </script>
