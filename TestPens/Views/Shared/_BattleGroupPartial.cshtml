@@ -5,7 +5,7 @@
     {
         <div class="battle-card" data-guid="@battle.Id" data-result="@battle.Result">
             <div class="battle-header">
-                <span class="battle-start-time" data-utc="@battle.UtcTime.ToString("O")"></span>
+                <span class="utc-time" data-utc="@battle.UtcTime.ToString("O")"></span>
             </div>
             <div class="battle-content">
                 <div class="participant left" data-video="@(battle.Left.VideoUrl ?? battle.Left.MainModel!.VideoLink)">

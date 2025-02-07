@@ -73,7 +73,7 @@ namespace TestPens.Models.Shared
         {
             if (left is null || right is null)
             {
-                return ReferenceEquals(left, left);
+                return ReferenceEquals(left, right);
             }
 
             return left.Guid == right.Guid &&

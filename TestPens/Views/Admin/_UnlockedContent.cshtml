@@ -75,6 +75,8 @@
 {
     <h2>Активные баттлы</h2>
     <partial name="_BattleGroupPartial" model="@(Model.Item3)" />
+    <script src="/js/localTime.js">
+    </script>
 }
 
 @{
@@ -191,8 +193,6 @@
     @if (Model.Item1.HasFlag(Permissions.EndBattles))
     {
         <script src="/js/adminPanelEndBattles.js">
-        </script>
-        <script src="/js/battlesLocalTime.js">
         </script>
     }
 

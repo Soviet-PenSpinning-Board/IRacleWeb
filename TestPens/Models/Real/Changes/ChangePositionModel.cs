@@ -1,4 +1,6 @@
-﻿using TestPens.Models.Dto;
+﻿using Microsoft.AspNetCore.Html;
+
+using TestPens.Models.Dto;
 using TestPens.Models.Dto.Changes;
 using TestPens.Models.Real.Changes;
 using TestPens.Models.Shared;
@@ -54,5 +56,16 @@ namespace TestPens.Models.Real.Changes
             TargetPerson = genericChange.Data.TargetPerson;
             NewPosition = genericChange.Data.NewPosition!;
         }
+
+        public override string GetIcon() =>
+            NewPosition < TargetPosition ? "icons/improve.png" : "icons/down.png";
+
+        public override string LocalizeName() =>
+            NewPosition < TargetPosition ? "Повышение" : "Понижение";
+
+        public override string LocalizeDescription() =>
+            $"Из {TargetPosition.Tier.GetName()}({TargetPosition.TierPosition}) в {NewPosition.Tier.GetName()}({NewPosition.TierPosition})";
+
+        public override PersonModel LocalizeTarget() => TargetPerson!;
     }
 }

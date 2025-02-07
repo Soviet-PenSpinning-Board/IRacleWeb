@@ -42,7 +42,7 @@ document.getElementById('saveChanges').addEventListener('click', function () {
 
 function sendUpdates() {
     if (changeCache.length > 0) {
-        fetch(`/api/tierlist/addchanges?token=${authToken}`, {
+        fetch(`/api/changes/add?token=${authToken}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

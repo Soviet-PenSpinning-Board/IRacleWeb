@@ -12,16 +12,6 @@
     padding-bottom: 10px;
 }
 
-.battle-start-time {
-    background: var(--outline-color);
-    color: var(--white-bg);
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: bold;
-    box-shadow: 0 2px 4px var(--card-shadow);
-}
-
 .battle-card {
     background: var(--white-bg);
     border-radius: 10px;

@@ -1,6 +1,8 @@
 ﻿
 using System;
 
+using Microsoft.AspNetCore.Html;
+
 using TestPens.Extensions;
 using TestPens.Models.Dto;
 using TestPens.Models.Dto.Changes;
@@ -52,5 +54,15 @@ namespace TestPens.Models.Real.Changes
             TargetPerson = genericChange.Data.TargetPerson;
             NewPerson = genericChange.Data.NewPerson;
         }
+
+        public override string GetIcon() =>
+            NewPerson == null ? "icons/deleted.png" : "icons/new.png";
+
+        public override string LocalizeName() =>
+            NewPerson == null ? "Удаление" : "Добавление";
+
+        public override string LocalizeDescription() => string.Empty;
+
+        public override PersonModel LocalizeTarget() => NewPerson ?? TargetPerson!;
     }
 }

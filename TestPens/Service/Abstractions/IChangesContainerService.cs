@@ -6,7 +6,9 @@ namespace TestPens.Service.Abstractions;
 
 public interface IChangesContainerService
 {
-    public Task<IEnumerable<ChangeBaseModel>> GetAllChanges(int offset = 0, int limit = int.MaxValue, DateTime? afterTime = null);
+    public Task<IEnumerable<ChangeBaseModel>> GetAllChanges(int offset = 0, int limit = int.MaxValue);
+
+    public Task<int> GetCount();
 
     public Task AddChanges(IReadOnlyCollection<ChangeBaseDto> changes);
 

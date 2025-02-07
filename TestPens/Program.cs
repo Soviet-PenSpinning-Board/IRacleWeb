@@ -13,8 +13,6 @@ using TestPens.Service.Abstractions;
 using TestPens.Service.DatabaseServices;
 using Westwind.AspNetCore.Markdown;
 
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-
 namespace TestPens
 {
     public class Program

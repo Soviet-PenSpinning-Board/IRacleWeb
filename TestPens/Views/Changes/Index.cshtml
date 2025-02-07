@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Логи изменений";
+}
+@model (IEnumerable<ChangeBaseModel>, PaginatedInfo)
+
+<section class="changes-list">
+    @foreach (var change in Model.Item1)
+    {
+        PersonModel person = change.LocalizeTarget();
+        <div class="change-item">
+            <div class="change-content">
+                <div class="change-icon">
+                    <img src="@change.GetIcon()" alt="@change.Type" />
+                </div>
+                <h3>@change.LocalizeName()</h3>
+                <span class="utc-time" data-utc="@change.UtcTime.ToString("O")"></span>
+            </div>
+            @if (person is not null)
+            {
+                <div class="change-content">
+                    <div>
+                        <h3><span class="tier-circle" tier-background-gradient data-tier="@change.TargetPosition.Tier"></span>@person.Nickname</h3>
+                    </div>
+                    <div>
+                        <div class="change-avatar">
+                            <img src="@person.AvatarUrl" alt="@person.Nickname" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</section>
+
+@if (Model.Item2.HasPreviousPage)
+{
+    <form asp-action="Index" asp-route-page="@(Model.Item2.PageIndex - 1)">
+        <button type="submit">Прошлое</button>
+    </form>
+}
+
+@if (Model.Item2.HasNextPage)
+{
+    <form asp-action="Index" asp-route-page="@(Model.Item2.PageIndex + 1)">
+        <button type="submit">Следующее</button>
+    </form>
+}
+
+<script src="/js/localTime.js"></script>

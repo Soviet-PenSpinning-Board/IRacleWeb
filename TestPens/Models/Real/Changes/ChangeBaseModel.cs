@@ -1,6 +1,8 @@
 ﻿
 using System.Text.Json.Serialization;
 
+using Microsoft.AspNetCore.Html;
+
 using Swashbuckle.AspNetCore.Annotations;
 
 using TestPens.Models.Dto.Changes;
@@ -27,6 +29,14 @@ namespace TestPens.Models.Real.Changes
         public abstract GenericChangeDatabase ToGeneric(ulong chunk);
 
         public abstract void ReadData(GenericChangeDatabase genericChange);
+
+        public abstract string GetIcon();
+
+        public abstract string LocalizeName();
+
+        public abstract string LocalizeDescription();
+
+        public abstract PersonModel LocalizeTarget();
 
         public static ChangeBaseModel? Create(GenericChangeDatabase genericChange)
         {

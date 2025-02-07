@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.IO.Pipes;
 
 using Microsoft.AspNetCore.Mvc;

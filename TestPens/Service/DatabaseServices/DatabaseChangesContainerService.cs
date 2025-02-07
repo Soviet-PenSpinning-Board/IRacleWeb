@@ -30,12 +30,15 @@ public class DatabaseChangesContainerService : IChangesContainerService
         _tierListContainer = tierListContainer;
     }
 
-    public async Task<IEnumerable<ChangeBaseModel>> GetAllChanges(int offset = 0, int limit = 100, DateTime? afterTime = null!)
+    public async Task<IEnumerable<ChangeBaseModel>> GetAllChanges(int offset = 0, int limit = 100)
     {
-        var enumerable = afterTime != null ? _applicationContext.Changes.Where(c => c.UtcTime > afterTime) : _applicationContext.Changes;
-
-        var genericList = (await enumerable.AsSplitQuery().AsNoTracking().Skip(offset).Take(limit).ToListAsync());
+        var genericList = (await _applicationContext.Changes.AsSplitQuery().AsNoTracking().OrderByDescending(ch => ch.UtcTime).Skip(offset).Take(limit).ToListAsync());
         return genericList.Select(change => ChangeBaseModel.Create(change)!);
+    }
+
+    public async Task<int> GetCount()
+    {
+        return await _applicationContext.Changes.CountAsync();
     }
 
     public async Task AddChanges(IReadOnlyCollection<ChangeBaseDto> changes)
@@ -101,4 +104,5 @@ public class DatabaseChangesContainerService : IChangesContainerService
 
         return (_tierListContainer.GetHead().ApplyChanges(modelList, true), genericList);
     }
+
 }

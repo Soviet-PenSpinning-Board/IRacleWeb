@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Text;
 
 using TestPens.Extensions;
 using TestPens.Models.Dto;
@@ -52,5 +53,38 @@ namespace TestPens.Models.Real.Changes
             TargetPerson = genericChange.Data.TargetPerson;
             NewProperties = genericChange.Data.NewPerson!;
         }
+
+        public override string GetIcon() =>
+            "icons/changeProps.png";
+
+        public override string LocalizeName() =>
+            "Изменение";
+
+        public override string LocalizeDescription()
+        {
+            return string.Empty;
+            //StringBuilder sb = new StringBuilder();
+            //if (NewProperties.Nickname != TargetPerson!.Nickname)
+            //    sb.AppendLine("Старый никнейм: ").Append(TargetPerson!.Nickname);
+            //if (NewProperties.InDrop != TargetPerson!.InDrop)
+            //{
+            //    if (NewProperties.InDrop)
+            //        sb.AppendLine("Дропнул");
+            //    else
+            //        sb.AppendLine("Вернулся");
+            //}
+            //if (NewProperties.AvatarUrl != TargetPerson!.AvatarUrl)
+            //{
+            //    sb.AppendLine("Поменял аватарку");
+            //}
+            //if (NewProperties.VideoLink != TargetPerson!.VideoLink)
+            //{
+            //    sb.AppendLine("Поменял закрепленную комбу");
+            //}
+
+            //return sb.ToString();
+        }
+
+        public override PersonModel LocalizeTarget() => NewProperties!;
     }
 }

@@ -320,12 +320,20 @@ button {
         box-shadow: 0 2px 4px var(--card-shadow);
     }
 
-/* Когда чекбокс включен */
 input:checked + .slider {
     background-color: #4CAF50;
 }
 
-    /* Двигаем ползунок вправо */
     input:checked + .slider::before {
         transform: translateX(24px);
     }
+
+.utc-time {
+    background: var(--outline-color);
+    color: var(--white-bg);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px var(--card-shadow);
+}

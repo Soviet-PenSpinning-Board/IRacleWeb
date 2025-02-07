@@ -1,4 +1,4 @@
-﻿document.querySelectorAll(".battle-start-time").forEach(elem => {
+﻿document.querySelectorAll(".utc-time").forEach(elem => {
     const utcDate = elem.dataset.utc;
     if (utcDate) {
         const localDate = moment.utc(utcDate).local();
