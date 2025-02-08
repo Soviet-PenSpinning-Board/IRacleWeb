@@ -31,6 +31,14 @@ function playerPropertiesUpdate() {
         return;
     }
 
+    if (player.Nickname === nickname &&
+        player.InDrop === inDrop &&
+        player.VideoLink === videoLink &&
+        player.AvatarUrl === avatarUrl &&
+        player.Description === description) {
+        return;
+    }
+
     player.Nickname = nickname;
     player.InDrop = inDrop;
     player.VideoLink = videoLink;
