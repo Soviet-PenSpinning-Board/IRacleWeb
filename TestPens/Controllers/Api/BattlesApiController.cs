@@ -109,6 +109,7 @@ namespace TestPens.Controllers.Api
         /// <param name="guid"><see cref="Guid"/> битвы который надо поменять.</param>
         /// <param name="result">новый <see cref="BattleResult"/> битвы.</param>
         /// <param name="positionChange">Нужно ли менять позицию людей при каких-либо возможных изменениях.</param>
+        /// <param name="updateWinnerVideo">Нужно ли обновлять закрепленную комбу у победителя.</param>
         /// <returns>Пустой статус код.</returns>
         /// <response code="200">Результат поменялся.</response>
         /// <response code="404">Битва не найдена.</response>
@@ -119,7 +120,7 @@ namespace TestPens.Controllers.Api
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateResult(string token, Guid guid, BattleResult result, bool positionChange = true)
+        public async Task<IActionResult> UpdateResult(string token, Guid guid, BattleResult result, bool positionChange = true, bool updateWinnerVideo = false)
         {
             if (!CheckPermissions(token, Permissions.EndBattles))
             {
@@ -128,7 +129,7 @@ namespace TestPens.Controllers.Api
 
             try
             {
-                if (await _battleService.ChangeResult(guid, result, positionChange))
+                if (await _battleService.ChangeResult(guid, result, positionChange, updateWinnerVideo))
                 {
                     return Ok();
                 }

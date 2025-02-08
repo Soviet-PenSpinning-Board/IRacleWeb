@@ -58,7 +58,7 @@ namespace TestPens.Models.Real.Changes
         }
 
         public override string GetIcon() =>
-            NewPosition < TargetPosition ? "icons/improve.png" : "icons/down.png";
+            NewPosition < TargetPosition ? "/icons/improve.png" : "/icons/down.png";
 
         public override string LocalizeName() =>
             NewPosition < TargetPosition ? "Повышение" : "Понижение";

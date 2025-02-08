@@ -21,11 +21,9 @@ document.getElementById("startBattle").addEventListener('change', function () {
             return;
         }
         battledPlayers.add(guid);
-        document.getElementById(guid).classList.add('modified');
     }
     else if (!this.checked && battledPlayers.has(guid)) {
         battledPlayers.delete(guid);
-        document.getElementById(guid).classList.remove('modified');
     }
 
     let elems = Array.from(document.getElementsByClassName("createBattleExample"));

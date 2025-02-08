@@ -56,7 +56,7 @@ namespace TestPens.Models.Real.Changes
         }
 
         public override string GetIcon() =>
-            NewPerson == null ? "icons/deleted.png" : "icons/new.png";
+            NewPerson == null ? "/icons/deleted.png" : "/icons/new.png";
 
         public override string LocalizeName() =>
             NewPerson == null ? "Удаление" : "Добавление";

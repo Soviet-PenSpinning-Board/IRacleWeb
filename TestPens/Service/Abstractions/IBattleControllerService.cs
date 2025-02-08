@@ -13,7 +13,7 @@ namespace TestPens.Service.Abstractions
 
         public Task<IEnumerable<BattleDatabase>> GetActiveBattles();
 
-        public Task<bool> ChangeResult(Guid guid, BattleResult battleResult, bool performPositionChange);
+        public Task<bool> ChangeResult(Guid guid, BattleResult battleResult, bool performPositionChange, bool updateWinnerCombo);
 
         public Task<BattleDatabase> AddBattle(BattleDto battle);
     }

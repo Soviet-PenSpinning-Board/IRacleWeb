@@ -55,7 +55,7 @@ namespace TestPens.Models.Real.Changes
         }
 
         public override string GetIcon() =>
-            "icons/changeProps.png";
+            "/icons/changeProps.png";
 
         public override string LocalizeName() =>
             "Изменение";

@@ -27,7 +27,7 @@ namespace TestPens.Models.Real.Changes
         }
 
         public override string GetIcon() =>
-            "icons/default.png";
+            "/icons/default.png";
 
         public override string LocalizeName() =>
             "Ничего..?";

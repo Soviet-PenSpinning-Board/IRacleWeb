@@ -8,6 +8,7 @@ using TestPens.Models;
 using TestPens.Service.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using TestPens.Models.Real.Changes;
 
 namespace TestPens.Service.DatabaseServices;
 
@@ -41,7 +42,7 @@ public class DatabaseBattleControllerService : IBattleControllerService
         return _applicationContext.Battles.AsNoTracking().AsSplitQuery()!.OrderByDescending(b => b.UtcTime).Where(predicate);
     }
 
-    public async Task<bool> ChangeResult(Guid guid, BattleResult battleResult, bool performPositionChange)
+    public async Task<bool> ChangeResult(Guid guid, BattleResult battleResult, bool performPositionChange, bool updateWinnerCombo)
     {
         BattleDatabase? battle = await _applicationContext.Battles.FindAsync(guid);
 
@@ -53,15 +54,26 @@ public class DatabaseBattleControllerService : IBattleControllerService
 
         battle.Result = battleResult;
 
-        if (performPositionChange)
+        if (battleResult is BattleResult.RightWin)
         {
-            if (battleResult is BattleResult.RightWin)
+            if (performPositionChange)
             {
                 TryChangeBattlePositions(battle.Right, battle.Left);
             }
-            if (battleResult is BattleResult.LeftWin)
+            if (updateWinnerCombo)
+            {
+                UpdateWinnerVideo(battle.Right);
+            }
+        }
+        if (battleResult is BattleResult.LeftWin)
+        {
+            if (performPositionChange)
             {
                 TryChangeBattlePositions(battle.Left, battle.Right);
+            }
+            if (updateWinnerCombo)
+            {
+                UpdateWinnerVideo(battle.Left);
             }
         }
 
@@ -100,6 +112,31 @@ public class DatabaseBattleControllerService : IBattleControllerService
 
             _changesContainer.AddChanges([change]);
         }
+    }
+
+    private void UpdateWinnerVideo(BattledPersonModel winner)
+    {
+        (PersonModel winnerModel, PositionModel winnerPos) = winner.GetActual(_tierListContainer.GetHead());
+
+        if (winnerPos == PositionModel.Unknown)
+        {
+            _logger.LogError("Участник баттла {nick1} ({guid1}) имеет неопределенную позицию", winner.MainModel!.Nickname, winner.MainModel.Guid);
+            return;
+        }
+
+        winnerModel.VideoLink = winner.VideoUrl!;
+
+        ChangePersonPropertiesDto change = new ChangePersonPropertiesDto
+        {
+            TargetPosition = new PositionModel
+            {
+                Tier = winnerPos.Tier,
+                TierPosition = winnerPos.TierPosition
+            },
+            NewProperties = winnerModel,
+        };
+
+        _changesContainer.AddChanges([change]);
     }
 
     public async Task<BattleDatabase> AddBattle(BattleDto battle)

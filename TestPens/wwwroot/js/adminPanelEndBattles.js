@@ -1,6 +1,7 @@
 ﻿onOpenModal.attach('battleModal', function (sender, args) {
     const guid = args[1].dataset.guid;
     args[0].dataset.guid = guid;
+    document.getElementById('updateWinnerVideo').checked = false;
     document.getElementsByClassName("left-win")[0].innerText = args[1].children[1].children[0].children[1].innerText;
     document.getElementsByClassName("right-win")[0].innerText = args[1].children[1].children[2].children[1].innerText;
 });
@@ -14,8 +15,9 @@ Array.from(document.getElementsByClassName('battle-card')).forEach(elem => {
 function setBattleResult(result) {
     let modal = document.getElementById('battleModal');
     const guid = modal.dataset.guid;
+    const needUpdateWinnerVideo = document.getElementById('updateWinnerVideo').checked;
 
-    fetch(`/api/battles/update?token=${authToken}&guid=${guid}&result=${result}`, {
+    fetch(`/api/battles/update?token=${authToken}&guid=${guid}&result=${result}&updateWinnerVideo=${needUpdateWinnerVideo}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
