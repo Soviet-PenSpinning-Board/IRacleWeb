@@ -20,10 +20,10 @@ namespace TestPens.Models.Shared
 
         public string Description { get; set; } = string.Empty;
 
-        public bool TryValidate(TierListState head, [NotNullWhen(true)] out PersonModel result)
+        public PersonModel ConvertProps()
         {
             string avatarUrl = string.IsNullOrWhiteSpace(AvatarUrl) ? "/avatars/default.png" : AvatarUrl;
-            result = new PersonModel()
+            return new PersonModel()
             {
                 Guid = Guid,
                 Nickname = Nickname.Trim(),
@@ -32,8 +32,6 @@ namespace TestPens.Models.Shared
                 AvatarUrl = avatarUrl.Trim(),
                 Description = Description.Trim(),
             };
-
-            return true;
         }
 
         public PositionModel? GetPosition(TierListState head)

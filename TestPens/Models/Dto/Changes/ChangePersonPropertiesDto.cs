@@ -23,7 +23,7 @@ namespace TestPens.Models.Dto.Changes
                 UtcTime = DateTime.UtcNow,
                 TargetPerson = TargetPosition.GetPerson(head)!.Copy(),
                 TargetPosition = TargetPosition,
-                NewProperties = NewProperties,
+                NewProperties = NewProperties.ConvertProps(),
             };
         }
     }
