@@ -45,7 +45,7 @@ namespace TestPens.Models.Dto.Changes
                     Tier = Tier.E,
                     TierPosition = head.TierList[Tier.E].Count,
                 };
-                newPerson = NewPerson!.ConvertProps();
+                newPerson = NewPerson!.CreateFrom(head);
                 newPerson.Guid = Guid.NewGuid();
             }
             else

@@ -6,7 +6,7 @@ using TestPens.Models.Real;
 
 namespace TestPens.Models.Shared
 {
-    public class PersonModel
+    public class PersonModel : IDtoObject<PersonModel>
     {
         public Guid Guid { get; set; }
 
@@ -20,7 +20,7 @@ namespace TestPens.Models.Shared
 
         public string Description { get; set; } = string.Empty;
 
-        public PersonModel ConvertProps()
+        public PersonModel CreateFrom(TierListState head)
         {
             string avatarUrl = string.IsNullOrWhiteSpace(AvatarUrl) ? "/avatars/default.png" : AvatarUrl;
             return new PersonModel()
@@ -106,5 +106,6 @@ namespace TestPens.Models.Shared
         {
             return HashCode.Combine(Guid, Nickname, InDrop, VideoLink, AvatarUrl, Description);
         }
+
     }
 }
