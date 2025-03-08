@@ -31,7 +31,7 @@ public class BattledPersonModel
     public Guid Guid { get; set; }
     public PersonModel MainModel { get; set; } = null!;
     public PositionModel PreBattlePosition { get; set; } = null!;
-    public string? VideoUrl { get; set; }
+    public string VideoUrl { get; set; } = null!;
 
     public (PersonModel, PositionModel) GetActual(TierListState head)
     {
